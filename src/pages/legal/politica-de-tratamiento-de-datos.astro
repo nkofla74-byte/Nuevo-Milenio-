@@ -1,0 +1,56 @@
+---
+import LegalPage from '../../components/layout/LegalPage.astro';
+import { site, display } from '../../config/site';
+
+const d = {
+  legal: display(site.legalName, 'razón social'),
+  nit: display(site.nit, 'NIT'),
+  address: display(site.address, 'dirección'),
+  email: display(site.privacyEmail, 'correo de datos personales'),
+  phone: display(site.phone, 'teléfono'),
+  retention: display(site.retentionMonths, 'plazo en meses'),
+};
+---
+
+<LegalPage title="Política de tratamiento de datos personales" description="Cómo recolectamos, usamos y protegemos sus datos personales conforme a la Ley 1581 de 2012." updated="5 de noviembre de 2026 · versión 0.1 (borrador)">
+  <h2>1. Responsable del tratamiento</h2>
+  <p>{d.legal}, identificada con NIT {d.nit}, con domicilio en {d.address}, {site.city}, Colombia. Correo para asuntos de datos personales: {d.email}. Teléfono: {d.phone}.</p>
+
+  <h2>2. Marco legal</h2>
+  <p>Esta política se expide en cumplimiento de la Ley Estatutaria 1581 de 2012, el Decreto 1377 de 2013 (compilado en el Decreto Único Reglamentario 1074 de 2015) y demás normas que los modifiquen o complementen.</p>
+
+  <h2>3. Datos que recolectamos</h2>
+  <p>A través del formulario de cotización recolectamos únicamente: nombre, teléfono, correo electrónico, canal de contacto preferido y, de forma opcional, empresa o copropiedad y cargo; además, información sobre el inmueble y el proyecto (tipo de inmueble, servicios, área aproximada, ciudad, barrio y descripción). No solicitamos datos sensibles ni documentos de identidad.</p>
+
+  <h2>4. Finalidades</h2>
+  <ul>
+    <li>Responder la solicitud de cotización y agendar la visita técnica.</li>
+    <li>Elaborar y enviar la cotización y hacer seguimiento comercial por el canal autorizado por el titular.</li>
+    <li>Cumplir obligaciones legales y contractuales si se celebra un contrato.</li>
+    <li>[[PENDIENTE: otras finalidades que la empresa confirme, p. ej. envío de información comercial — requiere autorización específica]]</li>
+  </ul>
+
+  <h2>5. Derechos del titular</h2>
+  <p>Como titular usted puede: (a) conocer, actualizar y rectificar sus datos; (b) solicitar prueba de la autorización otorgada; (c) ser informado sobre el uso que se ha dado a sus datos; (d) presentar quejas ante la Superintendencia de Industria y Comercio (SIC) una vez agotado el trámite ante el responsable; (e) revocar la autorización y/o solicitar la supresión de los datos cuando no exista un deber legal o contractual de conservarlos; y (f) acceder gratuitamente a sus datos.</p>
+
+  <h2>6. Procedimiento para consultas y reclamos</h2>
+  <p><strong>Consultas:</strong> se atenderán en un término máximo de diez (10) días hábiles contados a partir de su recibo. Si no fuere posible atenderla en ese término, se informará al interesado el motivo y la fecha en que se atenderá, que no podrá superar cinco (5) días hábiles siguientes al vencimiento del primer término.</p>
+  <p><strong>Reclamos</strong> (corrección, actualización, supresión o incumplimiento): deben incluir la identificación del titular, la descripción de los hechos, la dirección y los documentos que se quieran hacer valer. Se atenderán en un término máximo de quince (15) días hábiles, prorrogable hasta por ocho (8) días hábiles adicionales, informando los motivos.</p>
+  <p>Canal de atención: {d.email}.</p>
+
+  <h2>7. Prueba de la autorización</h2>
+  <p>La autorización se otorga marcando una casilla no premarcada en el formulario. Conservamos como prueba la fecha y hora, la versión de esta política aceptada y la dirección IP parcialmente anonimizada.</p>
+
+  <h2>8. Encargados y transferencias internacionales</h2>
+  <p>Para operar el sitio y enviar las notificaciones usamos proveedores tecnológicos que pueden procesar datos fuera de Colombia, en calidad de encargados: Cloudflare, Inc. (alojamiento, seguridad y verificación antispam) y Resend (envío de correos) [[PENDIENTE: confirmar proveedores definitivos]]. Exigimos a estos proveedores medidas de seguridad adecuadas.</p>
+
+  <h2>9. Conservación</h2>
+  <p>Los datos de solicitudes de cotización se conservarán durante {d.retention} meses desde su recepción, salvo que se celebre un contrato o exista una obligación legal de conservarlos por más tiempo. Vencido el plazo se suprimirán o anonimizarán.</p>
+
+  <h2>10. Seguridad</h2>
+  <p>Aplicamos medidas técnicas, humanas y administrativas razonables para proteger los datos: conexión cifrada (HTTPS), validación de la información en el servidor, protección contra envíos automatizados y acceso restringido a las solicitudes recibidas.</p>
+
+  <h2>11. Vigencia</h2>
+  <p>Esta política rige desde [[PENDIENTE: fecha de aprobación]]. Cualquier cambio sustancial se comunicará en este sitio.</p>
+  <p>[[PENDIENTE: verificar con el contador si la empresa supera 100.000 UVT en activos totales, caso en el cual debe inscribir sus bases de datos en el RNBD de la SIC]]</p>
+</LegalPage>

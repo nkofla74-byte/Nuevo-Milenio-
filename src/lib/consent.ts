@@ -1,3 +1,5 @@
+import { PUBLIC_CF_ANALYTICS_TOKEN } from 'astro:env/client';
+
 /** Cookie consent storage. Bump CONSENT_VERSION when the cookie policy changes to ask again. */
 export const CONSENT_VERSION = '1';
 const KEY = 'cookie-consent';
@@ -33,7 +35,7 @@ export function writeConsent(choice: { analytics: boolean; marketing: boolean })
 
 /** Loads optional scripts allowed by the consent. Analytics token comes from PUBLIC_CF_ANALYTICS_TOKEN. */
 export function applyConsent(consent: Consent): void {
-  const token = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN as string | undefined;
+  const token = PUBLIC_CF_ANALYTICS_TOKEN;
   if (consent.analytics && token && !document.getElementById('cf-analytics')) {
     const s = document.createElement('script');
     s.id = 'cf-analytics';

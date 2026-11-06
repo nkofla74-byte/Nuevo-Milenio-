@@ -14,7 +14,7 @@
   --color-concrete-100: #e8e3dc;
   --color-bone: #f5f1ea;
   --color-accent: #f2611d;
-  --color-accent-strong: #c94a0e;
+  --color-accent-strong: #a33d0b; /* AA (≥4.5:1) as text on every light surface */
   --color-accent-ink: #16151a;
   --color-success: #2f7d4f;
   --color-danger: #b42318;

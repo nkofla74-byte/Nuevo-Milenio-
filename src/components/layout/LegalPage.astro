@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../ui/PageHeader.astro';
+import { legalNav } from '../../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  updated: string;
+}
+const { title, description, updated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} headerTone="light">
+  <PageHeader crumbs={[{ href: Astro.url.pathname, label: title }]} eyebrow="Legal" title={title}>
+    <p class="mt-6 inline-block border-2 border-dashed border-accent px-3 py-2 font-mono text-sm text-accent">[[BORRADOR — PENDIENTE REVISIÓN JURÍDICA]]</p>
+  </PageHeader>
+  <div class="container-x grid gap-12 py-16 lg:grid-cols-12">
+    <article class="prose-site lg:col-span-8">
+      <p class="text-sm text-concrete-700">Última actualización: {updated}</p>
+      <slot />
+    </article>
+    <nav aria-label="Documentos legales" class="lg:col-span-4">
+      <ul class="space-y-2 border-l border-carbon/15 pl-4 lg:sticky lg:top-28">
+        {legalNav.map((n) => <li><a href={n.href} aria-current={Astro.url.pathname === n.href ? 'page' : undefined} class="hover:text-accent-strong aria-[current=page]:font-semibold aria-[current=page]:text-accent-strong">{n.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+</BaseLayout>

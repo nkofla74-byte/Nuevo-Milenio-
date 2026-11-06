@@ -1,0 +1,179 @@
+---
+import { getCollection } from 'astro:content';
+import { PUBLIC_TURNSTILE_SITE_KEY } from 'astro:env/client';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { CATEGORIES, type CategoryKey } from '../../content.config';
+import { LIMITS, URGENCY, CHANNELS } from '../../lib/quote/schema';
+import { URGENCY_LABELS, CHANNEL_LABELS } from '../../lib/quote/labels';
+import { site } from '../../config/site';
+
+const sectors = (await getCollection('sectores')).sort((a, b) => a.data.order - b.data.order);
+const services = (await getCollection('servicios')).sort((a, b) => a.data.order - b.data.order);
+const byCategory = Object.entries(CATEGORIES)
+  .map(([key, label]) => ({ key, label, items: services.filter((s) => s.data.category === (key as CategoryKey)) }))
+  .filter((g) => g.items.length);
+
+const steps = ['Inmueble', 'Servicios', 'Ubicación', 'Contacto', 'Autorización'];
+---
+
+<BaseLayout
+  title="Solicitar cotización o visita técnica"
+  description="Cuéntenos qué espacio quiere transformar y agendamos una visita técnica. Cotización por capítulos, sin compromiso."
+  headerTone="light"
+>
+  <script slot="head" is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <PageHeader crumbs={[{ href: '/cotizar/', label: 'Cotizar' }]} eyebrow="Cotizador" title="Cuéntenos qué espacio quiere transformar." lead="Cinco pasos cortos. Con esta información llegamos a la visita técnica preparados." />
+
+  <section class="container-x py-16">
+    <noscript>
+      <p class="mb-8 border-l-4 border-accent bg-accent/10 p-4">La verificación antispam del formulario necesita JavaScript. Si lo tiene desactivado, escríbanos desde la página de <a class="underline" href="/contacto/">contacto</a>.</p>
+    </noscript>
+    <div id="form-alert" role="alert" class="mb-8 hidden border-l-4 border-danger bg-danger/10 p-4 text-danger"></div>
+
+    <form id="quote-form" class="quote-form mx-auto max-w-3xl" method="post" action="/api/cotizar/" novalidate>
+      <ol class="progress mb-10 hidden grid-cols-5 gap-2" aria-label="Progreso del formulario" data-progress>
+        {steps.map((s, i) => (
+          <li class="step-pill" data-step-pill={i}>
+            <span class="block h-1 bg-concrete-300"><span class="block h-full origin-left scale-x-0 bg-accent transition-transform duration-500"></span></span>
+            <span class="mt-2 block font-mono text-[10px] uppercase tracking-widest text-concrete-700"><span class="text-accent-strong">{String(i + 1).padStart(2, '0')}</span> <span class="hidden sm:inline">{s}</span></span>
+          </li>
+        ))}
+      </ol>
+      <p class="sr-only" aria-live="polite" data-step-announcer></p>
+
+      <!-- 1 -->
+      <fieldset class="step" data-step="0">
+        <legend class="text-4xl">1. ¿Qué tipo de inmueble es?</legend>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          {[...sectors.map((s) => ({ id: s.id, title: s.data.title, icon: s.data.icon })), { id: 'otro', title: 'Otro', icon: 'grid' }].map((s) => (
+            <label class="choice">
+              <input type="radio" name="sector" value={s.id} required class="sr-only" />
+              <Icon name={s.icon} size={28} /><span>{s.title}</span>
+            </label>
+          ))}
+        </div>
+        <p class="field-error" data-error-for="sector"></p>
+      </fieldset>
+
+      <!-- 2 -->
+      <fieldset class="step" data-step="1">
+        <legend class="text-4xl">2. ¿Qué servicios necesita?</legend>
+        <p class="mt-2 text-concrete-700">Puede elegir varios.</p>
+        {byCategory.map((g) => (
+          <div class="mt-6">
+            <p class="font-mono text-xs uppercase tracking-widest text-concrete-700">{g.label}</p>
+            <div class="mt-3 grid gap-2 sm:grid-cols-2">
+              {g.items.map((s) => (
+                <label class="choice choice-sm">
+                  <input type="checkbox" name="services" value={s.id} class="sr-only" />
+                  <Icon name={s.data.icon} size={22} /><span>{s.data.title}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
+        <p class="field-error" data-error-for="services"></p>
+      </fieldset>
+
+      <!-- 3 -->
+      <fieldset class="step" data-step="2">
+        <legend class="text-4xl">3. ¿Dónde y cuándo?</legend>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2">
+          <div><label class="label" for="area">Área aproximada (m²) <span class="opt">opcional</span></label><input class="input" id="area" name="area" type="number" min="1" max={LIMITS.maxArea} inputmode="numeric" /></div>
+          <div><label class="label" for="city">Ciudad</label><input class="input" id="city" name="city" required minlength="2" maxlength={LIMITS.city} value={site.city} autocomplete="address-level2" aria-describedby="err-city" /><p class="field-error" id="err-city" data-error-for="city"></p></div>
+          <div><label class="label" for="neighborhood">Barrio o zona <span class="opt">opcional</span></label><input class="input" id="neighborhood" name="neighborhood" maxlength={LIMITS.neighborhood} /></div>
+          <div>
+            <label class="label" for="urgency">¿Para cuándo?</label>
+            <select class="input" id="urgency" name="urgency" required aria-describedby="err-urgency">
+              <option value="">Seleccione…</option>
+              {URGENCY.map((u) => <option value={u}>{URGENCY_LABELS[u]}</option>)}
+            </select>
+            <p class="field-error" id="err-urgency" data-error-for="urgency"></p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 4 -->
+      <fieldset class="step" data-step="3">
+        <legend class="text-4xl">4. Su proyecto y sus datos</legend>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2">
+          <div class="sm:col-span-2">
+            <label class="label" for="description">Describa brevemente el proyecto</label>
+            <textarea class="input min-h-32" id="description" name="description" required minlength="10" maxlength={LIMITS.description} aria-describedby="err-description desc-count"></textarea>
+            <p class="mt-1 text-right font-mono text-xs text-concrete-700" id="desc-count" aria-live="polite">0 / {LIMITS.description}</p>
+            <p class="field-error" id="err-description" data-error-for="description"></p>
+          </div>
+          <div><label class="label" for="name">Nombre</label><input class="input" id="name" name="name" required minlength="2" maxlength={LIMITS.name} autocomplete="name" aria-describedby="err-name" /><p class="field-error" id="err-name" data-error-for="name"></p></div>
+          <div><label class="label" for="company">Empresa o copropiedad <span class="opt">opcional</span></label><input class="input" id="company" name="company" maxlength={LIMITS.company} autocomplete="organization" /></div>
+          <div><label class="label" for="role">Cargo <span class="opt">opcional</span></label><input class="input" id="role" name="role" maxlength={LIMITS.role} autocomplete="organization-title" /></div>
+          <div><label class="label" for="phone">Teléfono</label><input class="input" id="phone" name="phone" type="tel" required autocomplete="tel" pattern="[0-9+ ()\-]{7,20}" aria-describedby="err-phone" /><p class="field-error" id="err-phone" data-error-for="phone"></p></div>
+          <div class="sm:col-span-2"><label class="label" for="email">Correo</label><input class="input" id="email" name="email" type="email" required maxlength={LIMITS.email} autocomplete="email" aria-describedby="err-email" /><p class="field-error" id="err-email" data-error-for="email"></p></div>
+        </div>
+        <fieldset class="mt-6">
+          <legend class="label">¿Cómo prefiere que lo contactemos?</legend>
+          <div class="mt-2 flex flex-wrap gap-2">
+            {CHANNELS.map((c) => (
+              <label class="choice choice-sm"><input type="radio" name="channel" value={c} required class="sr-only" /><span>{CHANNEL_LABELS[c]}</span></label>
+            ))}
+          </div>
+          <p class="mt-2 text-sm text-concrete-700">Solo lo contactaremos por este canal, en horario hábil (Ley 2300 de 2023).</p>
+          <p class="field-error" data-error-for="channel"></p>
+        </fieldset>
+        <!-- Honeypot: hidden from humans and assistive tech -->
+        <div class="hp" aria-hidden="true"><label for="website">No llene este campo</label><input id="website" name="website" tabindex="-1" autocomplete="off" /></div>
+      </fieldset>
+
+      <!-- 5 -->
+      <fieldset class="step" data-step="4">
+        <legend class="text-4xl">5. Autorización</legend>
+        <div class="mt-6 border border-carbon/15 bg-concrete-100 p-5 text-sm text-concrete-700">
+          <p><strong>Aviso de privacidad.</strong> {site.brandName}, como responsable, tratará sus datos para responder esta solicitud, agendar la visita técnica, enviarle la cotización y hacer seguimiento comercial por el canal que eligió. Puede conocer, actualizar, rectificar y suprimir sus datos, o revocar esta autorización, escribiendo al canal de datos personales. Lea la <a class="underline" href="/legal/politica-de-tratamiento-de-datos/" target="_blank">Política de tratamiento de datos</a> y el <a class="underline" href="/legal/aviso-de-privacidad/" target="_blank">Aviso de privacidad</a>.</p>
+        </div>
+        <label class="mt-5 flex items-start gap-3">
+          <input type="checkbox" name="consent" required class="mt-1 h-5 w-5 shrink-0 accent-[var(--color-accent-strong)]" aria-describedby="err-consent" />
+          <span>Autorizo de manera previa, expresa e informada el tratamiento de mis datos personales conforme a la Política de tratamiento de datos (Ley 1581 de 2012).</span>
+        </label>
+        <p class="field-error" id="err-consent" data-error-for="consent"></p>
+        <input type="hidden" name="policyVersion" value={site.privacyPolicyVersion} />
+        <div class="mt-6 cf-turnstile" data-sitekey={PUBLIC_TURNSTILE_SITE_KEY} data-language="es" data-theme="light"></div>
+        <p class="field-error" data-error-for="cf-turnstile-response"></p>
+      </fieldset>
+
+      <div class="nav mt-10 flex items-center justify-between gap-4">
+        <button type="button" class="btn-back hidden min-h-12 items-center gap-2 px-4 font-semibold" data-back><Icon name="arrow-left" size={18} />Atrás</button>
+        <button type="button" class="btn-next ml-auto hidden min-h-12 items-center gap-3 bg-carbon px-6 font-display text-xl uppercase text-bone hover:bg-accent hover:text-carbon" data-next>Siguiente<Icon name="arrow-right" size={18} /></button>
+        <button type="submit" class="btn-submit ml-auto inline-flex min-h-12 items-center gap-3 bg-accent px-8 font-display text-xl uppercase text-carbon hover:bg-carbon hover:text-bone" data-submit>Enviar solicitud<Icon name="arrow-right" size={18} /></button>
+      </div>
+    </form>
+  </section>
+</BaseLayout>
+
+<style>
+  .label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+  .opt { font-weight: 400; color: var(--color-concrete-700); font-size: 0.85em; }
+  .input { width: 100%; min-height: 3rem; padding: 0.65rem 0.85rem; background: #fff; border: 1px solid var(--color-concrete-500); }
+  .input:focus { border-color: var(--color-carbon); }
+  .input[aria-invalid='true'] { border-color: var(--color-danger); }
+  .choice { display: flex; align-items: center; gap: 0.75rem; min-height: 3.5rem; padding: 0.75rem 1rem; border: 1px solid rgb(22 21 26 / 0.2); cursor: pointer; transition: background-color var(--duration-fast), border-color var(--duration-fast); }
+  .choice:hover { border-color: var(--color-carbon); }
+  .choice:has(input:checked) { background: var(--color-carbon); color: var(--color-bone); border-color: var(--color-carbon); }
+  .choice:has(input:focus-visible) { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+  .choice-sm { min-height: 2.9rem; font-size: 0.95rem; }
+  .field-error { margin-top: 0.35rem; color: var(--color-danger); font-size: 0.9rem; }
+  .field-error:empty { display: none; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  /* Without JS every step is visible (one long form). With JS, only the current step. */
+  .step + .step { margin-top: 3.5rem; }
+  .quote-form[data-enhanced] .step + .step { margin-top: 0; }
+  .quote-form[data-enhanced] .step:not([data-active]) { display: none; }
+  .quote-form[data-enhanced] .progress { display: grid; }
+  .step-pill[data-done] > span:first-child > span, .step-pill[data-current] > span:first-child > span { transform: scaleX(1); }
+</style>
+
+<script>
+  import { initQuoteForm } from '../../lib/quote/form';
+  initQuoteForm();
+</script>

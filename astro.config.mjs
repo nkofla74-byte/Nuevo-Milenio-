@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, envField, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
@@ -40,6 +40,18 @@ export default defineConfig({
       fallbacks: ['system-ui', 'sans-serif'],
     },
   ],
+  env: {
+    schema: {
+      // Server-only secrets: never bundled into client code.
+      RESEND_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      TURNSTILE_SECRET_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      QUOTE_TO_EMAIL: envField.string({ context: 'server', access: 'secret', optional: true }),
+      QUOTE_FROM_EMAIL: envField.string({ context: 'server', access: 'secret', optional: true }),
+      // Public values. The default site key is Cloudflare's official "always passes" test key.
+      PUBLIC_TURNSTILE_SITE_KEY: envField.string({ context: 'client', access: 'public', default: '1x00000000000000000000AA' }),
+      PUBLIC_CF_ANALYTICS_TOKEN: envField.string({ context: 'client', access: 'public', optional: true }),
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T20:50:00-05:00",
-  "current": "Fase 4 — Páginas internas",
+  "updatedAt": "2026-11-05T20:56:48-05:00",
+  "current": "Fase 5 — Cotizador, legal y consentimiento",
   "phases": [
     {
       "id": 0,
@@ -51,13 +51,19 @@
     {
       "id": 4,
       "name": "Páginas internas y contenido",
-      "status": "doing",
-      "items": []
+      "status": "done",
+      "items": [
+        "Plantillas dinámicas: 20 servicios, 7 sectores, proyectos, blog",
+        "Nosotros, proceso, kit de proveedor, contacto, FAQ, 404/500",
+        "Página interna /sistema-de-diseno/ con 3 paletas para escoger",
+        "robots.txt, llms.txt, security.txt, sitemap filtrado",
+        "0 errores de tipos en 59 archivos"
+      ]
     },
     {
       "id": 5,
       "name": "Cotizador, legal y consentimiento",
-      "status": "todo",
+      "status": "doing",
       "items": []
     },
     {
@@ -85,6 +91,8 @@
     "Esquemas de contenido validados: 33 archivos (astro sync)",
     "Bug: el servidor dev no recargó content.config.ts → colecciones vacías; corregido reiniciando",
     "Contraste del hero corregido (texto sobre naranja)",
-    "Commit: fases 0–3 en la rama feat/sitio"
+    "Commit: fases 0–3 en la rama feat/sitio",
+    "Corregida una afirmación no respaldada en Nosotros (solo retail, según el brief)",
+    "Commit: fase 4"
   ]
 }

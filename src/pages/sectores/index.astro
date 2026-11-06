@@ -20,7 +20,7 @@ const sectors = (await getCollection('sectores')).sort((a, b) => a.data.order - 
         <a href={`/sectores/${s.id}/`} class="group flex h-full flex-col gap-4 p-8 transition-colors hover:bg-carbon hover:text-bone md:p-10">
           <span class="flex items-center justify-between">
             <Icon name={s.data.icon} size={40} class="text-accent-strong group-hover:text-accent" />
-            <span class="font-mono text-xs text-concrete-500">{String(i + 1).padStart(2, '0')}</span>
+            <span class="font-mono text-xs text-concrete-700 group-hover:text-concrete-300">{String(i + 1).padStart(2, '0')}</span>
           </span>
           <span class="font-display text-4xl uppercase">{s.data.title}</span>
           <span class="text-concrete-700 group-hover:text-concrete-300">{s.data.headline}</span>
