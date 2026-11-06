@@ -25,7 +25,7 @@ export const site = {
   coverage: 'Bogotá D.C. y Sabana de Bogotá; proyectos en otras ciudades bajo evaluación', // [[PENDIENTE: confirmar]]
   phone: '+57 312 640 7862' as Maybe<string>,
   /** WhatsApp number in international format without "+" or spaces, e.g. 573001234567. */
-  whatsapp: PENDING as Maybe<string>,
+  whatsapp: '573114758495' as Maybe<string>,
   email: PENDING as Maybe<string>,
   privacyEmail: PENDING as Maybe<string>,
   domain: PENDING as Maybe<string>,

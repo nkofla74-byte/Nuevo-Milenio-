@@ -9,7 +9,7 @@ Todo lo que aparece en el sitio como `[[PENDIENTE: …]]`. Para ver la lista exa
 
 ## Bloquean el lanzamiento
 - [ ] **Nombre comercial** definitivo (hoy se usa "Nuevo Milenio", derivado de la razón social; confirmar).
-- [ ] **WhatsApp**: ¿el celular 312 640 78 62 tiene WhatsApp? (activa el botón flotante y los CTA).
+- [x] **WhatsApp**: 311 475 8495 (configurado 2026-11-05).
 - [ ] **Correo comercial** y **correo de datos personales** (ej. datos@dominio.com.co).
 - [ ] **Dominio** (`site` en `astro.config.mjs`, `security.txt`, imágenes OG).
 - [ ] **Logo** en SVG y colores de marca (hoy: marca temporal; paleta A en `/sistema-de-diseno/`).
