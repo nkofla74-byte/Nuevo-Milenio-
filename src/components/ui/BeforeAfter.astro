@@ -48,6 +48,10 @@ const id = `ba-${Math.random().toString(36).slice(2, 8)}`;
   .ba-handle {
     left: var(--pos);
   }
+  /* Touch: vertical swipes scroll the page; horizontal drags move the divider. */
+  .ba-range {
+    touch-action: pan-y;
+  }
   .before-after:has(.ba-range:focus-visible) {
     outline: 3px solid var(--color-accent);
     outline-offset: 3px;

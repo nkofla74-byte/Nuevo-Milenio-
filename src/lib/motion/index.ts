@@ -33,21 +33,34 @@ export async function initMotion(): Promise<void> {
     import('gsap/DrawSVGPlugin'),
   ]);
   gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin);
+  // Mobile browsers resize the viewport when the address bar shows/hides; recalculating
+  // every pin on each of those resizes makes pinned sections jump. Ignore those resizes.
+  ScrollTrigger.config({ ignoreMobileResize: true });
   root.dataset.motion = 'on';
 
   await setupSmoothScroll(gsap, ScrollTrigger);
 
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-motion]')];
+  const mod = sections.length ? await import('./sections') : null;
+  // One section per task: creating pins measures layout and is expensive on phones. Yielding
+  // between sections splits one long main-thread task into short ones (lower TBT/INP).
+  for (const el of sections) {
+    mod!.runSection(el, { gsap, ScrollTrigger, SplitText });
+    await yieldToMain();
+  }
+
   const { setupPrimitives } = await import('./primitives');
   setupPrimitives(gsap, ScrollTrigger, SplitText);
 
-  const sections = document.querySelectorAll<HTMLElement>('[data-motion]');
-  if (sections.length) {
-    const mod = await import('./sections');
-    sections.forEach((el) => mod.runSection(el, { gsap, ScrollTrigger, SplitText }));
-  }
-
   // Fonts change text metrics; recalc trigger positions once they are in.
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
+}
+
+/** Lets the browser handle input and paint before continuing (scheduler.yield when available). */
+function yieldToMain(): Promise<void> {
+  const scheduler = (globalThis as { scheduler?: { yield?: () => Promise<void> } }).scheduler;
+  if (scheduler?.yield) return scheduler.yield();
+  return new Promise((resolve) => setTimeout(resolve, 0));
 }
 
 /** Lenis only on desktop with a fine pointer; touch devices keep native scrolling. */

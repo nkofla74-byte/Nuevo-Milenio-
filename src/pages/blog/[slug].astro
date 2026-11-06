@@ -32,7 +32,7 @@ const fmt = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long' });
     }),
   ]}
 >
-  <div class="reading-progress fixed inset-x-0 top-0 z-[55] h-1 origin-left scale-x-0 bg-accent" aria-hidden="true"></div>
+  <div class="reading-progress fixed inset-x-0 top-0 z-[55] h-1 origin-left [transform:scaleX(0)] bg-accent" aria-hidden="true"></div>
   <PageHeader
     crumbs={[
       { href: '/blog/', label: 'Blog' },
@@ -59,7 +59,7 @@ const fmt = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long' });
         </ol>
       </nav>
     </aside>
-    <article class="prose-site text-lg lg:col-span-7">
+    <article class="prose-site min-w-0 text-lg lg:col-span-7">
       <Content />
     </article>
   </div>

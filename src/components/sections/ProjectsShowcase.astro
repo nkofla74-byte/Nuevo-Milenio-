@@ -9,15 +9,9 @@ const projects = (await getCollection('proyectos', (p) => p.data.featured)).slic
 const sectors = new Map((await getCollection('sectores')).map((s) => [s.id, s.data.title]));
 ---
 
-<section
-  id="proyectos"
-  data-section-index="05"
-  data-section-label="Proyectos"
-  data-motion="projects"
-  class="overflow-hidden bg-bone py-24 lg:flex lg:h-[100svh] lg:items-center lg:py-0"
->
-  <div data-track class="flex flex-col gap-10 px-[var(--gutter)] lg:flex-row lg:items-center lg:gap-12">
-    <div class="lg:w-[28rem] lg:shrink-0">
+<section id="proyectos" data-section-index="05" data-section-label="Proyectos" data-motion="projects" class="projects-section bg-bone py-20">
+  <div data-track class="projects-track flex items-center gap-6 px-[var(--gutter)] lg:gap-12">
+    <div class="w-[82vw] shrink-0 sm:w-[24rem] lg:w-[28rem]">
       <SectionHeading index="05" label="Proyectos" title="Antes y después." />
       <p class="mt-6 text-lg text-concrete-700">Arrastre el divisor (o use las flechas del teclado) para ver la transformación.</p>
       <p class="pending mt-4">[[PENDIENTE: fotos reales de obras — se muestran imágenes de referencia]]</p>
@@ -28,18 +22,18 @@ const sectors = new Map((await getCollection('sectores')).map((s) => [s.id, s.da
       </div>
     </div>
     {projects.map((p) => (
-      <article class="lg:w-[min(46rem,60vw)] lg:shrink-0">
+      <article class="project-card w-[82vw] shrink-0 sm:w-[min(36rem,70vw)] lg:w-[min(46rem,60vw)]">
         <BeforeAfter label={p.data.title}>
           <Placeholder slot="before" seed={p.id} state="before" palette={p.data.palette} label={`${p.data.title} antes`} ratio="16 / 10" />
           <Placeholder slot="after" seed={p.id} state="after" palette={p.data.palette} label={`${p.data.title} después`} ratio="16 / 10" class="h-full" />
         </BeforeAfter>
-        <div class="mt-4 flex items-baseline justify-between gap-4">
-          <h3 class="text-3xl">
+        <div class="mt-4 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+          <h3 class="text-2xl sm:text-3xl">
             <a href={`/proyectos/${p.id}/`} class="hover:text-accent-strong">
               {p.data.title}
             </a>
           </h3>
-          <p class="shrink-0 font-mono text-xs uppercase tracking-widest text-concrete-700">
+          <p class="font-mono text-xs uppercase tracking-widest text-concrete-700 sm:shrink-0">
             {sectors.get(p.data.sector)} · {p.data.city}
           </p>
         </div>
@@ -47,3 +41,35 @@ const sectors = new Map((await getCollection('sectores')).map((s) => [s.id, s.da
     ))}
   </div>
 </section>
+
+<style>
+  /* Without GSAP (reduced motion / no JS): native horizontal carousel with snap. */
+  .projects-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    padding-bottom: 1rem;
+  }
+  .projects-track > * {
+    scroll-snap-align: start;
+  }
+  /* Phones: portrait images fill the pinned screen better than 16:10. */
+  @media (max-width: 639px) {
+    .project-card :global([style*='aspect-ratio']) {
+      aspect-ratio: 4 / 5 !important;
+    }
+  }
+  /* With GSAP: the section pins full-screen and vertical scroll moves the track. */
+  :global(html[data-motion='on']) .projects-section {
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-block: var(--header-h) 0;
+  }
+  :global(html[data-motion='on']) .projects-track {
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-bottom: 0;
+  }
+</style>

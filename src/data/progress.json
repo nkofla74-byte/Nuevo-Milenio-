@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T21:20:40-05:00",
-  "current": "Fases 0–6 terminadas · Fase 7 espera dominio y cuentas",
+  "updatedAt": "2026-11-05T21:42:17-05:00",
+  "current": "Versión móvil terminada · Fase 7 espera dominio y cuentas",
   "phases": [
     {
       "id": 0,
@@ -81,7 +81,11 @@
         "CSP estricta: 0 scripts en línea, 0 violaciones",
         "Lighthouse móvil: 97–99 rendimiento, 100 a11y/buenas prácticas/SEO",
         "Imágenes OG (49), ESLint, Prettier, CI con gitleaks y presupuestos",
-        "Documentación: CONTENT_TODO, CREDITS, README, CHANGELOG, docs/, 5 ADRs"
+        "Documentación: CONTENT_TODO, CREDITS, README, CHANGELOG, docs/, 5 ADRs",
+        "Móvil: hero, capa por capa y proyectos fijados con coreografía vertical",
+        "Móvil: filtros/pestañas deslizables, servicios en filas compactas, imágenes 4:5",
+        "Móvil: 0 desborde en 13 páginas a 360px; 70/70 pruebas e2e",
+        "Rendimiento móvil del inicio 97, TBT 0 ms (yield entre secciones)"
       ]
     },
     {
@@ -114,6 +118,11 @@
     "Retiradas @lhci/cli y wait-on por vulnerabilidades",
     "Datos reales aplicados: razón social, NIT, dirección, celular",
     "Academia: módulos 11–15 verificados",
-    "Commit: fase 6"
+    "Commit: fase 6",
+    "Auditoría móvil a 360px: desbordes, textos de 10px, objetivos táctiles",
+    "Bug de capas (xPercent) también presente en escritorio → corregido",
+    "Bug scale vs transform (Tailwind v4) en barras de progreso → corregido",
+    "Tabla de cookies: min-w-0 en artículos de grid",
+    "Academia: módulo 16 · Diseño y animación para móviles"
   ]
 }

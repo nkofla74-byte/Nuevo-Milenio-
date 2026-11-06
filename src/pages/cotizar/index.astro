@@ -49,9 +49,9 @@ const steps = ['Inmueble', 'Servicios', 'Ubicación', 'Contacto', 'Autorización
         {steps.map((s, i) => (
           <li class="step-pill" data-step-pill={i}>
             <span class="block h-1 bg-concrete-300">
-              <span class="block h-full origin-left scale-x-0 bg-accent transition-transform duration-500"></span>
+              <span class="block h-full origin-left [transform:scaleX(0)] bg-accent transition-transform duration-500"></span>
             </span>
-            <span class="mt-2 block font-mono text-[10px] uppercase tracking-widest text-concrete-700">
+            <span class="mt-2 block font-mono text-[11px] uppercase tracking-widest text-concrete-700">
               <span class="text-accent-strong">{String(i + 1).padStart(2, '0')}</span> <span class="hidden sm:inline">{s}</span>
             </span>
           </li>
@@ -277,6 +277,11 @@ const steps = ['Inmueble', 'Servicios', 'Ubicación', 'Contacto', 'Autorización
 </BaseLayout>
 
 <style>
+  .step > legend {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    line-height: 0.95;
+  }
   .label {
     display: block;
     font-weight: 600;
@@ -358,7 +363,7 @@ const steps = ['Inmueble', 'Servicios', 'Ubicación', 'Contacto', 'Autorización
   }
   .step-pill[data-done] > span:first-child > span,
   .step-pill[data-current] > span:first-child > span {
-    transform: scaleX(1);
+    transform: scaleX(1) !important;
   }
 </style>
 

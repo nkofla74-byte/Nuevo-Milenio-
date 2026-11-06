@@ -1,6 +1,7 @@
 ---
 /**
- * "Capa por capa": a wall in cross-section is built while scrolling (pinned on desktop).
+ * "Capa por capa": a wall in cross-section is built while scrolling (pinned on every size).
+ * Mobile (motion on): heading, wall and only the active layer fit in one screen (100svh).
  * Each layer links to its service page — this is the visual presentation of the catalog.
  */
 import SectionHeading from '../ui/SectionHeading.astro';
@@ -50,15 +51,15 @@ const layers = [
   data-section-index="02"
   data-section-label="Capa por capa"
   data-motion="layers"
-  class="relative overflow-hidden bg-concrete-100 lg:h-[100svh]"
+  class="layers-section relative overflow-hidden bg-concrete-100 lg:h-[100svh]"
 >
-  <div class="container-x grid h-full items-center gap-10 py-20 lg:grid-cols-2 lg:py-0">
-    <div>
+  <div class="layers-grid container-x grid h-full items-center gap-10 py-20 lg:grid-cols-2 lg:py-0">
+    <div class="layers-copy">
       <SectionHeading index="02" label="Capa por capa" title="Un solo proveedor, todas las capas." />
-      <p class="mt-6 max-w-lg text-lg text-concrete-700">
+      <p class="layers-intro mt-6 max-w-lg text-lg text-concrete-700">
         Una obra son muchas especialidades una sobre otra. Nosotros las ejecutamos todas, en orden y con un solo responsable.
       </p>
-      <ol class="mt-8 space-y-1">
+      <ol class="layers-list mt-8 space-y-1">
         {layers.map((l, i) => (
           <li data-layer-item class="layer-item border-l-2 border-carbon/15 pl-4 transition-colors" data-active={i === 0 ? '' : undefined}>
             <a href={l.href} class="group block py-2">
@@ -74,7 +75,13 @@ const layers = [
       </ol>
     </div>
 
-    <div class="relative mx-auto aspect-[4/5] w-full max-w-md lg:max-w-none" aria-hidden="true">
+    <div class="layers-dots hidden" aria-hidden="true">
+      {layers.map((_, i) => (
+        <span data-layer-dot data-active={i === 0 ? '' : undefined}></span>
+      ))}
+    </div>
+
+    <div class="layers-wall relative mx-auto aspect-[4/5] w-full max-w-md lg:max-w-none" aria-hidden="true">
       <div class="absolute inset-0 overflow-hidden border-2 border-carbon bg-bone">
         {layers.map((l, i) => (
           <div data-layer class="absolute inset-y-0 left-0" style={`width:${100 - i * 14}%; background:${l.fill}; z-index:${i}`}>
@@ -94,7 +101,7 @@ const layers = [
               ></div>
             )}
             <span
-              class="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-widest"
+              class="layer-label absolute right-1.5 top-3 font-mono text-[11px] uppercase tracking-widest"
               style={`color:${l.fill === '#16151a' ? '#f5f1ea' : '#16151a'}`}
             >
               {String(i + 1).padStart(2, '0')} {l.name}
@@ -110,6 +117,9 @@ const layers = [
 </section>
 
 <style>
+  .layer-label {
+    writing-mode: vertical-rl;
+  }
   .layer-text {
     max-height: 4.5rem;
     overflow: hidden;
@@ -124,6 +134,68 @@ const layers = [
     }
     :global(html[data-motion='on']) .layer-item[data-active] {
       border-color: var(--color-accent);
+    }
+  }
+  /* Mobile pinned layout: everything must fit in one screen while the wall is built. */
+  @media (max-width: 1023px) {
+    :global(html[data-motion='on']) .layers-section {
+      height: 100svh;
+    }
+    :global(html[data-motion='on']) .layers-grid {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.25rem;
+      padding-block: calc(var(--header-h) + 0.5rem) 1.5rem;
+    }
+    :global(html[data-motion='on']) .layers-copy {
+      display: contents;
+    }
+    :global(html[data-motion='on']) .layers-copy :global(h2) {
+      font-size: clamp(2.25rem, 10vw, 3rem);
+    }
+    :global(html[data-motion='on']) .layers-intro {
+      display: none;
+    }
+    :global(html[data-motion='on']) .layers-wall {
+      order: 2;
+      aspect-ratio: auto;
+      height: 36svh;
+      max-width: none;
+      margin-left: 1.25rem;
+      width: calc(100% - 1.25rem);
+    }
+    :global(html[data-motion='on']) .layers-dots {
+      order: 3;
+      display: flex;
+      gap: 0.5rem;
+    }
+    :global(html[data-motion='on']) .layers-dots span {
+      height: 4px;
+      flex: 1;
+      background: rgb(22 21 26 / 0.15);
+      transition: background-color var(--duration-base);
+    }
+    :global(html[data-motion='on']) .layers-dots span[data-active] {
+      background: var(--color-accent-strong);
+    }
+    :global(html[data-motion='on']) .layers-list {
+      order: 4;
+      margin-top: 0;
+      min-height: 7.5rem;
+    }
+    :global(html[data-motion='on']) .layer-item:not([data-active]) {
+      display: none;
+    }
+    :global(html[data-motion='on']) .layer-item[data-active] {
+      border-color: var(--color-accent);
+      animation: layer-in var(--duration-base) var(--ease-out-expo);
+    }
+  }
+  @keyframes layer-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
     }
   }
 </style>

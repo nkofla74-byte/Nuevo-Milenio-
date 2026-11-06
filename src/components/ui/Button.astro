@@ -15,7 +15,7 @@ interface Props {
 const { href, variant = 'primary', size = 'md', icon = 'arrow-right', type = 'button', magnetic = false, class: className, ...rest } = Astro.props;
 
 const base =
-  'group relative inline-flex items-center justify-center gap-3 font-display uppercase tracking-wide transition-colors duration-200 select-none min-h-12';
+  'group relative inline-flex items-center justify-center gap-3 font-display uppercase tracking-wide transition-[color,background-color,border-color,transform] duration-200 select-none min-h-12 active:scale-[0.97]';
 const variants = {
   primary: 'bg-accent text-accent-ink hover:bg-carbon hover:text-bone',
   secondary: 'border border-current text-current hover:bg-carbon hover:text-bone hover:border-carbon',

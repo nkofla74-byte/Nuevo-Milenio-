@@ -16,7 +16,7 @@ const sectors = (await getCollection('sectores')).sort((a, b) => a.data.order - 
   <div class="container-x">
     <SectionHeading index="04" label="Sectores" title="Hablamos el idioma de su sector." tone="light" />
 
-    <div role="tablist" aria-label="Sectores" class="tablist mt-10 hidden flex-wrap gap-2 border-b border-bone/15 pb-4" data-tablist>
+    <div role="tablist" aria-label="Sectores" class="tablist chip-row mt-10 hidden border-b border-bone/15 pb-4" data-tablist>
       {sectors.map((s, i) => (
         <button
           type="button"
@@ -91,7 +91,10 @@ const sectors = (await getCollection('sectores')).sort((a, b) => a.data.order - 
         t.tabIndex = i === j ? 0 : -1;
       });
       panels.forEach((p, j) => (p.hidden = i !== j));
-      if (focus) tabs[i].focus();
+      if (focus) {
+        tabs[i].focus();
+        tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
     };
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => select(i));

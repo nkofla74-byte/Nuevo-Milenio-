@@ -24,11 +24,12 @@ const handlers: Record<string, (el: HTMLElement, kit: Kit) => void> = {
     intro.from(el.querySelectorAll('[data-hero-fade]'), { y: 24, autoAlpha: 0, duration: 0.9, stagger: 0.1 }, '-=0.7');
 
     // The scene goes from raw concrete to finished space as the user scrolls.
+    // Pinned on every size; mobile gets a shorter distance so the thumb does less work.
     const mm = gsap.matchMedia();
     mm.add({ desktop: DESKTOP, mobile: MOBILE }, (ctx) => {
       const { desktop } = ctx.conditions as { desktop: boolean };
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: 'top top', end: desktop ? '+=140%' : '+=80%', scrub: 0.6, pin: desktop },
+        scrollTrigger: { trigger: el, start: 'top top', end: desktop ? '+=140%' : '+=100%', scrub: desktop ? 0.6 : 0.3, pin: true, anticipatePin: 1 },
       });
       tl.fromTo('[data-hero-after]', { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none' }, 0)
         .from('[data-hero-line]', { drawSVG: '0%', stagger: 0.04, ease: 'none' }, 0)
@@ -40,41 +41,48 @@ const handlers: Record<string, (el: HTMLElement, kit: Kit) => void> = {
   layers(el, { gsap }) {
     const layers = gsap.utils.toArray<HTMLElement>('[data-layer]', el);
     const items = gsap.utils.toArray<HTMLElement>('[data-layer-item]', el);
+    const dots = gsap.utils.toArray<HTMLElement>('[data-layer-dot]', el);
     const mm = gsap.matchMedia();
-    mm.add(DESKTOP, () => {
-      gsap.set(layers.slice(1), { xPercent: 105 });
+    // Same story on every size: the section pins and each scroll step adds one layer.
+    // Mobile uses a shorter distance per layer and CSS shows only the active layer's text.
+    mm.add({ desktop: DESKTOP, mobile: MOBILE }, (ctx) => {
+      const { desktop } = ctx.conditions as { desktop: boolean };
+      // Each layer waits fully outside the wall. xPercent would be relative to the layer's own
+      // (narrower) width and leave it partly visible, so offset by the wall's width instead.
+      const wall = layers[0].parentElement!;
+      const offstage = () => wall.clientWidth + 8;
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: 'top top',
-          end: `+=${layers.length * 70}%`,
-          scrub: 0.5,
+          end: `+=${layers.length * (desktop ? 70 : 55)}%`,
+          scrub: desktop ? 0.5 : 0.3,
           pin: true,
+          anticipatePin: 1,
           snap: { snapTo: 1 / (layers.length - 1), duration: 0.4, ease: 'power1.inOut' },
+          invalidateOnRefresh: true,
           onUpdate: (self) => {
             const active = Math.round(self.progress * (layers.length - 1));
             items.forEach((it, i) => it.toggleAttribute('data-active', i === active));
+            dots.forEach((d, i) => d.toggleAttribute('data-active', i <= active));
           },
         },
       });
-      layers.slice(1).forEach((layer, i) => tl.to(layer, { xPercent: 0, ease: 'power2.inOut' }, i));
-    });
-    mm.add(MOBILE, () => {
-      items.forEach((it) => gsap.from(it, { y: 30, autoAlpha: 0, duration: 0.7, scrollTrigger: { trigger: it, start: 'top 85%', once: true } }));
+      layers.slice(1).forEach((layer, i) => tl.fromTo(layer, { x: offstage }, { x: 0, ease: 'power2.inOut', immediateRender: true }, i));
     });
   },
 
   projects(el, { gsap }) {
     const track = el.querySelector<HTMLElement>('[data-track]');
     if (!track) return;
-    const mm = gsap.matchMedia();
-    mm.add(DESKTOP, () => {
-      const distance = () => track.scrollWidth - window.innerWidth + 64;
-      gsap.to(track, {
-        x: () => -distance(),
-        ease: 'none',
-        scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${distance()}`, scrub: 0.6, pin: true, invalidateOnRefresh: true },
-      });
+    // Vertical scroll drives the horizontal track on every size (cards are 82vw on mobile).
+    el.dataset.pinned = '';
+    const gutter = () => parseFloat(getComputedStyle(track).paddingLeft) || 16;
+    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + gutter());
+    gsap.to(track, {
+      x: () => -distance(),
+      ease: 'none',
+      scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${distance()}`, scrub: 0.5, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
     });
   },
 

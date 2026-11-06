@@ -73,9 +73,15 @@ const isBefore = state === 'before';
   </svg>
   {label && (
     <span
-      class:list={['absolute left-3 top-3 font-mono text-[10px] uppercase tracking-widest px-2 py-1', isBefore ? 'bg-carbon text-bone' : 'bg-bone text-carbon']}
+      class:list={[
+        'absolute top-3 font-mono text-[11px] uppercase tracking-widest px-2 py-1',
+        isBefore ? 'left-3 bg-carbon text-bone' : 'right-3 bg-bone text-carbon',
+      ]}
     >
-      {isBefore ? 'Antes' : 'Después'} · imagen de referencia
+      {isBefore ? 'Antes' : 'Después'}
     </span>
+  )}
+  {label && isBefore && (
+    <span class="absolute bottom-3 left-3 bg-carbon/80 px-2 py-1 font-mono text-[11px] uppercase tracking-widest text-bone">Imagen de referencia</span>
   )}
 </div>

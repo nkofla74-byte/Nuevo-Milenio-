@@ -1,5 +1,5 @@
 ---
-order: 16
+order: 17
 title: "Despliegue"
 summary: "Cómo llega el sitio al usuario final: build, Cloudflare Pages, DNS, HTTPS e indexación en Google."
 status: pendiente

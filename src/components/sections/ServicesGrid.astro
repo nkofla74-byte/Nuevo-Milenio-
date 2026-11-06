@@ -27,7 +27,7 @@ const used = [...new Set(services.map((s) => s.data.category))] as CategoryKey[]
       </SectionHeading>
     )}
 
-    <div class="mt-10 flex flex-wrap gap-2" role="group" aria-label="Filtrar servicios por categoría">
+    <div class="chip-row mt-10" role="group" aria-label="Filtrar servicios por categoría">
       <button type="button" data-filter="all" aria-pressed="true" class="filter-btn">
         Todos
       </button>
@@ -38,18 +38,30 @@ const used = [...new Set(services.map((s) => s.data.category))] as CategoryKey[]
       ))}
     </div>
 
-    <ul class="mt-10 grid gap-px bg-carbon/10 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Phones: compact rows (icon · title · 2-line summary · arrow). From sm up: cards. -->
+    <ul class="mt-8 grid gap-px bg-carbon/10 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4">
       {services.map((s) => (
         <li data-service-card data-category={s.data.category} class="group relative bg-bone">
-          <a href={`/servicios/${s.id}/`} class="flex h-full flex-col p-6 transition-colors duration-300 hover:bg-carbon hover:text-bone">
-            <span class="flex items-start justify-between">
+          <a
+            href={`/servicios/${s.id}/`}
+            class="flex h-full items-start gap-4 px-1 py-5 transition-colors duration-300 hover:bg-carbon hover:text-bone active:bg-concrete-100 sm:flex-col sm:gap-0 sm:p-6"
+          >
+            <span class="flex shrink-0 items-start justify-between sm:w-full">
               <Icon name={s.data.icon} size={36} class="text-accent-strong group-hover:text-accent" />
-              <span class="font-mono text-[10px] uppercase tracking-widest text-concrete-700 group-hover:text-concrete-300">{CATEGORIES[s.data.category]}</span>
+              <span class="hidden font-mono text-[11px] uppercase tracking-widest text-concrete-700 group-hover:text-concrete-300 sm:inline">
+                {CATEGORIES[s.data.category]}
+              </span>
             </span>
-            <span class="mt-10 font-display text-3xl uppercase leading-none">{s.data.title}</span>
-            <span class="mt-3 text-sm text-concrete-700 group-hover:text-concrete-300">{s.data.summary}</span>
-            {s.data.needsConfirmation && <span class="pending mt-3 self-start">[[PENDIENTE: confirmar servicio]]</span>}
-            <span class="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold">
+            <span class="flex min-w-0 flex-1 flex-col sm:w-full">
+              <span class="font-mono text-[11px] uppercase tracking-widest text-concrete-700 group-hover:text-concrete-300 sm:hidden">
+                {CATEGORIES[s.data.category]}
+              </span>
+              <span class="mt-1 font-display text-2xl uppercase leading-none sm:mt-6 sm:text-3xl md:mt-10">{s.data.title}</span>
+              <span class="mt-2 line-clamp-2 text-sm text-concrete-700 group-hover:text-concrete-300 sm:mt-3 sm:line-clamp-none">{s.data.summary}</span>
+              {s.data.needsConfirmation && <span class="pending mt-3 self-start">[[PENDIENTE: confirmar servicio]]</span>}
+            </span>
+            <Icon name="arrow-right" size={20} class="mt-6 shrink-0 text-accent-strong sm:hidden" />
+            <span class="mt-auto hidden items-center gap-2 pt-6 text-sm font-semibold sm:flex">
               Ver servicio <Icon name="arrow-right" size={16} class="transition-transform group-hover:translate-x-1" />
             </span>
           </a>

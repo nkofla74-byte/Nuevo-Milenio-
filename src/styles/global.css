@@ -118,6 +118,12 @@
   .prose-site :where(a) {
     @apply underline decoration-accent decoration-2 underline-offset-4;
   }
+  .prose-site :where(table) {
+    @apply mb-6 block w-full overflow-x-auto text-sm;
+  }
+  .prose-site :where(th, td) {
+    @apply border border-concrete-300 px-3 py-2 align-top;
+  }
   .prose-site :where(strong) {
     @apply font-semibold;
   }
@@ -139,6 +145,38 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  /* Horizontal chip row on phones (filters, tabs); wraps normally from sm up. */
+  .chip-row {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    padding-bottom: 0.25rem;
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - 2.5rem), transparent);
+  }
+  .chip-row::-webkit-scrollbar {
+    display: none;
+  }
+  .chip-row > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+  @media (min-width: 640px) {
+    .chip-row {
+      flex-wrap: wrap;
+      overflow: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+      mask-image: none;
+    }
   }
 }
 
