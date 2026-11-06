@@ -1,0 +1,34 @@
+---
+import Button from '../ui/Button.astro';
+import { whatsappUrl } from '../../config/site';
+
+interface Props {
+  title?: string;
+  whatsappMessage?: string;
+}
+const { title = 'Cuéntenos qué espacio quiere transformar.', whatsappMessage = 'Hola, quiero cotizar un proyecto.' } = Astro.props;
+const wa = whatsappUrl(whatsappMessage);
+---
+
+<section id="cotizar" data-section-index="09" data-section-label="Cotizar" class="relative overflow-hidden bg-accent py-24 text-carbon">
+  <div class="blueprint-grid absolute inset-0 opacity-60" aria-hidden="true"></div>
+  <div class="container-x relative">
+    <p class="font-mono text-xs uppercase tracking-[0.25em]">09 · Siguiente paso</p>
+    <h2 data-split class="mt-4 max-w-5xl text-[clamp(3rem,8vw,7.5rem)] leading-[0.9]">
+      {title}
+    </h2>
+    <p class="mt-6 max-w-xl text-lg">Agendamos una visita técnica, diagnosticamos el espacio y le entregamos una cotización por capítulos.</p>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <Button href="/cotizar/" size="lg" class="!bg-carbon !text-bone hover:!bg-bone hover:!text-carbon" magnetic>
+        Solicitar cotización
+      </Button>
+      {wa ? (
+        <Button href={wa} variant="secondary" size="lg" icon="chat" target="_blank" rel="noopener noreferrer">
+          Escribir por WhatsApp
+        </Button>
+      ) : (
+        <span class="pending self-center !border-carbon !bg-bone/80 !text-carbon">[[PENDIENTE: número de WhatsApp]]</span>
+      )}
+    </div>
+  </div>
+</section>

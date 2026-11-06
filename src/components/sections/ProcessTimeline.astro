@@ -1,0 +1,38 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import { processSteps } from '../../config/process';
+import { markPending } from '../../lib/pending';
+
+interface Props {
+  index?: string;
+}
+const { index = '06' } = Astro.props;
+---
+
+<section id="proceso" data-section-index={index} data-section-label="Proceso" data-motion="process" class="relative bg-concrete-100 py-24">
+  <div class="container-x grid gap-12 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-32">
+        <SectionHeading index={index} label="Cómo trabajamos" title="Un método, siete pasos." />
+        <p class="mt-6 text-lg text-concrete-700">Sin sorpresas: usted sabe qué pasa en cada etapa y quién responde por ella.</p>
+      </div>
+    </div>
+    <div class="relative lg:col-span-8">
+      <svg class="absolute left-[11px] top-2 h-[calc(100%-1rem)] w-1 overflow-visible" viewBox="0 0 2 100" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M1 0V100" stroke="var(--color-concrete-300)" stroke-width="2" vector-effect="non-scaling-stroke" />
+        <path data-process-path d="M1 0V100" stroke="var(--color-accent)" stroke-width="2" vector-effect="non-scaling-stroke" />
+      </svg>
+      <ol class="space-y-10">
+        {processSteps.map((step, i) => (
+          <li data-step class="relative pl-12">
+            <span class="absolute left-0 top-1 grid h-6 w-6 place-items-center bg-carbon font-mono text-[11px] text-bone" aria-hidden="true">
+              {i + 1}
+            </span>
+            <h3 class="text-3xl md:text-4xl">{step.title}</h3>
+            <p class="mt-2 max-w-xl text-concrete-700" set:html={markPending(step.text)} />
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

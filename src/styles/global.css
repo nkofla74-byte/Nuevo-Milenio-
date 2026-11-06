@@ -1,0 +1,191 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens. Palette "Concreto + Naranja seguridad" (variant A).
+ * Variants B and C are documented in /docs/design-system.md and previewed in /sistema-de-diseno/.
+ */
+@theme {
+  --color-carbon: #16151a;
+  --color-carbon-2: #232228;
+  --color-concrete-900: #3a3733;
+  --color-concrete-700: #5e5953;
+  --color-concrete-500: #8c867e;
+  --color-concrete-300: #c4beb5;
+  --color-concrete-100: #e8e3dc;
+  --color-bone: #f5f1ea;
+  --color-accent: #f2611d;
+  --color-accent-strong: #a33d0b; /* AA (≥4.5:1) as text on every light surface */
+  --color-accent-ink: #16151a;
+  --color-success: #2f7d4f;
+  --color-danger: #b42318;
+
+  --font-display: var(--font-barlow), 'Arial Narrow', sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+
+  --radius-sm: 2px;
+  --radius-md: 6px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --shadow-card: 0 1px 0 rgb(22 21 26 / 0.06), 0 12px 32px -12px rgb(22 21 26 / 0.25);
+}
+
+:root {
+  --duration-fast: 160ms;
+  --duration-base: 320ms;
+  --duration-slow: 700ms;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --header-h: 4.5rem;
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: var(--header-h);
+  }
+  body {
+    @apply bg-bone text-carbon font-body antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display uppercase;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-carbon);
+  }
+  img,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  /* Technical-drawing grid used as section background motif. */
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, rgb(140 134 126 / 0.14) 1px, transparent 1px), linear-gradient(to bottom, rgb(140 134 126 / 0.14) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .blueprint-grid-dark {
+    background-image:
+      linear-gradient(to right, rgb(245 241 234 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(245 241 234 / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .prose-site {
+    max-width: 70ch;
+  }
+  .prose-site :where(h2) {
+    @apply mt-12 mb-4 text-4xl;
+  }
+  .prose-site :where(h3) {
+    @apply mt-8 mb-3 text-2xl;
+  }
+  .prose-site :where(p, ul, ol) {
+    @apply mb-5;
+  }
+  .prose-site :where(ul) {
+    @apply list-disc pl-6;
+  }
+  .prose-site :where(ol) {
+    @apply list-decimal pl-6;
+  }
+  .prose-site :where(a) {
+    @apply underline decoration-accent decoration-2 underline-offset-4;
+  }
+  .prose-site :where(table) {
+    @apply mb-6 block w-full overflow-x-auto text-sm;
+  }
+  .prose-site :where(th, td) {
+    @apply border border-concrete-300 px-3 py-2 align-top;
+  }
+  .prose-site :where(strong) {
+    @apply font-semibold;
+  }
+  .pending {
+    @apply inline-block rounded-sm border border-dashed border-accent-strong bg-accent/10 px-1.5 font-mono text-[0.8em] text-accent-strong;
+  }
+  /* On dark surfaces the strong accent loses contrast; use the light accent instead. */
+  :where(.bg-carbon, .bg-carbon-2) .pending {
+    @apply border-accent text-accent;
+  }
+}
+
+/* Elements revealed by JS start visible; motion code hides them only once it is ready. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  /* Horizontal chip row on phones (filters, tabs); wraps normally from sm up. */
+  .chip-row {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    padding-bottom: 0.25rem;
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--gutter), #000 calc(100% - 2.5rem), transparent);
+  }
+  .chip-row::-webkit-scrollbar {
+    display: none;
+  }
+  .chip-row > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+  @media (min-width: 640px) {
+    .chip-row {
+      flex-wrap: wrap;
+      overflow: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+      mask-image: none;
+    }
+  }
+}
+
+/* Native cross-document View Transitions (no JS, compatible with a strict CSP). */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}

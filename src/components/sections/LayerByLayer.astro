@@ -1,0 +1,201 @@
+---
+/**
+ * "Capa por capa": a wall in cross-section is built while scrolling (pinned on every size).
+ * Mobile (motion on): heading, wall and only the active layer fit in one screen (100svh).
+ * Each layer links to its service page — this is the visual presentation of the catalog.
+ */
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from '../ui/Icon.astro';
+
+const layers = [
+  {
+    name: 'Estructura',
+    text: 'Demolición controlada, mampostería y adecuaciones: la base firme sobre la que se construye todo.',
+    href: '/servicios/mamposteria-y-resanes/',
+    fill: '#8c867e',
+    pattern: 'bricks',
+  },
+  {
+    name: 'Drywall',
+    text: 'Muros, divisiones y cielos en sistemas livianos, con las redes ya instaladas por dentro.',
+    href: '/servicios/drywall-y-superboard/',
+    fill: '#c4beb5',
+    pattern: 'studs',
+  },
+  {
+    name: 'Estuco',
+    text: 'Superficies niveladas y sin fisuras, preparadas para un acabado perfecto.',
+    href: '/servicios/estuco-y-pintura/',
+    fill: '#e8e3dc',
+    pattern: 'plain',
+  },
+  {
+    name: 'Pintura',
+    text: 'Interior, exterior, epóxica y de alto tráfico, según el uso de cada espacio.',
+    href: '/servicios/pintura-epoxica/',
+    fill: '#f2611d',
+    pattern: 'plain',
+  },
+  {
+    name: 'Acabado final',
+    text: 'Pisos, enchapes, carpintería e iluminación: el espacio listo para usar.',
+    href: '/servicios/enchapes-y-pisos/',
+    fill: '#16151a',
+    pattern: 'tiles',
+  },
+];
+---
+
+<section
+  id="capa-por-capa"
+  data-section-index="02"
+  data-section-label="Capa por capa"
+  data-motion="layers"
+  class="layers-section relative overflow-hidden bg-concrete-100 lg:h-[100svh]"
+>
+  <div class="layers-grid container-x grid h-full items-center gap-10 py-20 lg:grid-cols-2 lg:py-0">
+    <div class="layers-copy">
+      <SectionHeading index="02" label="Capa por capa" title="Un solo proveedor, todas las capas." />
+      <p class="layers-intro mt-6 max-w-lg text-lg text-concrete-700">
+        Una obra son muchas especialidades una sobre otra. Nosotros las ejecutamos todas, en orden y con un solo responsable.
+      </p>
+      <ol class="layers-list mt-8 space-y-1">
+        {layers.map((l, i) => (
+          <li data-layer-item class="layer-item border-l-2 border-carbon/15 pl-4 transition-colors" data-active={i === 0 ? '' : undefined}>
+            <a href={l.href} class="group block py-2">
+              <span class="flex items-baseline gap-3">
+                <span class="font-mono text-xs text-accent-strong">{String(i + 1).padStart(2, '0')}</span>
+                <span class="font-display text-3xl uppercase">{l.name}</span>
+                <Icon name="arrow-right" size={18} class="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+              </span>
+              <span class="layer-text block text-concrete-700">{l.text}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="layers-dots hidden" aria-hidden="true">
+      {layers.map((_, i) => (
+        <span data-layer-dot data-active={i === 0 ? '' : undefined}></span>
+      ))}
+    </div>
+
+    <div class="layers-wall relative mx-auto aspect-[4/5] w-full max-w-md lg:max-w-none" aria-hidden="true">
+      <div class="absolute inset-0 overflow-hidden border-2 border-carbon bg-bone">
+        {layers.map((l, i) => (
+          <div data-layer class="absolute inset-y-0 left-0" style={`width:${100 - i * 14}%; background:${l.fill}; z-index:${i}`}>
+            {l.pattern === 'bricks' && (
+              <div
+                class="h-full w-full opacity-40"
+                style="background-image:repeating-linear-gradient(0deg,#3a3733 0 2px,transparent 2px 36px),repeating-linear-gradient(90deg,#3a3733 0 2px,transparent 2px 72px)"
+              ></div>
+            )}
+            {l.pattern === 'studs' && (
+              <div class="h-full w-full opacity-50" style="background-image:repeating-linear-gradient(90deg,#8c867e 0 6px,transparent 6px 60px)"></div>
+            )}
+            {l.pattern === 'tiles' && (
+              <div
+                class="h-full w-full opacity-30"
+                style="background-image:linear-gradient(90deg,#f5f1ea 1px,transparent 1px),linear-gradient(#f5f1ea 1px,transparent 1px);background-size:40px 40px"
+              ></div>
+            )}
+            <span
+              class="layer-label absolute right-1.5 top-3 font-mono text-[11px] uppercase tracking-widest"
+              style={`color:${l.fill === '#16151a' ? '#f5f1ea' : '#16151a'}`}
+            >
+              {String(i + 1).padStart(2, '0')} {l.name}
+            </span>
+          </div>
+        ))}
+      </div>
+      <svg class="absolute -left-6 top-0 h-full w-4 text-concrete-700" viewBox="0 0 16 100" preserveAspectRatio="none" fill="none" stroke="currentColor">
+        <path d="M8 0v100M2 0h12M2 100h12" vector-effect="non-scaling-stroke" />
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .layer-label {
+    writing-mode: vertical-rl;
+  }
+  .layer-text {
+    max-height: 4.5rem;
+    overflow: hidden;
+    transition:
+      max-height var(--duration-base) var(--ease-out-expo),
+      opacity var(--duration-base);
+  }
+  @media (min-width: 1024px) {
+    :global(html[data-motion='on']) .layer-item:not([data-active]) .layer-text {
+      max-height: 0;
+      opacity: 0;
+    }
+    :global(html[data-motion='on']) .layer-item[data-active] {
+      border-color: var(--color-accent);
+    }
+  }
+  /* Mobile pinned layout: everything must fit in one screen while the wall is built. */
+  @media (max-width: 1023px) {
+    :global(html[data-motion='on']) .layers-section {
+      height: 100svh;
+    }
+    :global(html[data-motion='on']) .layers-grid {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.25rem;
+      padding-block: calc(var(--header-h) + 0.5rem) 1.5rem;
+    }
+    :global(html[data-motion='on']) .layers-copy {
+      display: contents;
+    }
+    :global(html[data-motion='on']) .layers-copy :global(h2) {
+      font-size: clamp(2.25rem, 10vw, 3rem);
+    }
+    :global(html[data-motion='on']) .layers-intro {
+      display: none;
+    }
+    :global(html[data-motion='on']) .layers-wall {
+      order: 2;
+      aspect-ratio: auto;
+      height: 36svh;
+      max-width: none;
+      margin-left: 1.25rem;
+      width: calc(100% - 1.25rem);
+    }
+    :global(html[data-motion='on']) .layers-dots {
+      order: 3;
+      display: flex;
+      gap: 0.5rem;
+    }
+    :global(html[data-motion='on']) .layers-dots span {
+      height: 4px;
+      flex: 1;
+      background: rgb(22 21 26 / 0.15);
+      transition: background-color var(--duration-base);
+    }
+    :global(html[data-motion='on']) .layers-dots span[data-active] {
+      background: var(--color-accent-strong);
+    }
+    :global(html[data-motion='on']) .layers-list {
+      order: 4;
+      margin-top: 0;
+      min-height: 7.5rem;
+    }
+    :global(html[data-motion='on']) .layer-item:not([data-active]) {
+      display: none;
+    }
+    :global(html[data-motion='on']) .layer-item[data-active] {
+      border-color: var(--color-accent);
+      animation: layer-in var(--duration-base) var(--ease-out-expo);
+    }
+  }
+  @keyframes layer-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import ProcessTimeline from '../components/sections/ProcessTimeline.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+---
+
+<BaseLayout
+  title="Cómo trabajamos: de la visita técnica a la garantía"
+  description="Nuestro método en siete pasos: visita técnica, diagnóstico, cotización por capítulos, ejecución, control de calidad, entrega y garantía."
+  headerTone="light"
+>
+  <PageHeader
+    crumbs={[{ href: '/proceso/', label: 'Proceso' }]}
+    eyebrow="Método"
+    title="Sin sorpresas, de principio a fin."
+    lead="Usted sabe qué pasa en cada etapa, cuánto cuesta cada capítulo y quién responde por el resultado."
+  />
+  <ProcessTimeline index="01" />
+  <FinalCta />
+</BaseLayout>

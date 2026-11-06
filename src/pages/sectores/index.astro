@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Icon from '../../components/ui/Icon.astro';
+import FinalCta from '../../components/sections/FinalCta.astro';
+
+const sectors = (await getCollection('sectores')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Sectores que atendemos"
+  description="Soluciones de construcción, remodelación y mantenimiento para propiedad horizontal, centros comerciales, retail, restaurantes, oficinas, vivienda e industria."
+  headerTone="light"
+>
+  <PageHeader crumbs={[{ href: '/sectores/', label: 'Sectores' }]} eyebrow="Sectores" title="Cada sector tiene sus reglas. Las conocemos." />
+  <ul class="container-x grid gap-px bg-carbon/10 py-20 md:grid-cols-2">
+    {sectors.map((s, i) => (
+      <li class="bg-bone">
+        <a href={`/sectores/${s.id}/`} class="group flex h-full flex-col gap-4 p-8 transition-colors hover:bg-carbon hover:text-bone md:p-10">
+          <span class="flex items-center justify-between">
+            <Icon name={s.data.icon} size={40} class="text-accent-strong group-hover:text-accent" />
+            <span class="font-mono text-xs text-concrete-700 group-hover:text-concrete-300">{String(i + 1).padStart(2, '0')}</span>
+          </span>
+          <span class="font-display text-4xl uppercase">{s.data.title}</span>
+          <span class="text-concrete-700 group-hover:text-concrete-300">{s.data.headline}</span>
+          <span class="mt-auto flex items-center gap-2 font-semibold">
+            Ver soluciones <Icon name="arrow-right" size={18} class="transition-transform group-hover:translate-x-1" />
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <FinalCta />
+</BaseLayout>

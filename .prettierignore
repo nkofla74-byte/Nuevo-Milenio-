@@ -1,0 +1,8 @@
+dist/
+.astro/
+node_modules/
+public/og/
+package-lock.json
+src/content/
+src/academia/
+*.md

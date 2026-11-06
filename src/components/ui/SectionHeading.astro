@@ -1,0 +1,24 @@
+---
+/** Blueprint-style section label: "01 / DEMOLICIÓN" + headline. */
+interface Props {
+  index?: string;
+  label: string;
+  title: string;
+  as?: 'h1' | 'h2';
+  tone?: 'dark' | 'light';
+  class?: string;
+}
+const { index, label, title, as: Tag = 'h2', tone = 'dark', class: className } = Astro.props;
+---
+
+<header class:list={['max-w-4xl', className]}>
+  <p class:list={['flex items-center gap-3 font-mono text-xs tracking-[0.2em] uppercase', tone === 'light' ? 'text-concrete-300' : 'text-concrete-700']}>
+    {index && <span class={tone === 'light' ? 'text-accent' : 'text-accent-strong'}>{index}</span>}
+    <span aria-hidden="true" class="h-px w-10 bg-current" data-draw-line></span>
+    <span>{label}</span>
+  </p>
+  <Tag class="mt-4 text-5xl md:text-7xl" data-split>
+    {title}
+  </Tag>
+  <slot />
+</header>

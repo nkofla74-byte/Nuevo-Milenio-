@@ -1,0 +1,133 @@
+{
+  "updatedAt": "2026-11-05T22:02:26-05:00",
+  "current": "Publicado en URL temporal · falta dominio y llaves",
+  "phases": [
+    {
+      "id": 0,
+      "name": "Descubrimiento y plan",
+      "status": "done",
+      "items": [
+        "PLAN.md con stack, storyboard, cronograma y riesgos",
+        "Lista de preguntas abiertas"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Cimientos",
+      "status": "done",
+      "items": [
+        "Proyecto Astro 7 + TypeScript estricto",
+        "Tailwind v4 y design tokens",
+        "Fuentes autoalojadas",
+        "Página de progreso",
+        "Content Collections con esquemas Zod: 20 servicios, 7 sectores, 3 proyectos de ejemplo, 3 artículos",
+        "Configuración central del negocio con marcadores [[PENDIENTE]]",
+        "Panel interno solo de desarrollo: pestañas Progreso + Academia de Desarrollo",
+        "Layout base con SEO, JSON-LD, cookies y encabezado"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Sistema de diseño y componentes",
+      "status": "done",
+      "items": [
+        "Íconos SVG propios, botones, comparador antes/después accesible, imágenes generadas"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Inicio con experiencias de scroll",
+      "status": "done",
+      "items": [
+        "Hero de transformación con scroll",
+        "Capa por capa (pinned)",
+        "Servicios con filtro Flip",
+        "Sectores en pestañas accesibles",
+        "Proyectos en scroll horizontal",
+        "Proceso con línea que se dibuja",
+        "Verificado en escritorio, móvil y reduced-motion; 0 errores de tipos"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Páginas internas y contenido",
+      "status": "done",
+      "items": [
+        "Plantillas dinámicas: 20 servicios, 7 sectores, proyectos, blog",
+        "Nosotros, proceso, kit de proveedor, contacto, FAQ, 404/500",
+        "Página interna /sistema-de-diseno/ con 3 paletas para escoger",
+        "robots.txt, llms.txt, security.txt, sitemap filtrado",
+        "0 errores de tipos en 59 archivos"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Cotizador, legal y consentimiento",
+      "status": "done",
+      "items": [
+        "Cotizador multipaso con mejora progresiva",
+        "Endpoint seguro /api/cotizar/: origen, tamaño, rate limit, honeypot, Zod, Turnstile, correo escapado",
+        "Prueba de autorización (fecha, versión de política, IP truncada)",
+        "Borradores legales: datos personales, aviso, cookies, términos",
+        "16 pruebas unitarias + 30 e2e (incluye axe WCAG 2.2 AA) en verde"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Auditoría y endurecimiento",
+      "status": "done",
+      "items": [
+        "Build de producción: 50 páginas; Academia y Progreso excluidas (verificado)",
+        "CSP estricta: 0 scripts en línea, 0 violaciones",
+        "Lighthouse móvil: 97–99 rendimiento, 100 a11y/buenas prácticas/SEO",
+        "Imágenes OG (49), ESLint, Prettier, CI con gitleaks y presupuestos",
+        "Documentación: CONTENT_TODO, CREDITS, README, CHANGELOG, docs/, 5 ADRs",
+        "Móvil: hero, capa por capa y proyectos fijados con coreografía vertical",
+        "Móvil: filtros/pestañas deslizables, servicios en filas compactas, imágenes 4:5",
+        "Móvil: 0 desborde en 13 páginas a 360px; 70/70 pruebas e2e",
+        "Rendimiento móvil del inicio 97, TBT 0 ms (yield entre secciones)"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Lanzamiento",
+      "status": "doing",
+      "items": [
+        "Requiere dominio, DNS y cuentas del cliente",
+        "Publicado en https://nuevo-milenio.sitio-construccion.workers.dev (noindex temporal)",
+        "KV de rate limit creado automáticamente",
+        "Pendiente: llaves Turnstile/Resend, dominio, Search Console, Google Business Profile"
+      ]
+    }
+  ],
+  "log": [
+    "Node del sistema roto (libsimdjson) → se usa Node 26.13 vía nvm",
+    "PLAN.md creado",
+    "Proyecto Astro 7.4 creado; dependencias instaladas con versiones verificadas",
+    "Contenido generado: 20 servicios, 7 sectores, 3 artículos de blog",
+    "Academia de Desarrollo creada: 6 módulos escritos (5 verificados), 10 planeados",
+    "Fuentes autoalojadas verificadas (/_astro/fonts/*.woff2)",
+    "Esquemas de contenido validados: 33 archivos (astro sync)",
+    "Bug: el servidor dev no recargó content.config.ts → colecciones vacías; corregido reiniciando",
+    "Contraste del hero corregido (texto sobre naranja)",
+    "Commit: fases 0–3 en la rama feat/sitio",
+    "Corregida una afirmación no respaldada en Nosotros (solo retail, según el brief)",
+    "Commit: fase 4",
+    "axe encontró problemas de contraste en tokens → accent-strong oscurecido a #a33d0b (≥4.5:1)",
+    "Ataques con curl al endpoint: todos rechazados en el servidor",
+    "Commit: fase 5",
+    "Servidor dev caído durante la bisección → reiniciado",
+    "Bug de build en workerd aislado por bisección (content.config importado desde páginas)",
+    "Retiradas @lhci/cli y wait-on por vulnerabilidades",
+    "Datos reales aplicados: razón social, NIT, dirección, celular",
+    "Academia: módulos 11–15 verificados",
+    "Commit: fase 6",
+    "Auditoría móvil a 360px: desbordes, textos de 10px, objetivos táctiles",
+    "Bug de capas (xPercent) también presente en escritorio → corregido",
+    "Bug scale vs transform (Tailwind v4) en barras de progreso → corregido",
+    "Tabla de cookies: min-w-0 en artículos de grid",
+    "Academia: módulo 16 · Diseño y animación para móviles",
+    "Despliegue en Cloudflare Workers: 200 en páginas, 404 en internas, cabeceras activas, cotizador falla cerrado (503) sin llaves",
+    "Academia: módulos 17 · SEO y 18 · Despliegue (verificado)"
+  ]
+}

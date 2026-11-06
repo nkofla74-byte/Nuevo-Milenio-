@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<BaseLayout title="Página no encontrada" description="La página que busca no existe o cambió de dirección." noindex headerTone="light">
+  <section class="blueprint-grid-dark flex min-h-[85svh] items-center bg-carbon pt-[var(--header-h)] text-bone">
+    <div class="container-x">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-accent">Error 404 · Plano no encontrado</p>
+      <h1 class="mt-4 text-[clamp(3rem,10vw,9rem)] leading-[0.88]">Esta obra no existe.</h1>
+      <p class="mt-6 max-w-xl text-lg text-concrete-300">La página que busca no está en nuestros planos o cambió de dirección.</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <Button href="/">Volver al inicio</Button>
+        <Button href="/servicios/" variant="light">
+          Ver servicios
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

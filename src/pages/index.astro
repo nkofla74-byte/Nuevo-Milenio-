@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroTransformation from '../components/sections/HeroTransformation.astro';
+import TrustStats from '../components/sections/TrustStats.astro';
+import LayerByLayer from '../components/sections/LayerByLayer.astro';
+import ServicesGrid from '../components/sections/ServicesGrid.astro';
+import SectorTabs from '../components/sections/SectorTabs.astro';
+import ProjectsShowcase from '../components/sections/ProjectsShowcase.astro';
+import ProcessTimeline from '../components/sections/ProcessTimeline.astro';
+import Differentiators from '../components/sections/Differentiators.astro';
+import SafetyBacking from '../components/sections/SafetyBacking.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import SectionIndex from '../components/sections/SectionIndex.astro';
+import { site } from '../config/site';
+
+const index = [
+  { id: 'cifras', index: '01', label: 'Cifras' },
+  { id: 'capa-por-capa', index: '02', label: 'Capa por capa' },
+  { id: 'servicios', index: '03', label: 'Servicios' },
+  { id: 'sectores', index: '04', label: 'Sectores' },
+  { id: 'proyectos', index: '05', label: 'Proyectos' },
+  { id: 'proceso', index: '06', label: 'Proceso' },
+  { id: 'diferenciales', index: '07', label: 'Por qué elegirnos' },
+  { id: 'seguridad', index: '08', label: 'Respaldo' },
+  { id: 'cotizar', index: '09', label: 'Cotizar' },
+];
+---
+
+<BaseLayout
+  title={`${site.brandName} | Construcción y remodelación integral en Bogotá`}
+  description="Remodelación, adecuación de locales, drywall, pintura, redes y mantenimiento locativo en Bogotá. Un solo proveedor de la demolición a la entrega."
+  headerTone="light"
+>
+  <HeroTransformation />
+  <TrustStats />
+  <LayerByLayer />
+  <ServicesGrid />
+  <SectorTabs />
+  <ProjectsShowcase />
+  {/* Clients marquee: rendered only with written authorization (site.authorizedClients). */}
+  {site.authorizedClients.length > 0 && <section aria-label="Clientes" />}
+  <ProcessTimeline />
+  <Differentiators />
+  <SafetyBacking />
+  {/* Testimonials: hidden until real ones exist — never filled with placeholder text. */}
+  {site.testimonials.length > 0 && <section aria-label="Testimonios" />}
+  <FinalCta />
+  <SectionIndex items={index} />
+</BaseLayout>

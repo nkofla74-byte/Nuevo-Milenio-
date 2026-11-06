@@ -1,0 +1,77 @@
+---
+/**
+ * Draggable before/after comparator. A native range input provides keyboard
+ * (arrow keys, Home/End) and screen-reader support for free; the "after" layer is revealed with clip-path.
+ */
+interface Props {
+  label: string;
+  class?: string;
+}
+const { label, class: className } = Astro.props;
+const id = `ba-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class:list={['before-after relative select-none overflow-hidden bg-concrete-300', className]} style="--pos:50%">
+  <div class="ba-before">
+    <slot name="before" />
+  </div>
+  <div class="ba-after absolute inset-0">
+    <slot name="after" />
+  </div>
+  <div class="ba-handle pointer-events-none absolute inset-y-0" aria-hidden="true">
+    <span class="absolute inset-y-0 -left-px w-0.5 bg-bone"></span>
+    <span class="absolute top-1/2 -left-6 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-accent text-carbon shadow-lg">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 6l-6 6 6 6M15 6l6 6-6 6" />
+      </svg>
+    </span>
+  </div>
+  <label class="sr-only" for={id}>
+    Comparar antes y después: {label}
+  </label>
+  <input
+    id={id}
+    class="ba-range absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
+    type="range"
+    min="0"
+    max="100"
+    value="50"
+    step="1"
+    aria-valuetext="50% después"
+  />
+</div>
+
+<style>
+  .ba-after {
+    clip-path: inset(0 0 0 var(--pos));
+  }
+  .ba-handle {
+    left: var(--pos);
+  }
+  /* Touch: vertical swipes scroll the page; horizontal drags move the divider. */
+  .ba-range {
+    touch-action: pan-y;
+  }
+  .before-after:has(.ba-range:focus-visible) {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  const init = () => {
+    document.querySelectorAll<HTMLElement>('.before-after:not([data-ready])').forEach((root) => {
+      root.dataset.ready = '';
+      const range = root.querySelector<HTMLInputElement>('.ba-range');
+      if (!range) return;
+      const update = () => {
+        root.style.setProperty('--pos', `${range.value}%`);
+        range.setAttribute('aria-valuetext', `${100 - Number(range.value)}% después`);
+      };
+      range.addEventListener('input', update);
+      update();
+    });
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

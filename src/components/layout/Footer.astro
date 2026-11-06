@@ -1,0 +1,93 @@
+---
+import { site, nav, legalNav, display } from '../../config/site';
+import Logo from './Logo.astro';
+import Icon from '../ui/Icon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="blueprint-grid-dark bg-carbon text-bone">
+  <div class="container-x grid gap-12 py-16 md:grid-cols-12">
+    <div class="md:col-span-4">
+      <Logo />
+      <p class="mt-5 max-w-sm text-concrete-300">
+        Soluciones integrales para la intervención de inmuebles: de la demolición a la entrega llave en mano. Un solo proveedor en lugar de diez.
+      </p>
+      <a href="/cotizar/" class="mt-6 inline-flex items-center gap-2 font-display text-xl uppercase text-accent hover:underline">
+        Solicitar cotización <Icon name="arrow-right" size={20} />
+      </a>
+    </div>
+
+    <nav aria-label="Pie de página" class="md:col-span-2">
+      <h2 class="font-mono text-xs tracking-widest text-concrete-500 normal-case">Sitio</h2>
+      <ul class="mt-4 space-y-2">
+        {nav.map((n) => (
+          <li>
+            <a class="hover:text-accent" href={n.href}>
+              {n.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a class="hover:text-accent" href="/proveedores/">
+            Kit de proveedor
+          </a>
+        </li>
+        <li>
+          <a class="hover:text-accent" href="/preguntas-frecuentes/">
+            Preguntas frecuentes
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="md:col-span-3">
+      <h2 class="font-mono text-xs tracking-widest text-concrete-500 normal-case">Contacto</h2>
+      <ul class="mt-4 space-y-3 text-concrete-300">
+        <li class="flex gap-3">
+          <Icon name="phone" size={20} class="mt-0.5 shrink-0 text-accent" />
+          {display(site.phone, 'teléfono')}
+        </li>
+        <li class="flex gap-3">
+          <Icon name="mail" size={20} class="mt-0.5 shrink-0 text-accent" />
+          {display(site.email, 'correo comercial')}
+        </li>
+        <li class="flex gap-3">
+          <Icon name="pin" size={20} class="mt-0.5 shrink-0 text-accent" />
+          {display(site.address, 'dirección')} · {site.city}
+        </li>
+        <li class="flex gap-3">
+          <Icon name="clock" size={20} class="mt-0.5 shrink-0 text-accent" />
+          {site.openingHours}
+        </li>
+      </ul>
+    </div>
+
+    <nav aria-label="Legal" class="md:col-span-3">
+      <h2 class="font-mono text-xs tracking-widest text-concrete-500 normal-case">Legal</h2>
+      <ul class="mt-4 space-y-2">
+        {legalNav.map((n) => (
+          <li>
+            <a class="hover:text-accent" href={n.href}>
+              {n.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <button type="button" class="hover:text-accent underline-offset-4" data-cookie-settings>
+            Preferencias de cookies
+          </button>
+        </li>
+      </ul>
+      <p class="mt-6 text-sm text-concrete-500">Datos personales: {display(site.privacyEmail, 'correo de datos personales')}</p>
+    </nav>
+  </div>
+  <div class="border-t border-bone/10">
+    <div class="container-x flex flex-col gap-2 py-6 text-sm text-concrete-500 md:flex-row md:justify-between">
+      <p>
+        © {year} {display(site.legalName, 'razón social')} · NIT {display(site.nit, 'NIT')}
+      </p>
+      <p>Hecho en Colombia</p>
+    </div>
+  </div>
+</footer>

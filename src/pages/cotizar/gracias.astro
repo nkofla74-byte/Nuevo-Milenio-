@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { whatsappUrl } from '../../config/site';
+
+const wa = whatsappUrl('Hola, acabo de enviar una solicitud de cotización desde el sitio web.');
+---
+
+<BaseLayout title="Solicitud recibida" description="Recibimos su solicitud de cotización." noindex headerTone="light">
+  <section class="blueprint-grid-dark flex min-h-[85svh] items-center bg-carbon pt-[var(--header-h)] text-bone">
+    <div class="container-x">
+      <Icon name="check" size={56} class="text-accent" />
+      <h1 class="mt-6 text-[clamp(3rem,9vw,8rem)] leading-[0.88]">Solicitud recibida.</h1>
+      <p class="mt-6 max-w-xl text-lg text-concrete-300">
+        Gracias. Revisaremos su proyecto y lo contactaremos por el canal que eligió para agendar la visita técnica. También le enviamos una confirmación a su
+        correo.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        {wa ? (
+          <Button href={wa} icon="chat" target="_blank" rel="noopener noreferrer">
+            Continuar por WhatsApp
+          </Button>
+        ) : (
+          <span class="pending">[[PENDIENTE: número de WhatsApp]]</span>
+        )}
+        <Button href="/proyectos/" variant="light">
+          Ver proyectos
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,109 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Icon from '../../components/ui/Icon.astro';
+import Button from '../../components/ui/Button.astro';
+import FaqList from '../../components/ui/FaqList.astro';
+import FinalCta from '../../components/sections/FinalCta.astro';
+import { faqJsonLd } from '../../lib/seo';
+import { markPending } from '../../lib/pending';
+
+export async function getStaticPaths() {
+  const sectors = await getCollection('sectores');
+  return sectors.map((sector) => ({ params: { slug: sector.id }, props: { sector } }));
+}
+
+const { sector } = Astro.props;
+const { Content } = await render(sector);
+const d = sector.data;
+const allServices = await getCollection('servicios');
+const services = d.services.map((id) => allServices.find((s) => s.id === id)).filter((s) => s !== undefined);
+const projects = (await getCollection('proyectos')).filter((p) => p.data.sector === sector.id);
+const message = `Hola, quiero cotizar un proyecto para ${d.title.toLowerCase()}.`;
+---
+
+<BaseLayout title={d.seoTitle} description={d.description} headerTone="light" whatsappMessage={message} jsonLd={[faqJsonLd(d.faqs)]}>
+  <PageHeader
+    crumbs={[
+      { href: '/sectores/', label: 'Sectores' },
+      { href: Astro.url.pathname, label: d.title },
+    ]}
+    eyebrow={d.title}
+    title={d.headline}
+    lead={d.audience}
+  >
+    <div class="mt-8">
+      <Button href={`/cotizar/?sector=${sector.id}`} size="lg" magnetic>
+        Solicitar visita técnica
+      </Button>
+    </div>
+  </PageHeader>
+
+  <section class="container-x grid gap-12 py-20 lg:grid-cols-12">
+    <div class="prose-site text-lg lg:col-span-6">
+      <Content />
+    </div>
+    <div class="lg:col-span-6">
+      <h2 class="text-4xl">Lo que suele preocuparle</h2>
+      <ul class="mt-6 space-y-3">
+        {d.pains.map((p) => (
+          <li class="flex gap-3 border-b border-carbon/10 pb-3">
+            <span class="text-accent-strong">—</span>
+            {p}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="blueprint-grid-dark bg-carbon py-20 text-bone">
+    <div class="container-x">
+      <h2 class="text-5xl">Cómo se lo resolvemos</h2>
+      <ul class="mt-10 grid gap-px bg-bone/10 md:grid-cols-2">
+        {d.benefits.map((b, i) => (
+          <li data-reveal data-reveal-delay={(i % 2) * 0.08} class="bg-carbon p-8">
+            <p class="font-display text-3xl uppercase">{b.title}</p>
+            <p class="mt-3 text-concrete-300" set:html={markPending(b.text)} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="container-x py-20">
+    <h2 class="text-5xl">Servicios para {d.title.toLowerCase()}</h2>
+    <ul class="mt-10 grid gap-px bg-carbon/10 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((s) => (
+        <li class="bg-bone">
+          <a href={`/servicios/${s.id}/`} class="group flex h-full flex-col p-6 hover:bg-carbon hover:text-bone">
+            <Icon name={s.data.icon} size={32} class="text-accent-strong group-hover:text-accent" />
+            <span class="mt-6 font-display text-3xl uppercase">{s.data.title}</span>
+            <span class="mt-2 text-sm text-concrete-700 group-hover:text-concrete-300">{s.data.summary}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {projects.length > 0 && (
+      <p class="mt-10">
+        Vea un caso:{' '}
+        {projects.map((p) => (
+          <a href={`/proyectos/${p.id}/`} class="underline decoration-accent underline-offset-4">
+            {p.data.title}
+          </a>
+        ))}
+      </p>
+    )}
+  </section>
+
+  {d.faqs.length > 0 && (
+    <section class="bg-concrete-100 py-20">
+      <div class="container-x max-w-4xl">
+        <h2 class="text-5xl">Preguntas frecuentes</h2>
+        <FaqList faqs={d.faqs} class="mt-8" />
+      </div>
+    </section>
+  )}
+
+  <FinalCta whatsappMessage={message} />
+</BaseLayout>

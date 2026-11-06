@@ -1,0 +1,134 @@
+---
+/**
+ * Hero "La transformación" — plan B (vector scene) until a real timelapse exists.
+ * Markup is complete without JS: the finished state is shown. With motion enabled,
+ * the scene starts as raw concrete and is "finished" as the user scrolls.
+ * To switch to an image-sequence <canvas>, keep [data-motion="hero"] and replace .hero-scene.
+ */
+import Button from '../ui/Button.astro';
+
+const stages = ['Obra negra', 'Estructura', 'Redes', 'Acabados', 'Entrega'];
+---
+
+<section data-motion="hero" class="hero relative min-h-[100svh] overflow-hidden bg-carbon text-bone" aria-labelledby="hero-title">
+  <div class="hero-scene absolute inset-0" aria-hidden="true">
+    <!-- BEFORE: raw concrete, exposed wiring, dashed layout marks -->
+    <svg class="absolute inset-0 h-full w-full" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <filter id="hero-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="7" />
+          <feColorMatrix values="0 0 0 0 0.45  0 0 0 0 0.43  0 0 0 0 0.40  0 0 0 0.55 0" />
+        </filter>
+        <linearGradient id="hero-shade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#16151a" stop-opacity="0.2" />
+          <stop offset="1" stop-color="#16151a" stop-opacity="0.85" />
+        </linearGradient>
+      </defs>
+      <rect width="1600" height="900" fill="#5e5953" />
+      <rect width="1600" height="900" filter="url(#hero-noise)" />
+      <path d="M0 700L1600 640V900H0z" fill="#3a3733" />
+      <g stroke="#232228" stroke-width="3" fill="none" opacity="0.8">
+        <path d="M260 0v180c0 40 60 40 60 90v120" />
+        <path d="M1180 0v120c0 50-80 50-80 110" />
+        <path d="M700 0v60c0 30 30 30 30 60" />
+      </g>
+      <g stroke="#c4beb5" stroke-width="2" stroke-dasharray="10 10" fill="none" opacity="0.5">
+        <rect x="180" y="260" width="380" height="440" />
+        <rect x="980" y="300" width="300" height="370" />
+        <path d="M640 690V330h220v360" />
+      </g>
+      <rect width="1600" height="900" fill="url(#hero-shade)" />
+    </svg>
+
+    <!-- AFTER: finished space, revealed by clip-path on scroll -->
+    <div data-hero-after class="absolute inset-0">
+      <svg class="absolute inset-0 h-full w-full" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="hero-wall" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2b2a30" />
+            <stop offset="1" stop-color="#16151a" />
+          </linearGradient>
+          <linearGradient id="hero-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#8c867e" />
+            <stop offset="1" stop-color="#3a3733" />
+          </linearGradient>
+          <radialGradient id="hero-light" cx="0.5" cy="0" r="0.6">
+            <stop offset="0" stop-color="#f5f1ea" stop-opacity="0.35" />
+            <stop offset="1" stop-color="#f5f1ea" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <rect width="1600" height="900" fill="url(#hero-wall)" />
+        <path d="M0 700L1600 640V900H0z" fill="url(#hero-floor)" />
+        <g stroke="#16151a" stroke-opacity="0.25">
+          {Array.from({ length: 12 }, (_, i) => (
+            <path d={`M${i * 140} 900L${400 + i * 70} 660`} />
+          ))}
+        </g>
+        <rect x="180" y="260" width="380" height="440" fill="#e8e3dc" opacity="0.1" />
+        <rect x="960" y="280" width="340" height="400" fill="#f2611d" opacity="0.92" />
+        <rect x="1300" y="300" width="160" height="370" fill="#e8e3dc" opacity="0.14" />
+        <path d="M640 690V330h220v360z" fill="#c4beb5" opacity="0.18" />
+        {[300, 750, 1130].map((x) => (
+          <g>
+            <rect x={x - 70} y="40" width="140" height="6" fill="#f5f1ea" />
+            <ellipse cx={x} cy="300" rx="320" ry="300" fill="url(#hero-light)" />
+          </g>
+        ))}
+      </svg>
+    </div>
+
+    <!-- Blueprint overlay: dimension lines that draw on scroll -->
+    <svg class="absolute inset-0 h-full w-full" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#f2611d" stroke-width="1.5">
+      <path data-hero-line d="M180 230H560M180 222v16M560 222v16" />
+      <path data-hero-line d="M150 260V700M142 260h16M142 700h16" />
+      <path data-hero-line d="M960 250H1300M960 242v16M1300 242v16" />
+      <path data-hero-line d="M640 720H860M640 712v16M860 712v16" />
+      <circle data-hero-line cx="1400" cy="160" r="18" />
+      <path data-hero-line d="M1380 160h40M1400 140v40" />
+    </svg>
+    <div class="blueprint-grid-dark absolute inset-0"></div>
+    <!-- Legibility scrim: keeps text contrast AA over both scene states. -->
+    <div class="absolute inset-0 bg-gradient-to-r from-carbon/85 via-carbon/45 to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-carbon/80 to-transparent"></div>
+  </div>
+
+  <div class="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-16 pt-32 md:pb-24">
+    <p data-hero-fade class="font-mono text-xs uppercase tracking-[0.25em] text-concrete-300">
+      <span class="text-accent">00</span> · De obra negra a obra terminada
+    </p>
+    <h1 id="hero-title" data-split class="mt-5 max-w-5xl text-[clamp(3.2rem,9vw,8.5rem)] leading-[0.88]">
+      Transformamos espacios. Construimos soluciones.
+    </h1>
+    <p data-hero-fade class="mt-6 max-w-2xl text-lg text-concrete-100 md:text-xl">
+      Demolición, obra civil, drywall, redes, acabados y mantenimiento con <strong class="text-bone">un solo proveedor y un solo interlocutor</strong>, de
+      principio a fin.
+    </p>
+    <div data-hero-fade class="mt-8 flex flex-wrap gap-3">
+      <Button href="/cotizar/" size="lg" magnetic>
+        Solicitar cotización
+      </Button>
+      <Button href="/proyectos/" variant="light" size="lg" icon="arrow-down">
+        Ver proyectos
+      </Button>
+    </div>
+
+    <ol data-hero-fade class="mt-12 hidden gap-6 font-mono text-[11px] uppercase tracking-widest text-concrete-300 md:flex" aria-label="Etapas de la obra">
+      {stages.map((s, i) => (
+        <li data-hero-stage class="hero-stage flex items-center gap-2">
+          <span class="text-accent">{String(i + 1).padStart(2, '0')}</span>
+          {s}
+        </li>
+      ))}
+    </ol>
+    <div class="mt-8 h-px w-full bg-bone/15 md:mt-4" aria-hidden="true">
+      <div data-hero-progress class="h-px origin-left [transform:scaleX(0)] bg-accent"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Without JS (or with reduced motion) the progress bar reads as complete. */
+  :global(html:not([data-motion='on'])) [data-hero-progress] {
+    transform: scaleX(1);
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+import LegalPage from '../../components/layout/LegalPage.astro';
+import { site, display } from '../../config/site';
+---
+
+<LegalPage
+  title="Términos y condiciones de uso"
+  description="Condiciones de uso del sitio web, alcance de la información publicada y de las cotizaciones."
+  updated="5 de noviembre de 2026 · versión 0.1 (borrador)"
+>
+  <h2>1. Titular del sitio</h2>
+  <p>
+    Este sitio es operado por {display(site.legalName, 'razón social')}, NIT {display(site.nit, 'NIT')}.
+  </p>
+  <h2>2. Alcance de la información</h2>
+  <p>
+    La información sobre servicios, tiempos y materiales es orientativa. El alcance, precio y plazo de cada proyecto se definen únicamente en la cotización
+    escrita, después de la visita técnica. Las imágenes marcadas como «imagen de referencia» son ilustrativas y no corresponden a obras reales.
+  </p>
+  <h2>3. Solicitudes enviadas por el sitio</h2>
+  <p>
+    Los formularios y correos electrónicos constituyen mensajes de datos conforme a la Ley 527 de 1999. Enviar una solicitud no genera obligación de contratar
+    para ninguna de las partes.
+  </p>
+  <h2>4. Propiedad intelectual</h2>
+  <p>
+    Los textos, diseños, fotografías y marcas de este sitio son de propiedad de la empresa o se usan con licencia. Las marcas y nombres de clientes solo se
+    publican con su autorización escrita.
+  </p>
+  <h2>5. Garantía</h2>
+  <p>[[PENDIENTE: condiciones de garantía conforme a la Ley 1480 de 2011]]</p>
+  <h2>6. Ley aplicable</h2>
+  <p>Estos términos se rigen por las leyes de la República de Colombia.</p>
+</LegalPage>

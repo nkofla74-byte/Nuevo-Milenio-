@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Icon from '../components/ui/Icon.astro';
+import Button from '../components/ui/Button.astro';
+import { site, display, whatsappUrl, isPending } from '../config/site';
+
+const wa = whatsappUrl('Hola, quiero información sobre sus servicios.');
+const mapsUrl = isPending(site.address)
+  ? null
+  : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.address}, ${site.city}, Colombia`)}`;
+const channels = [
+  { icon: 'phone', label: 'Teléfono', value: display(site.phone, 'teléfono'), href: isPending(site.phone) ? null : `tel:${site.phone.replace(/\s+/g, '')}` },
+  { icon: 'mail', label: 'Correo comercial', value: display(site.email, 'correo comercial'), href: isPending(site.email) ? null : `mailto:${site.email}` },
+  { icon: 'chat', label: 'WhatsApp', value: wa ? 'Escríbanos' : display(site.whatsapp, 'número de WhatsApp'), href: wa },
+  { icon: 'pin', label: 'Dirección', value: `${display(site.address, 'dirección')} · ${site.city}`, href: null },
+  { icon: 'clock', label: 'Horario', value: site.openingHours, href: null },
+] as const;
+---
+
+<BaseLayout
+  title="Contacto"
+  description="Hablemos de su proyecto: teléfono, correo, WhatsApp y dirección. Atendemos en Bogotá y la Sabana."
+  headerTone="light"
+  whatsappMessage="Hola, quiero información sobre sus servicios."
+>
+  <PageHeader
+    crumbs={[{ href: '/contacto/', label: 'Contacto' }]}
+    eyebrow="Contacto"
+    title="Hablemos de su espacio."
+    lead="Para cotizar, la forma más rápida es el formulario: así llegamos a la visita técnica con la información necesaria."
+  >
+    <div class="mt-8">
+      <Button href="/cotizar/" size="lg" magnetic>
+        Solicitar cotización
+      </Button>
+    </div>
+  </PageHeader>
+
+  <section class="container-x grid gap-12 py-20 lg:grid-cols-2">
+    <ul class="grid gap-px self-start bg-carbon/10">
+      {channels.map((c) => (
+        <li class="flex items-start gap-4 bg-bone p-6">
+          <Icon name={c.icon} class="mt-0.5 shrink-0 text-accent-strong" />
+          <div>
+            <p class="font-mono text-xs uppercase tracking-widest text-concrete-700">{c.label}</p>
+            {c.href ? (
+              <a href={c.href} class="mt-1 block text-lg font-semibold underline decoration-accent underline-offset-4">
+                {c.value}
+              </a>
+            ) : (
+              <p class="mt-1 text-lg font-semibold">{c.value}</p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div class="blueprint-grid flex min-h-80 flex-col items-center justify-center border border-carbon/15 bg-concrete-100 p-8 text-center">
+      <Icon name="pin" size={40} class="text-accent-strong" />
+      <p class="mt-4 font-display text-3xl uppercase">{display(site.address, 'dirección')}</p>
+      <p class="mt-1 text-concrete-700">{site.city}</p>
+      {mapsUrl && (
+        <a
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-6 inline-flex items-center gap-2 font-semibold underline decoration-accent underline-offset-4"
+        >
+          Ver en Google Maps <Icon name="arrow-right" size={18} />
+          <span class="sr-only">(abre en una pestaña nueva)</span>
+        </a>
+      )}
+      <p class="mt-4 max-w-sm text-sm text-concrete-700">Enlace externo en lugar de un mapa incrustado: así no cargamos cookies de terceros.</p>
+    </div>
+  </section>
+</BaseLayout>

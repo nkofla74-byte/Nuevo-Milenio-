@@ -1,0 +1,106 @@
+---
+/**
+ * Granular consent banner. Nothing non-essential loads before consent.
+ * "Rechazar" is as visible as "Aceptar". Reopened from the footer ("Preferencias de cookies").
+ */
+---
+
+<div
+  id="cookie-banner"
+  class="fixed inset-x-3 bottom-3 z-[60] hidden md:inset-x-auto md:left-5 md:max-w-md"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-title"
+>
+  <div class="border border-carbon/10 bg-bone p-5 text-carbon shadow-2xl">
+    <h2 id="cookie-title" class="text-2xl">
+      Cookies y privacidad
+    </h2>
+    <p class="mt-2 text-sm text-concrete-700">
+      Usamos solo lo necesario para que el sitio funcione. Con su permiso, también medimos visitas de forma anónima para mejorar el sitio.
+      <a href="/legal/politica-de-cookies/" class="underline decoration-accent underline-offset-2">
+        Política de cookies
+      </a>
+      .
+    </p>
+
+    <form id="cookie-form" class="mt-4 hidden space-y-3 text-sm">
+      <label class="flex items-start gap-3">
+        <input type="checkbox" checked disabled class="mt-1 h-4 w-4 accent-carbon" />
+        <span>
+          <strong>Necesarias.</strong> Guardan su elección de cookies. Siempre activas.
+        </span>
+      </label>
+      <label class="flex items-start gap-3">
+        <input type="checkbox" name="analytics" class="mt-1 h-4 w-4 accent-[var(--color-accent-strong)]" />
+        <span>
+          <strong>Analítica.</strong> Estadísticas de visitas agregadas y anónimas.
+        </span>
+      </label>
+      <label class="flex items-start gap-3">
+        <input type="checkbox" name="marketing" class="mt-1 h-4 w-4 accent-[var(--color-accent-strong)]" />
+        <span>
+          <strong>Marketing.</strong> No se usan actualmente.
+        </span>
+      </label>
+    </form>
+
+    <div class="mt-4 grid grid-cols-2 gap-2">
+      <button type="button" data-consent="reject" class="min-h-11 border border-carbon px-3 py-2 font-semibold hover:bg-carbon hover:text-bone">
+        Rechazar
+      </button>
+      <button
+        type="button"
+        data-consent="accept"
+        class="min-h-11 border border-carbon bg-carbon px-3 py-2 font-semibold text-bone hover:bg-accent hover:text-carbon hover:border-accent"
+      >
+        Aceptar
+      </button>
+      <button type="button" data-consent="customize" class="col-span-2 min-h-11 px-3 py-2 text-sm underline underline-offset-4">
+        Configurar
+      </button>
+      <button type="button" data-consent="save" class="col-span-2 hidden min-h-11 border border-carbon px-3 py-2 font-semibold hover:bg-carbon hover:text-bone">
+        Guardar preferencias
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { readConsent, writeConsent, applyConsent } from '../../lib/consent';
+
+  const banner = document.getElementById('cookie-banner');
+  const form = document.getElementById('cookie-form') as HTMLFormElement | null;
+  if (banner && form) {
+    const show = (customize = false) => {
+      const current = readConsent();
+      (form.elements.namedItem('analytics') as HTMLInputElement).checked = current?.analytics ?? false;
+      (form.elements.namedItem('marketing') as HTMLInputElement).checked = current?.marketing ?? false;
+      form.classList.toggle('hidden', !customize);
+      banner.querySelector('[data-consent="save"]')?.classList.toggle('hidden', !customize);
+      banner.querySelector('[data-consent="customize"]')?.classList.toggle('hidden', customize);
+      banner.classList.remove('hidden');
+    };
+    const hide = () => banner.classList.add('hidden');
+
+    banner.addEventListener('click', (e) => {
+      const action = (e.target as HTMLElement).closest<HTMLElement>('[data-consent]')?.dataset.consent;
+      if (!action) return;
+      if (action === 'customize') return show(true);
+      const all = action === 'accept';
+      const custom = action === 'save';
+      const consent = writeConsent({
+        analytics: custom ? (form.elements.namedItem('analytics') as HTMLInputElement).checked : all,
+        marketing: custom ? (form.elements.namedItem('marketing') as HTMLInputElement).checked : all,
+      });
+      applyConsent(consent);
+      hide();
+    });
+
+    document.querySelectorAll('[data-cookie-settings]').forEach((btn) => btn.addEventListener('click', () => show(true)));
+
+    const existing = readConsent();
+    if (existing) applyConsent(existing);
+    else show(false);
+  }
+</script>

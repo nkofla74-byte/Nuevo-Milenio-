@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import FaqList from '../components/ui/FaqList.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import { faqJsonLd } from '../lib/seo';
+
+const general = [
+  { q: '¿Cobran la visita técnica?', a: '[[PENDIENTE: política de cobro de la visita técnica]]' },
+  {
+    q: '¿En qué zonas trabajan?',
+    a: 'Bogotá D.C. y la Sabana de Bogotá. Proyectos en otras ciudades se evalúan según su alcance. [[PENDIENTE: confirmar cobertura]]',
+  },
+  {
+    q: '¿Cómo es la cotización?',
+    a: 'Después de la visita técnica entregamos una cotización por capítulos (preliminares, obra civil, redes, acabados, etc.), con alcance y cronograma.',
+  },
+  {
+    q: '¿Pueden encargarse de toda la obra?',
+    a: 'Sí. Ese es nuestro diferencial: coordinamos todas las especialidades con un solo responsable, de la demolición a la entrega.',
+  },
+  {
+    q: '¿Qué documentos entregan para registrarnos como proveedor?',
+    a: 'RUT, Cámara de Comercio, certificación SG-SST, pólizas y certificación bancaria. Los encuentra en el kit de proveedor.',
+  },
+  { q: '¿Ofrecen garantía?', a: '[[PENDIENTE: condiciones de garantía por escrito]]' },
+];
+const fromServices = (await getCollection('servicios')).flatMap((s) => s.data.faqs);
+const all = [...general, ...fromServices];
+---
+
+<BaseLayout
+  title="Preguntas frecuentes"
+  description="Respuestas sobre visitas técnicas, cotizaciones, cobertura, garantía, documentación de proveedor y cada uno de nuestros servicios."
+  headerTone="light"
+  jsonLd={[faqJsonLd(all)]}
+>
+  <PageHeader crumbs={[{ href: '/preguntas-frecuentes/', label: 'Preguntas frecuentes' }]} eyebrow="Ayuda" title="Preguntas frecuentes." />
+  <section class="container-x max-w-4xl py-16">
+    <h2 class="text-4xl">Generales</h2>
+    <FaqList faqs={general} class="mt-6" />
+    <h2 class="mt-16 text-4xl">Sobre nuestros servicios</h2>
+    <FaqList faqs={fromServices} class="mt-6" />
+  </section>
+  <FinalCta />
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+/** Blueprint-style side index (01 · 02 · 03…) for the home page. Desktop only. */
+interface Props {
+  items: { id: string; index: string; label: string }[];
+}
+const { items } = Astro.props;
+---
+
+<nav aria-label="Secciones de esta página" class="section-index fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 xl:block">
+  <ol class="flex flex-col items-end gap-3">
+    {items.map((it) => (
+      <li>
+        <a href={`#${it.id}`} data-index-link={it.id} class="index-link group flex items-center gap-3 font-mono text-[11px] tracking-widest">
+          <span class="index-label pointer-events-none translate-x-2 bg-carbon px-2 py-1 uppercase text-bone opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+            {it.label}
+          </span>
+          <span class="index-num">{it.index}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .index-num {
+    color: var(--color-concrete-500);
+    mix-blend-mode: difference;
+  }
+  .index-link[aria-current='true'] .index-num {
+    color: var(--color-accent);
+    mix-blend-mode: normal;
+  }
+</style>
+
+<script>
+  const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-index-link]')].map((a) => [a.dataset.indexLink!, a]));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        links.get(e.target.id)?.setAttribute('aria-current', 'true');
+      });
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  links.forEach((_, id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>

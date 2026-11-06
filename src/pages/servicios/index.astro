@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import ServicesGrid from '../../components/sections/ServicesGrid.astro';
+import FinalCta from '../../components/sections/FinalCta.astro';
+---
+
+<BaseLayout
+  title="Servicios de construcción y remodelación en Bogotá"
+  description="Demolición, obra civil, remodelaciones, acabados, drywall, redes eléctricas, metalmecánica, cubiertas y mantenimiento locativo con un solo proveedor."
+  headerTone="light"
+>
+  <PageHeader
+    crumbs={[{ href: '/servicios/', label: 'Servicios' }]}
+    eyebrow="Catálogo"
+    title="Un solo proveedor en lugar de diez."
+    lead="Todas las especialidades de una obra, coordinadas bajo un mismo cronograma y un solo responsable."
+  />
+  <ServicesGrid heading={false} />
+  <FinalCta />
+</BaseLayout>

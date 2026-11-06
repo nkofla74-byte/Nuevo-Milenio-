@@ -1,0 +1,51 @@
+---
+/**
+ * Shell for internal dev-only pages (Progreso / Academia). These routes return no
+ * static paths in production builds, so they never ship to the public site.
+ */
+import { Font } from 'astro:assets';
+import '../../styles/global.css';
+
+interface Props {
+  title: string;
+  active: 'progreso' | 'academia';
+}
+const { title, active } = Astro.props;
+const tabs = [
+  { id: 'progreso', href: '/progreso/', label: 'Progreso' },
+  { id: 'academia', href: '/academia/', label: 'Academia de Desarrollo' },
+];
+---
+
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <Font cssVariable="--font-barlow" preload />
+    <Font cssVariable="--font-inter" />
+  </head>
+  <body class="min-h-screen bg-bone text-carbon">
+    <div class="blueprint-grid-dark sticky top-0 z-50 bg-carbon text-bone">
+      <nav class="container-x flex items-end gap-1 pt-3" aria-label="Panel interno">
+        {tabs.map((t) => (
+          <a
+            href={t.href}
+            aria-current={t.id === active ? 'page' : undefined}
+            class:list={[
+              'px-5 py-3 font-display text-xl uppercase tracking-wide',
+              t.id === active ? 'bg-bone text-carbon' : 'text-concrete-300 hover:text-bone',
+            ]}
+          >
+            {t.label}
+          </a>
+        ))}
+        <a href="/" class="ml-auto pb-3 text-sm text-concrete-300 hover:text-accent">
+          Ver el sitio →
+        </a>
+      </nav>
+    </div>
+    <slot />
+  </body>
+</html>
