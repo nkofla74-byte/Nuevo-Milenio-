@@ -1,0 +1,85 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import BeforeAfter from '../../components/ui/BeforeAfter.astro';
+import Placeholder from '../../components/ui/Placeholder.astro';
+import FinalCta from '../../components/sections/FinalCta.astro';
+import { markPending } from '../../lib/pending';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('proyectos');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+const sector = (await getCollection('sectores')).find((s) => s.id === d.sector);
+const allServices = await getCollection('servicios');
+const services = d.services.map((id) => allServices.find((s) => s.id === id)).filter((s) => s !== undefined);
+const related = (await getCollection('proyectos')).filter((p) => p.id !== project.id).slice(0, 2);
+
+const facts = [
+  { label: 'Sector', value: sector?.data.title ?? d.sector },
+  { label: 'Ubicación', value: d.city },
+  { label: 'Duración', value: d.duration ?? '[[PENDIENTE: duración]]' },
+  { label: 'Área', value: d.area ?? '[[PENDIENTE: área, si se puede divulgar]]' },
+];
+---
+
+<BaseLayout title={d.title} description={d.description} headerTone="light" noindex={d.placeholder}>
+  <PageHeader crumbs={[{ href: '/proyectos/', label: 'Proyectos' }, { href: Astro.url.pathname, label: d.title }]} eyebrow={`${sector?.data.title ?? ''} · ${d.city}`} title={d.title} lead={d.description} />
+
+  <section class="container-x py-16">
+    <dl class="grid grid-cols-2 gap-px bg-carbon/10 md:grid-cols-4">
+      {facts.map((f) => (
+        <div class="bg-bone p-5">
+          <dt class="font-mono text-xs uppercase tracking-widest text-concrete-700">{f.label}</dt>
+          <dd class="mt-2 font-semibold" set:html={markPending(f.value)} />
+        </div>
+      ))}
+    </dl>
+
+    <div class="mt-12 grid gap-12 lg:grid-cols-3">
+      {[
+        { t: 'El reto', v: d.challenge },
+        { t: 'La solución', v: d.solution },
+        { t: 'El resultado', v: d.result },
+      ].map((b, i) => (
+        <div>
+          <p class="font-mono text-xs text-accent-strong">{String(i + 1).padStart(2, '0')}</p>
+          <h2 class="mt-2 text-4xl">{b.t}</h2>
+          <p class="mt-3 text-concrete-700" set:html={markPending(b.v)} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-x pb-16" aria-labelledby="antes-despues">
+    <h2 id="antes-despues" class="text-5xl">Antes y después</h2>
+    <BeforeAfter label={d.title} class="mt-8">
+      <Placeholder slot="before" seed={project.id} state="before" palette={d.palette} label={`${d.title} antes`} ratio="16 / 9" />
+      <Placeholder slot="after" seed={project.id} state="after" palette={d.palette} label={`${d.title} después`} ratio="16 / 9" class="h-full" />
+    </BeforeAfter>
+    <p class="pending mt-4">[[PENDIENTE: fotos reales del estado inicial, del proceso y del resultado]]</p>
+  </section>
+
+  <section class="container-x grid gap-12 pb-20 lg:grid-cols-12">
+    <div class="prose-site lg:col-span-7"><Content /></div>
+    <div class="lg:col-span-5">
+      <h2 class="text-3xl">Servicios ejecutados</h2>
+      <ul class="mt-4 space-y-2">
+        {services.map((s) => <li><a href={`/servicios/${s.id}/`} class="underline decoration-accent underline-offset-4">{s.data.title}</a></li>)}
+      </ul>
+      {related.length > 0 && (
+        <>
+          <h2 class="mt-10 text-3xl">Otros proyectos</h2>
+          <ul class="mt-4 space-y-2">{related.map((p) => <li><a href={`/proyectos/${p.id}/`} class="underline decoration-accent underline-offset-4">{p.data.title}</a></li>)}</ul>
+        </>
+      )}
+    </div>
+  </section>
+
+  <FinalCta />
+</BaseLayout>

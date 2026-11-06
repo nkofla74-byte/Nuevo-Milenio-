@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import Icon from '../../components/ui/Icon.astro';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const fmt = new Intl.DateTimeFormat('es-CO', { dateStyle: 'long' });
+---
+
+<BaseLayout
+  title="Blog: guías de remodelación y mantenimiento"
+  description="Guías prácticas sobre remodelación, drywall, mantenimiento de propiedad horizontal y adecuación de locales comerciales en Bogotá."
+  headerTone="light"
+>
+  <PageHeader crumbs={[{ href: '/blog/', label: 'Blog' }]} eyebrow="Guías" title="Lo que conviene saber antes de una obra." />
+  <ul class="container-x divide-y divide-carbon/15 py-16">
+    {posts.map((p) => (
+      <li>
+        <a href={`/blog/${p.id}/`} class="group grid gap-4 py-8 md:grid-cols-12">
+          <time datetime={p.data.pubDate.toISOString()} class="font-mono text-xs uppercase tracking-widest text-concrete-700 md:col-span-3">{fmt.format(p.data.pubDate)}</time>
+          <span class="md:col-span-8">
+            <span class="block font-display text-4xl uppercase leading-none group-hover:text-accent-strong">{p.data.title}</span>
+            <span class="mt-3 block text-concrete-700">{p.data.description}</span>
+          </span>
+          <Icon name="arrow-right" class="hidden self-center transition-transform group-hover:translate-x-1 md:col-span-1 md:block" />
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

@@ -5,7 +5,9 @@ import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 
 // Pages that must never appear in the sitemap (also carry noindex).
-const PRIVATE_ROUTES = ['/sistema-de-diseno/', '/progreso/', '/cotizar/gracias/'];
+const PRIVATE_ROUTES = ['/sistema-de-diseno/', '/progreso/', '/academia/', '/cotizar/gracias/', '/404/', '/500/'];
+// Placeholder case studies (noindex) stay out of the sitemap until replaced by real projects.
+const PLACEHOLDER_PREFIX = '/proyectos/ejemplo-';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,7 +19,7 @@ export default defineConfig({
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   integrations: [
     sitemap({
-      filter: (page) => !PRIVATE_ROUTES.some((route) => page.endsWith(route)),
+      filter: (page) => !PRIVATE_ROUTES.some((route) => page.includes(route)) && !page.includes(PLACEHOLDER_PREFIX),
     }),
   ],
   fonts: [

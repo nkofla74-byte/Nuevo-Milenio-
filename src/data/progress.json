@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T20:34:34-05:00",
-  "current": "Fase 1 — Cimientos (layout, SEO base, seguridad)",
+  "updatedAt": "2026-11-05T20:50:00-05:00",
+  "current": "Fase 4 — Páginas internas",
   "phases": [
     {
       "id": 0,
@@ -14,7 +14,7 @@
     {
       "id": 1,
       "name": "Cimientos",
-      "status": "doing",
+      "status": "done",
       "items": [
         "Proyecto Astro 7 + TypeScript estricto",
         "Tailwind v4 y design tokens",
@@ -22,25 +22,36 @@
         "Página de progreso",
         "Content Collections con esquemas Zod: 20 servicios, 7 sectores, 3 proyectos de ejemplo, 3 artículos",
         "Configuración central del negocio con marcadores [[PENDIENTE]]",
-        "Panel interno solo de desarrollo: pestañas Progreso + Academia de Desarrollo"
+        "Panel interno solo de desarrollo: pestañas Progreso + Academia de Desarrollo",
+        "Layout base con SEO, JSON-LD, cookies y encabezado"
       ]
     },
     {
       "id": 2,
       "name": "Sistema de diseño y componentes",
-      "status": "todo",
-      "items": []
+      "status": "done",
+      "items": [
+        "Íconos SVG propios, botones, comparador antes/después accesible, imágenes generadas"
+      ]
     },
     {
       "id": 3,
       "name": "Inicio con experiencias de scroll",
-      "status": "todo",
-      "items": []
+      "status": "done",
+      "items": [
+        "Hero de transformación con scroll",
+        "Capa por capa (pinned)",
+        "Servicios con filtro Flip",
+        "Sectores en pestañas accesibles",
+        "Proyectos en scroll horizontal",
+        "Proceso con línea que se dibuja",
+        "Verificado en escritorio, móvil y reduced-motion; 0 errores de tipos"
+      ]
     },
     {
       "id": 4,
       "name": "Páginas internas y contenido",
-      "status": "todo",
+      "status": "doing",
       "items": []
     },
     {
@@ -71,6 +82,9 @@
     "Contenido generado: 20 servicios, 7 sectores, 3 artículos de blog",
     "Academia de Desarrollo creada: 6 módulos escritos (5 verificados), 10 planeados",
     "Fuentes autoalojadas verificadas (/_astro/fonts/*.woff2)",
-    "Esquemas de contenido validados: 33 archivos (astro sync)"
+    "Esquemas de contenido validados: 33 archivos (astro sync)",
+    "Bug: el servidor dev no recargó content.config.ts → colecciones vacías; corregido reiniciando",
+    "Contraste del hero corregido (texto sobre naranja)",
+    "Commit: fases 0–3 en la rama feat/sitio"
   ]
 }

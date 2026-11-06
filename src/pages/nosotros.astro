@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import SafetyBacking from '../components/sections/SafetyBacking.astro';
+import Differentiators from '../components/sections/Differentiators.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import { site, display } from '../config/site';
+
+const values = [
+  { title: 'Cumplir lo pactado', text: 'Alcance, presupuesto y cronograma claros desde la cotización.' },
+  { title: 'Responder por el trabajo', text: 'Un solo responsable, antes, durante y después de la entrega.' },
+  { title: 'Seguridad primero', text: 'Personal afiliado, capacitado y con los equipos adecuados.' },
+  { title: 'Orden y respeto', text: 'Obras limpias, protegidas y coordinadas con la administración y los vecinos.' },
+];
+---
+
+<BaseLayout
+  title="Nosotros"
+  description="Empresa colombiana de soluciones integrales para la intervención de inmuebles: de la demolición a la entrega llave en mano."
+  headerTone="light"
+>
+  <PageHeader crumbs={[{ href: '/nosotros/', label: 'Nosotros' }]} eyebrow="Quiénes somos" title="Construimos confianza, capa por capa." />
+
+  <section class="container-x grid gap-12 py-20 lg:grid-cols-12">
+    <div class="prose-site text-lg lg:col-span-7">
+      <p>
+        {site.brandName} es una empresa colombiana de soluciones integrales para la intervención de inmuebles: desde la demolición hasta la entrega llave en mano. Hemos ejecutado trabajos para grandes cadenas del retail colombiano.
+      </p>
+      <p><span class="pending">[[PENDIENTE: historia de la empresa — año de fundación, fundadores, hitos]]</span></p>
+      <p>
+        Nuestro diferencial es simple: <strong>un solo proveedor en lugar de diez</strong>. Coordinamos todas las especialidades de una obra bajo un mismo cronograma, con un interlocutor único que responde por el resultado.
+      </p>
+    </div>
+    <dl class="grid grid-cols-2 gap-px self-start bg-carbon/10 lg:col-span-5">
+      <div class="bg-bone p-5"><dt class="font-mono text-xs uppercase tracking-widest text-concrete-700">Años de experiencia</dt><dd class="mt-2 font-semibold">{display(site.yearsExperience, 'años')}</dd></div>
+      <div class="bg-bone p-5"><dt class="font-mono text-xs uppercase tracking-widest text-concrete-700">Ciudad base</dt><dd class="mt-2 font-semibold">{site.city}</dd></div>
+      <div class="col-span-2 bg-bone p-5"><dt class="font-mono text-xs uppercase tracking-widest text-concrete-700">Cobertura</dt><dd class="mt-2 font-semibold">{site.coverage}</dd></div>
+    </dl>
+  </section>
+
+  <section class="bg-concrete-100 py-20">
+    <div class="container-x">
+      <h2 class="text-5xl">Nuestros valores</h2>
+      <ul class="mt-10 grid gap-px bg-carbon/10 md:grid-cols-2 lg:grid-cols-4">
+        {values.map((v) => <li class="bg-concrete-100 p-6"><p class="font-display text-2xl uppercase">{v.title}</p><p class="mt-2 text-concrete-700">{v.text}</p></li>)}
+      </ul>
+      <p class="pending mt-8">[[PENDIENTE: equipo directivo — fotos y cargos con autorización de uso de imagen]]</p>
+    </div>
+  </section>
+
+  <Differentiators />
+  <SafetyBacking />
+  <FinalCta />
+</BaseLayout>

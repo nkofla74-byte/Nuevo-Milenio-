@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+// No technical details are ever shown to the visitor (OWASP A10:2025).
+---
+
+<BaseLayout title="Error del servidor" description="Ocurrió un error inesperado." noindex headerTone="light">
+  <section class="blueprint-grid-dark flex min-h-[85svh] items-center bg-carbon pt-[var(--header-h)] text-bone">
+    <div class="container-x">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-accent">Error 500</p>
+      <h1 class="mt-4 text-[clamp(3rem,10vw,9rem)] leading-[0.88]">Algo salió mal en obra.</h1>
+      <p class="mt-6 max-w-xl text-lg text-concrete-300">Ya estamos revisando. Intente de nuevo en unos minutos o escríbanos.</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <Button href="/">Volver al inicio</Button>
+        <Button href="/contacto/" variant="light">Contacto</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

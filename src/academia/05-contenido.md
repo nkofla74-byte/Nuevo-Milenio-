@@ -2,7 +2,7 @@
 order: 5
 title: Contenido como datos
 summary: La configuración única del negocio (site.ts), el truco del Symbol PENDING para no publicar datos inventados, y las Content Collections con esquemas Zod que validan los 33 archivos de contenido.
-status: escrito
+status: verificado
 phase: Fase 1 — Cimientos
 files:
   - src/config/site.ts
@@ -18,7 +18,7 @@ quiz:
   - q: "¿Qué significa 'una sola fuente de verdad'? Da un ejemplo de este proyecto donde varias partes leen el mismo dato."
 ---
 
-> **Estado:** los esquemas ya **validaron los 33 archivos** de contenido (`npx astro sync` terminó sin errores). Lo que aún no está verificado es su uso dentro de las páginas públicas, porque esas páginas se construyen en las Fases 3 y 4. Este módulo pasará a "verificado" cuando las vea funcionando.
+> **Estado: verificado.** Los esquemas validaron los 33 archivos (`npx astro sync`), y en las capturas del inicio se ve el contenido real: los 20 servicios en el catálogo, los 7 sectores en las pestañas y los marcadores `[[PENDIENTE]]` de `site.ts` en el footer y en las cifras.
 
 ## Una sola fuente de verdad: `src/config/site.ts`
 

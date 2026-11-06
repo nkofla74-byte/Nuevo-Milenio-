@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Icon from '../components/ui/Icon.astro';
+import Button from '../components/ui/Button.astro';
+
+// Each document links to a PDF in /public/proveedores/ once the company provides it.
+const docs = [
+  { name: 'RUT', detail: 'Registro Único Tributario actualizado' },
+  { name: 'Certificado de Cámara de Comercio', detail: 'Existencia y representación legal (vigencia no mayor a 30 días)' },
+  { name: 'Certificación SG-SST', detail: 'Sistema de Gestión de Seguridad y Salud en el Trabajo (Decreto 1072 de 2015)' },
+  { name: 'Pólizas', detail: 'Responsabilidad civil extracontractual y las que exija el contrato' },
+  { name: 'Certificación bancaria', detail: 'Para registro de pagos' },
+  { name: 'Brochure corporativo', detail: 'Presentación de servicios y capacidades' },
+].map((d) => ({ ...d, file: null as string | null })); // [[PENDIENTE: archivos PDF]]
+---
+
+<BaseLayout
+  title="Kit de proveedor para empresas"
+  description="Documentación de proveedor lista para su área de compras: RUT, Cámara de Comercio, SG-SST, pólizas y brochure corporativo."
+  headerTone="light"
+>
+  <PageHeader
+    crumbs={[{ href: '/proveedores/', label: 'Kit de proveedor' }]}
+    eyebrow="Para áreas de compras"
+    title="Regístrenos como proveedor en minutos."
+    lead="Todo lo que su área de compras, interventoría o administración necesita para vincularnos."
+  />
+  <section class="container-x py-20">
+    <ul class="grid gap-px bg-carbon/10 md:grid-cols-2">
+      {docs.map((d) => (
+        <li class="flex items-start gap-5 bg-bone p-6">
+          <Icon name="file" size={32} class="shrink-0 text-accent-strong" />
+          <div class="flex-1">
+            <p class="font-display text-2xl uppercase">{d.name}</p>
+            <p class="mt-1 text-sm text-concrete-700">{d.detail}</p>
+            {d.file ? (
+              <a href={d.file} download class="mt-3 inline-flex items-center gap-2 font-semibold text-accent-strong"><Icon name="download" size={18} />Descargar PDF</a>
+            ) : (
+              <p class="pending mt-3">[[PENDIENTE: documento]]</p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-10 max-w-2xl text-concrete-700">
+      ¿Su empresa requiere un formato propio de registro? Envíenoslo y lo diligenciamos.
+    </p>
+    <div class="mt-6"><Button href="/contacto/">Contactar al área comercial</Button></div>
+  </section>
+</BaseLayout>

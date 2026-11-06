@@ -101,6 +101,10 @@
   .pending {
     @apply inline-block rounded-sm border border-dashed border-accent-strong bg-accent/10 px-1.5 font-mono text-[0.8em] text-accent-strong;
   }
+  /* On dark surfaces the strong accent loses contrast; use the light accent instead. */
+  :where(.bg-carbon, .bg-carbon-2) .pending {
+    @apply border-accent text-accent;
+  }
 }
 
 /* Elements revealed by JS start visible; motion code hides them only once it is ready. */
