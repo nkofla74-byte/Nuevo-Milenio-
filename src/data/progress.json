@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T22:01:18-05:00",
+  "updatedAt": "2026-11-05T22:02:26-05:00",
   "current": "Publicado en URL temporal · falta dominio y llaves",
   "phases": [
     {
@@ -127,6 +127,7 @@
     "Bug scale vs transform (Tailwind v4) en barras de progreso → corregido",
     "Tabla de cookies: min-w-0 en artículos de grid",
     "Academia: módulo 16 · Diseño y animación para móviles",
-    "Despliegue en Cloudflare Workers: 200 en páginas, 404 en internas, cabeceras activas, cotizador falla cerrado (503) sin llaves"
+    "Despliegue en Cloudflare Workers: 200 en páginas, 404 en internas, cabeceras activas, cotizador falla cerrado (503) sin llaves",
+    "Academia: módulos 17 · SEO y 18 · Despliegue (verificado)"
   ]
 }
