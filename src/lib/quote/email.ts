@@ -1,8 +1,7 @@
 /** Builds the notification emails. Every user value is HTML-escaped; header values are single-line. */
 import type { QuoteRequest } from './schema';
 
-export const escapeHtml = (s: string): string =>
-  s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+export const escapeHtml = (s: string): string => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
 /** Header-safe: no CR/LF (prevents header injection), bounded length. */
 export const headerSafe = (s: string, max = 120): string => s.replace(/[\r\n]+/g, ' ').slice(0, max);
@@ -44,7 +43,10 @@ export function buildCompanyEmail(q: QuoteRequest, labels: Labels, consent: Cons
   ];
   const table = rows
     .filter(([, v]) => v)
-    .map(([k, v]) => `<tr><th align="left" style="padding:6px 12px;background:#f5f1ea">${escapeHtml(k)}</th><td style="padding:6px 12px">${escapeHtml(v!)}</td></tr>`)
+    .map(
+      ([k, v]) =>
+        `<tr><th align="left" style="padding:6px 12px;background:#f5f1ea">${escapeHtml(k)}</th><td style="padding:6px 12px">${escapeHtml(v!)}</td></tr>`,
+    )
     .join('');
   const html = `<h1 style="font-family:Arial,sans-serif">Nueva solicitud de cotización</h1>
 <table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">${table}</table>

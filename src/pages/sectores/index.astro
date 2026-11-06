@@ -24,7 +24,9 @@ const sectors = (await getCollection('sectores')).sort((a, b) => a.data.order - 
           </span>
           <span class="font-display text-4xl uppercase">{s.data.title}</span>
           <span class="text-concrete-700 group-hover:text-concrete-300">{s.data.headline}</span>
-          <span class="mt-auto flex items-center gap-2 font-semibold">Ver soluciones <Icon name="arrow-right" size={18} class="transition-transform group-hover:translate-x-1" /></span>
+          <span class="mt-auto flex items-center gap-2 font-semibold">
+            Ver soluciones <Icon name="arrow-right" size={18} class="transition-transform group-hover:translate-x-1" />
+          </span>
         </a>
       </li>
     ))}

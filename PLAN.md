@@ -3,7 +3,7 @@
 Sitio corporativo para empresa de construcción y remodelación integral (Colombia).
 Concepto: **"De obra negra a obra terminada."**
 
-> Estado: el cliente pidió ejecutar todas las fases seguidas, sin pausas de aprobación entre ellas.
+> Estado (2026-11-05): fases 0–6 terminadas y verificadas; fase 7 (lanzamiento) bloqueada por dominio y cuentas del cliente. Ver docs/informe-auditoria.md y CONTENT_TODO.md.
 > El avance se puede ver en vivo en `http://localhost:4321/progreso` mientras corre `npm run dev`.
 
 ---

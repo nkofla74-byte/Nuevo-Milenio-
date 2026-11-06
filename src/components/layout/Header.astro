@@ -10,11 +10,7 @@ const { tone = 'dark' } = Astro.props;
 const path = Astro.url.pathname;
 ---
 
-<header
-  id="site-header"
-  data-tone={tone}
-  class="site-header fixed inset-x-0 top-0 z-50 transition-[transform,background-color,color] duration-300"
->
+<header id="site-header" data-tone={tone} class="site-header fixed inset-x-0 top-0 z-50 transition-[transform,background-color,color] duration-300">
   <div class="container-x flex h-[var(--header-h)] items-center justify-between gap-6">
     <a href="/" class="flex items-center gap-3" aria-label={`${site.brandName} — inicio`}>
       <Logo />
@@ -24,18 +20,20 @@ const path = Astro.url.pathname;
       <ul class="flex items-center gap-7 text-[0.95rem] font-medium">
         {nav.map((item) => (
           <li>
-            <a
-              href={item.href}
-              class="nav-link relative py-2"
-              aria-current={path.startsWith(item.href) ? 'page' : undefined}
-            >{item.label}</a>
+            <a href={item.href} class="nav-link relative py-2" aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
           </li>
         ))}
       </ul>
     </nav>
 
     <div class="flex items-center gap-3">
-      <a href="/cotizar/" class="hidden bg-accent px-5 py-2.5 font-display text-lg uppercase tracking-wide text-carbon transition-colors hover:bg-bone sm:inline-flex" data-magnetic>
+      <a
+        href="/cotizar/"
+        class="hidden bg-accent px-5 py-2.5 font-display text-lg uppercase tracking-wide text-carbon transition-colors hover:bg-bone sm:inline-flex"
+        data-magnetic
+      >
         Cotizar
       </a>
       <details class="mobile-menu lg:hidden">
@@ -48,12 +46,15 @@ const path = Astro.url.pathname;
             {nav.map((item, i) => (
               <li>
                 <a href={item.href} class="flex items-baseline gap-4 border-b border-bone/10 py-4 font-display text-4xl uppercase">
-                  <span class="font-mono text-xs text-accent">{String(i + 1).padStart(2, '0')}</span>{item.label}
+                  <span class="font-mono text-xs text-accent">{String(i + 1).padStart(2, '0')}</span>
+                  {item.label}
                 </a>
               </li>
             ))}
             <li class="pt-6">
-              <a href="/cotizar/" class="inline-flex bg-accent px-6 py-4 font-display text-2xl uppercase text-carbon">Solicitar cotización</a>
+              <a href="/cotizar/" class="inline-flex bg-accent px-6 py-4 font-display text-2xl uppercase text-carbon">
+                Solicitar cotización
+              </a>
             </li>
           </ul>
         </nav>
@@ -83,9 +84,15 @@ const path = Astro.url.pathname;
     color: var(--color-bone);
     transform: none;
   }
-  .mobile-menu[open] .icon-open { display: none; }
-  .mobile-menu[open] .icon-close { display: block; }
-  .mobile-menu summary::-webkit-details-marker { display: none; }
+  .mobile-menu[open] .icon-open {
+    display: none;
+  }
+  .mobile-menu[open] .icon-close {
+    display: block;
+  }
+  .mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
   .nav-link::after {
     content: '';
     position: absolute;
@@ -119,12 +126,16 @@ const path = Astro.url.pathname;
       last = y;
       ticking = false;
     };
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(onScroll);
-      }
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(onScroll);
+        }
+      },
+      { passive: true },
+    );
     onScroll();
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') header.querySelector<HTMLDetailsElement>('.mobile-menu[open]')?.removeAttribute('open');

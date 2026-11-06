@@ -20,9 +20,13 @@ const jsonLd = breadcrumbJsonLd(all, Astro.site ?? new URL('https://www.ejemplo.
       <li class="flex items-center gap-2">
         {i > 0 && <span aria-hidden="true">/</span>}
         {i === all.length - 1 ? (
-          <span aria-current="page" class="text-accent">{c.label}</span>
+          <span aria-current="page" class="text-accent">
+            {c.label}
+          </span>
         ) : (
-          <a href={c.href} class="hover:text-accent">{c.label}</a>
+          <a href={c.href} class="hover:text-accent">
+            {c.label}
+          </a>
         )}
       </li>
     ))}

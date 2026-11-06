@@ -22,7 +22,17 @@ const { title, description, updated } = Astro.props;
     </article>
     <nav aria-label="Documentos legales" class="lg:col-span-4">
       <ul class="space-y-2 border-l border-carbon/15 pl-4 lg:sticky lg:top-28">
-        {legalNav.map((n) => <li><a href={n.href} aria-current={Astro.url.pathname === n.href ? 'page' : undefined} class="hover:text-accent-strong aria-[current=page]:font-semibold aria-[current=page]:text-accent-strong">{n.label}</a></li>)}
+        {legalNav.map((n) => (
+          <li>
+            <a
+              href={n.href}
+              aria-current={Astro.url.pathname === n.href ? 'page' : undefined}
+              class="hover:text-accent-strong aria-[current=page]:font-semibold aria-[current=page]:text-accent-strong"
+            >
+              {n.label}
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
   </div>

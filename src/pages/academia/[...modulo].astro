@@ -25,9 +25,7 @@ interface ModuleFile {
 export function getStaticPaths() {
   if (!import.meta.env.DEV) return [];
   const files = Object.values(import.meta.glob<ModuleFile>('../../academia/*.md', { eager: true }));
-  const modules = files
-    .map((m) => ({ ...m, slug: m.file.split('/').pop()!.replace(/\.md$/, '') }))
-    .sort((a, b) => a.frontmatter.order - b.frontmatter.order);
+  const modules = files.map((m) => ({ ...m, slug: m.file.split('/').pop()!.replace(/\.md$/, '') })).sort((a, b) => a.frontmatter.order - b.frontmatter.order);
   return [
     { params: { modulo: undefined }, props: { modules, current: null } },
     ...modules.map((m) => ({ params: { modulo: m.slug }, props: { modules, current: m } })),
@@ -55,7 +53,11 @@ const headings = current ? current.getHeadings().filter((h) => h.depth === 2) : 
             <a
               href={`/academia/${m.slug}/`}
               aria-current={current?.slug === m.slug ? 'page' : undefined}
-              class:list={['flex gap-3 px-3 py-2 text-sm', current?.slug === m.slug ? 'bg-carbon text-bone' : 'hover:bg-concrete-100', m.frontmatter.status === 'pendiente' && 'opacity-55']}
+              class:list={[
+                'flex gap-3 px-3 py-2 text-sm',
+                current?.slug === m.slug ? 'bg-carbon text-bone' : 'hover:bg-concrete-100',
+                m.frontmatter.status === 'pendiente' && 'opacity-55',
+              ]}
             >
               <span class="font-mono text-accent-strong">{String(m.frontmatter.order).padStart(2, '0')}</span>
               <span>{m.frontmatter.title}</span>
@@ -67,7 +69,13 @@ const headings = current ? current.getHeadings().filter((h) => h.depth === 2) : 
         <>
           <p class="mt-8 font-mono text-xs tracking-widest text-concrete-700">EN ESTE MÓDULO</p>
           <ol class="mt-3 space-y-1.5 border-l border-concrete-300 pl-4 text-sm">
-            {headings.map((h) => <li><a class="hover:text-accent-strong" href={`#${h.slug}`}>{h.text}</a></li>)}
+            {headings.map((h) => (
+              <li>
+                <a class="hover:text-accent-strong" href={`#${h.slug}`}>
+                  {h.text}
+                </a>
+              </li>
+            ))}
           </ol>
         </>
       )}
@@ -76,15 +84,23 @@ const headings = current ? current.getHeadings().filter((h) => h.depth === 2) : 
     <main>
       {current ? (
         <article>
-          <p class="font-mono text-xs tracking-widest text-concrete-700">MÓDULO {String(current.frontmatter.order).padStart(2, '0')} · {current.frontmatter.phase}</p>
+          <p class="font-mono text-xs tracking-widest text-concrete-700">
+            MÓDULO {String(current.frontmatter.order).padStart(2, '0')} · {current.frontmatter.phase}
+          </p>
           <h1 class="mt-2 text-5xl md:text-7xl">{current.frontmatter.title}</h1>
           <p class="mt-4 max-w-3xl text-lg text-concrete-700">{current.frontmatter.summary}</p>
-          <p class="mt-4"><span class:list={['inline-block px-3 py-1 font-mono text-xs uppercase tracking-widest', statusClass[current.frontmatter.status]]}>{statusLabel[current.frontmatter.status]}</span></p>
+          <p class="mt-4">
+            <span class:list={['inline-block px-3 py-1 font-mono text-xs uppercase tracking-widest', statusClass[current.frontmatter.status]]}>
+              {statusLabel[current.frontmatter.status]}
+            </span>
+          </p>
           {current.frontmatter.files && (
             <div class="mt-6 border border-concrete-300 bg-concrete-100/60 p-4">
               <p class="font-mono text-xs tracking-widest text-concrete-700">ARCHIVOS QUE SE EXPLICAN — ÁBRELOS EN TU EDITOR</p>
               <ul class="mt-2 grid gap-1 font-mono text-sm sm:grid-cols-2">
-                {current.frontmatter.files.map((f) => <li>{f}</li>)}
+                {current.frontmatter.files.map((f) => (
+                  <li>{f}</li>
+                ))}
               </ul>
             </div>
           )}
@@ -95,8 +111,18 @@ const headings = current ? current.getHeadings().filter((h) => h.depth === 2) : 
             <Quiz moduleId={current.slug} title={current.frontmatter.title} questions={current.frontmatter.quiz} />
           )}
           <nav class="mt-16 flex justify-between gap-4 border-t border-concrete-300 pt-6" aria-label="Módulos">
-            {prev ? <a class="hover:text-accent-strong" href={`/academia/${prev.slug}/`}>← {prev.frontmatter.title}</a> : <span />}
-            {next && <a class="text-right hover:text-accent-strong" href={`/academia/${next.slug}/`}>{next.frontmatter.title} →</a>}
+            {prev ? (
+              <a class="hover:text-accent-strong" href={`/academia/${prev.slug}/`}>
+                ← {prev.frontmatter.title}
+              </a>
+            ) : (
+              <span />
+            )}
+            {next && (
+              <a class="text-right hover:text-accent-strong" href={`/academia/${next.slug}/`}>
+                {next.frontmatter.title} →
+              </a>
+            )}
           </nav>
         </article>
       ) : (
@@ -104,18 +130,42 @@ const headings = current ? current.getHeadings().filter((h) => h.depth === 2) : 
           <p class="font-mono text-xs tracking-widest text-concrete-700">AULA · SE ACTUALIZA MIENTRAS CONSTRUYO</p>
           <h1 class="mt-2 text-6xl md:text-8xl">Academia de Desarrollo</h1>
           <div class="prose-site mt-6 text-lg">
-            <p>Aquí aprendes a construir este proyecto entendiendo cada decisión. Los módulos siguen el <strong>orden real</strong> en que se construyó el sitio, y cada uno explica el código que existe en esta carpeta.</p>
-            <p>Cada lección responde a las mismas preguntas: <em>qué es, por qué existe, qué problema resuelve, cómo funciona por dentro, con qué se comunica, qué pasaría sin ella y qué alternativas había</em>.</p>
-            <p><strong>Estados:</strong> <span class="bg-success px-2 text-bone">verificado</span> = lo probé funcionando · <span class="bg-accent px-2">escrito</span> = el código existe pero aún no lo verifiqué · <span class="bg-concrete-300 px-2">pendiente</span> = todavía no existe; solo se muestra para que sepas qué viene.</p>
-            <p><strong>Evaluaciones:</strong> al final de cada módulo hay preguntas. Escribe tus respuestas (se guardan en este navegador), pulsa <em>«Copiar mis respuestas»</em> y pégalas en el chat conmigo. Yo las evalúo, corrijo los errores y te explico lo que haga falta.</p>
+            <p>
+              Aquí aprendes a construir este proyecto entendiendo cada decisión. Los módulos siguen el <strong>orden real</strong> en que se construyó el sitio,
+              y cada uno explica el código que existe en esta carpeta.
+            </p>
+            <p>
+              Cada lección responde a las mismas preguntas:{' '}
+              <em>
+                qué es, por qué existe, qué problema resuelve, cómo funciona por dentro, con qué se comunica, qué pasaría sin ella y qué alternativas había
+              </em>
+              .
+            </p>
+            <p>
+              <strong>Estados:</strong> <span class="bg-success px-2 text-bone">verificado</span> = lo probé funcionando ·{' '}
+              <span class="bg-accent px-2">escrito</span> = el código existe pero aún no lo verifiqué · <span class="bg-concrete-300 px-2">pendiente</span> =
+              todavía no existe; solo se muestra para que sepas qué viene.
+            </p>
+            <p>
+              <strong>Evaluaciones:</strong> al final de cada módulo hay preguntas. Escribe tus respuestas (se guardan en este navegador), pulsa{' '}
+              <em>«Copiar mis respuestas»</em> y pégalas en el chat conmigo. Yo las evalúo, corrijo los errores y te explico lo que haga falta.
+            </p>
           </div>
           <ol class="mt-10 grid gap-4 md:grid-cols-2">
             {modules.map((m) => (
               <li>
-                <a href={`/academia/${m.slug}/`} class:list={['block h-full border border-carbon/15 bg-white/40 p-5 transition-colors hover:border-accent', m.frontmatter.status === 'pendiente' && 'opacity-60']}>
+                <a
+                  href={`/academia/${m.slug}/`}
+                  class:list={[
+                    'block h-full border border-carbon/15 bg-white/40 p-5 transition-colors hover:border-accent',
+                    m.frontmatter.status === 'pendiente' && 'opacity-60',
+                  ]}
+                >
                   <span class="flex items-center justify-between gap-3">
                     <span class="font-mono text-sm text-accent-strong">{String(m.frontmatter.order).padStart(2, '0')}</span>
-                    <span class:list={['px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest', statusClass[m.frontmatter.status]]}>{m.frontmatter.status}</span>
+                    <span class:list={['px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest', statusClass[m.frontmatter.status]]}>
+                      {m.frontmatter.status}
+                    </span>
                   </span>
                   <span class="mt-2 block font-display text-3xl uppercase leading-none">{m.frontmatter.title}</span>
                   <span class="mt-2 block text-sm text-concrete-700">{m.frontmatter.summary}</span>
@@ -130,13 +180,53 @@ const headings = current ? current.getHeadings().filter((h) => h.depth === 2) : 
 </InternalShell>
 
 <style is:global>
-  .lesson { max-width: 80ch; }
-  .lesson h2 { scroll-margin-top: 6rem; border-top: 2px solid var(--color-carbon); padding-top: 1.5rem; }
-  .lesson h3 { color: var(--color-concrete-900); }
-  .lesson pre { padding: 1rem 1.25rem; margin-bottom: 1.5rem; overflow-x: auto; font-size: 0.84rem; line-height: 1.55; border-radius: 4px; }
-  .lesson :not(pre) > code { background: var(--color-concrete-100); padding: 0.1em 0.35em; border-radius: 3px; font-size: 0.88em; }
-  .lesson blockquote { border-left: 4px solid var(--color-accent); padding: 0.6rem 1rem; background: rgb(242 97 29 / 0.07); margin-bottom: 1.5rem; }
-  .lesson table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.95rem; display: block; overflow-x: auto; }
-  .lesson th, .lesson td { border: 1px solid var(--color-concrete-300); padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; }
-  .lesson th { background: var(--color-concrete-100); }
+  .lesson {
+    max-width: 80ch;
+  }
+  .lesson h2 {
+    scroll-margin-top: 6rem;
+    border-top: 2px solid var(--color-carbon);
+    padding-top: 1.5rem;
+  }
+  .lesson h3 {
+    color: var(--color-concrete-900);
+  }
+  .lesson pre {
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    border-radius: 4px;
+  }
+  .lesson :not(pre) > code {
+    background: var(--color-concrete-100);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.88em;
+  }
+  .lesson blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding: 0.6rem 1rem;
+    background: rgb(242 97 29 / 0.07);
+    margin-bottom: 1.5rem;
+  }
+  .lesson table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    display: block;
+    overflow-x: auto;
+  }
+  .lesson th,
+  .lesson td {
+    border: 1px solid var(--color-concrete-300);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .lesson th {
+    background: var(--color-concrete-100);
+  }
 </style>

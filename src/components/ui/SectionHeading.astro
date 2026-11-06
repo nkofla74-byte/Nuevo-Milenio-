@@ -17,6 +17,8 @@ const { index, label, title, as: Tag = 'h2', tone = 'dark', class: className } =
     <span aria-hidden="true" class="h-px w-10 bg-current" data-draw-line></span>
     <span>{label}</span>
   </p>
-  <Tag class="mt-4 text-5xl md:text-7xl" data-split>{title}</Tag>
+  <Tag class="mt-4 text-5xl md:text-7xl" data-split>
+    {title}
+  </Tag>
   <slot />
 </header>

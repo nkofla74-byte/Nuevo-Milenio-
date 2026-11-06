@@ -14,7 +14,9 @@ const { faqs, class: className } = Astro.props;
     <details class="faq group py-5">
       <summary class="flex cursor-pointer list-none items-start justify-between gap-6 text-lg font-semibold">
         {f.q}
-        <span aria-hidden="true" class="mt-1 grid h-6 w-6 shrink-0 place-items-center border border-carbon text-sm transition-transform group-open:rotate-45">+</span>
+        <span aria-hidden="true" class="mt-1 grid h-6 w-6 shrink-0 place-items-center border border-carbon text-sm transition-transform group-open:rotate-45">
+          +
+        </span>
       </summary>
       <p class="mt-3 max-w-3xl text-concrete-700" set:html={markPending(f.a)} />
     </details>
@@ -22,5 +24,7 @@ const { faqs, class: className } = Astro.props;
 </div>
 
 <style>
-  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
 </style>

@@ -8,10 +8,22 @@ import { faqJsonLd } from '../lib/seo';
 
 const general = [
   { q: '¿Cobran la visita técnica?', a: '[[PENDIENTE: política de cobro de la visita técnica]]' },
-  { q: '¿En qué zonas trabajan?', a: 'Bogotá D.C. y la Sabana de Bogotá. Proyectos en otras ciudades se evalúan según su alcance. [[PENDIENTE: confirmar cobertura]]' },
-  { q: '¿Cómo es la cotización?', a: 'Después de la visita técnica entregamos una cotización por capítulos (preliminares, obra civil, redes, acabados, etc.), con alcance y cronograma.' },
-  { q: '¿Pueden encargarse de toda la obra?', a: 'Sí. Ese es nuestro diferencial: coordinamos todas las especialidades con un solo responsable, de la demolición a la entrega.' },
-  { q: '¿Qué documentos entregan para registrarnos como proveedor?', a: 'RUT, Cámara de Comercio, certificación SG-SST, pólizas y certificación bancaria. Los encuentra en el kit de proveedor.' },
+  {
+    q: '¿En qué zonas trabajan?',
+    a: 'Bogotá D.C. y la Sabana de Bogotá. Proyectos en otras ciudades se evalúan según su alcance. [[PENDIENTE: confirmar cobertura]]',
+  },
+  {
+    q: '¿Cómo es la cotización?',
+    a: 'Después de la visita técnica entregamos una cotización por capítulos (preliminares, obra civil, redes, acabados, etc.), con alcance y cronograma.',
+  },
+  {
+    q: '¿Pueden encargarse de toda la obra?',
+    a: 'Sí. Ese es nuestro diferencial: coordinamos todas las especialidades con un solo responsable, de la demolición a la entrega.',
+  },
+  {
+    q: '¿Qué documentos entregan para registrarnos como proveedor?',
+    a: 'RUT, Cámara de Comercio, certificación SG-SST, pólizas y certificación bancaria. Los encuentra en el kit de proveedor.',
+  },
   { q: '¿Ofrecen garantía?', a: '[[PENDIENTE: condiciones de garantía por escrito]]' },
 ];
 const fromServices = (await getCollection('servicios')).flatMap((s) => s.data.faqs);

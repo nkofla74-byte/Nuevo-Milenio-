@@ -50,13 +50,18 @@
     font-size: 1.0625rem;
     line-height: 1.6;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-display uppercase;
     line-height: 0.95;
     letter-spacing: -0.01em;
     text-wrap: balance;
   }
-  p { text-wrap: pretty; }
+  p {
+    text-wrap: pretty;
+  }
   :focus-visible {
     outline: 3px solid var(--color-accent);
     outline-offset: 3px;
@@ -65,7 +70,13 @@
     background: var(--color-accent);
     color: var(--color-carbon);
   }
-  img, video, canvas, svg { display: block; max-width: 100%; }
+  img,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
 }
 
 @layer components {
@@ -78,26 +89,38 @@
   /* Technical-drawing grid used as section background motif. */
   .blueprint-grid {
     background-image:
-      linear-gradient(to right, rgb(140 134 126 / 0.14) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(140 134 126 / 0.14) 1px, transparent 1px);
+      linear-gradient(to right, rgb(140 134 126 / 0.14) 1px, transparent 1px), linear-gradient(to bottom, rgb(140 134 126 / 0.14) 1px, transparent 1px);
     background-size: 48px 48px;
   }
   .blueprint-grid-dark {
     background-image:
-      linear-gradient(to right, rgb(245 241 234 / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(245 241 234 / 0.06) 1px, transparent 1px);
+      linear-gradient(to right, rgb(245 241 234 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(245 241 234 / 0.06) 1px, transparent 1px);
     background-size: 48px 48px;
   }
   .prose-site {
     max-width: 70ch;
   }
-  .prose-site :where(h2) { @apply mt-12 mb-4 text-4xl; }
-  .prose-site :where(h3) { @apply mt-8 mb-3 text-2xl; }
-  .prose-site :where(p, ul, ol) { @apply mb-5; }
-  .prose-site :where(ul) { @apply list-disc pl-6; }
-  .prose-site :where(ol) { @apply list-decimal pl-6; }
-  .prose-site :where(a) { @apply underline decoration-accent decoration-2 underline-offset-4; }
-  .prose-site :where(strong) { @apply font-semibold; }
+  .prose-site :where(h2) {
+    @apply mt-12 mb-4 text-4xl;
+  }
+  .prose-site :where(h3) {
+    @apply mt-8 mb-3 text-2xl;
+  }
+  .prose-site :where(p, ul, ol) {
+    @apply mb-5;
+  }
+  .prose-site :where(ul) {
+    @apply list-disc pl-6;
+  }
+  .prose-site :where(ol) {
+    @apply list-decimal pl-6;
+  }
+  .prose-site :where(a) {
+    @apply underline decoration-accent decoration-2 underline-offset-4;
+  }
+  .prose-site :where(strong) {
+    @apply font-semibold;
+  }
   .pending {
     @apply inline-block rounded-sm border border-dashed border-accent-strong bg-accent/10 px-1.5 font-mono text-[0.8em] text-accent-strong;
   }
@@ -109,7 +132,9 @@
 
 /* Elements revealed by JS start visible; motion code hides them only once it is ready. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

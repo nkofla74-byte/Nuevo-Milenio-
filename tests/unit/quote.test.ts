@@ -78,7 +78,12 @@ describe('email building', () => {
   it('escapes HTML in user values', () => {
     expect(escapeHtml('<img src=x onerror=alert(1)>')).toBe('&lt;img src=x onerror=alert(1)&gt;');
     const q = schema.parse({ ...valid, description: '<script>alert(1)</script> quiero cotizar' });
-    const mail = buildCompanyEmail(q, { sector: 'Retail', services: ['Drywall'], urgency: 'Mes', channel: 'Correo' }, { acceptedAt: 'x', policyVersion: '0.1', ipTruncated: '1.2.3.0', userAgent: '' }, 'Marca');
+    const mail = buildCompanyEmail(
+      q,
+      { sector: 'Retail', services: ['Drywall'], urgency: 'Mes', channel: 'Correo' },
+      { acceptedAt: 'x', policyVersion: '0.1', ipTruncated: '1.2.3.0', userAgent: '' },
+      'Marca',
+    );
     expect(mail.html).not.toContain('<script>');
     expect(mail.html).toContain('&lt;script&gt;');
   });
@@ -113,7 +118,9 @@ describe('guards', () => {
 
   it('turnstile fails closed', async () => {
     expect(await verifyTurnstile(undefined, 's', null)).toBe(false);
-    const broken = (async () => { throw new Error('network'); }) as unknown as typeof fetch;
+    const broken = (async () => {
+      throw new Error('network');
+    }) as unknown as typeof fetch;
     expect(await verifyTurnstile('t', 's', null, broken)).toBe(false);
     const ok = (async () => new Response(JSON.stringify({ success: true }))) as unknown as typeof fetch;
     expect(await verifyTurnstile('t', 's', null, ok)).toBe(true);

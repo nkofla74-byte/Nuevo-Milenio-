@@ -2,15 +2,50 @@
 import LegalPage from '../../components/layout/LegalPage.astro';
 ---
 
-<LegalPage title="Política de cookies" description="Qué cookies y almacenamiento local usa este sitio y cómo gestionar su consentimiento." updated="5 de noviembre de 2026 · versión 0.1 (borrador)">
+<LegalPage
+  title="Política de cookies"
+  description="Qué cookies y almacenamiento local usa este sitio y cómo gestionar su consentimiento."
+  updated="5 de noviembre de 2026 · versión 0.1 (borrador)"
+>
   <p>Este sitio usa la menor cantidad posible de tecnologías de almacenamiento. Esta es la lista real:</p>
   <table>
-    <thead><tr><th>Nombre</th><th>Tipo</th><th>Finalidad</th><th>Duración</th></tr></thead>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Finalidad</th>
+        <th>Duración</th>
+      </tr>
+    </thead>
     <tbody>
-      <tr><td><code>cookie-consent</code></td><td>Almacenamiento local (necesario)</td><td>Recordar su elección sobre cookies.</td><td>Hasta que la borre o cambie la política</td></tr>
-      <tr><td><code>quote-draft</code></td><td>Almacenamiento de sesión (necesario)</td><td>Guardar el avance del cotizador (solo tipo de inmueble, servicios, área, ciudad y urgencia; nunca datos de contacto).</td><td>Hasta cerrar la pestaña</td></tr>
-      <tr><td>Cloudflare Web Analytics</td><td>Analítica (opcional)</td><td>Estadísticas agregadas de visitas. No usa cookies ni identifica al visitante. Solo se carga si usted acepta la analítica.</td><td>No aplica</td></tr>
-      <tr><td>Cloudflare Turnstile</td><td>Seguridad (necesario, solo en el cotizador)</td><td>Verificar que el formulario lo envía una persona.</td><td>Sesión</td></tr>
+      <tr>
+        <td>
+          <code>cookie-consent</code>
+        </td>
+        <td>Almacenamiento local (necesario)</td>
+        <td>Recordar su elección sobre cookies.</td>
+        <td>Hasta que la borre o cambie la política</td>
+      </tr>
+      <tr>
+        <td>
+          <code>quote-draft</code>
+        </td>
+        <td>Almacenamiento de sesión (necesario)</td>
+        <td>Guardar el avance del cotizador (solo tipo de inmueble, servicios, área, ciudad y urgencia; nunca datos de contacto).</td>
+        <td>Hasta cerrar la pestaña</td>
+      </tr>
+      <tr>
+        <td>Cloudflare Web Analytics</td>
+        <td>Analítica (opcional)</td>
+        <td>Estadísticas agregadas de visitas. No usa cookies ni identifica al visitante. Solo se carga si usted acepta la analítica.</td>
+        <td>No aplica</td>
+      </tr>
+      <tr>
+        <td>Cloudflare Turnstile</td>
+        <td>Seguridad (necesario, solo en el cotizador)</td>
+        <td>Verificar que el formulario lo envía una persona.</td>
+        <td>Sesión</td>
+      </tr>
     </tbody>
   </table>
   <p>No usamos cookies de publicidad ni de redes sociales. [[PENDIENTE: actualizar si se agrega GA4 u otra herramienta]]</p>

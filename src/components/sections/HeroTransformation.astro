@@ -60,7 +60,9 @@ const stages = ['Obra negra', 'Estructura', 'Redes', 'Acabados', 'Entrega'];
         <rect width="1600" height="900" fill="url(#hero-wall)" />
         <path d="M0 700L1600 640V900H0z" fill="url(#hero-floor)" />
         <g stroke="#16151a" stroke-opacity="0.25">
-          {Array.from({ length: 12 }, (_, i) => <path d={`M${i * 140} 900L${400 + i * 70} 660`} />)}
+          {Array.from({ length: 12 }, (_, i) => (
+            <path d={`M${i * 140} 900L${400 + i * 70} 660`} />
+          ))}
         </g>
         <rect x="180" y="260" width="380" height="440" fill="#e8e3dc" opacity="0.1" />
         <rect x="960" y="280" width="340" height="400" fill="#f2611d" opacity="0.92" />
@@ -98,17 +100,23 @@ const stages = ['Obra negra', 'Estructura', 'Redes', 'Acabados', 'Entrega'];
       Transformamos espacios. Construimos soluciones.
     </h1>
     <p data-hero-fade class="mt-6 max-w-2xl text-lg text-concrete-100 md:text-xl">
-      Demolición, obra civil, drywall, redes, acabados y mantenimiento con <strong class="text-bone">un solo proveedor y un solo interlocutor</strong>, de principio a fin.
+      Demolición, obra civil, drywall, redes, acabados y mantenimiento con <strong class="text-bone">un solo proveedor y un solo interlocutor</strong>, de
+      principio a fin.
     </p>
     <div data-hero-fade class="mt-8 flex flex-wrap gap-3">
-      <Button href="/cotizar/" size="lg" magnetic>Solicitar cotización</Button>
-      <Button href="/proyectos/" variant="light" size="lg" icon="arrow-down">Ver proyectos</Button>
+      <Button href="/cotizar/" size="lg" magnetic>
+        Solicitar cotización
+      </Button>
+      <Button href="/proyectos/" variant="light" size="lg" icon="arrow-down">
+        Ver proyectos
+      </Button>
     </div>
 
     <ol data-hero-fade class="mt-12 hidden gap-6 font-mono text-[11px] uppercase tracking-widest text-concrete-300 md:flex" aria-label="Etapas de la obra">
       {stages.map((s, i) => (
         <li data-hero-stage class="hero-stage flex items-center gap-2">
-          <span class="text-accent">{String(i + 1).padStart(2, '0')}</span>{s}
+          <span class="text-accent">{String(i + 1).padStart(2, '0')}</span>
+          {s}
         </li>
       ))}
     </ol>

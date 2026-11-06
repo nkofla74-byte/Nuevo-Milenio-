@@ -11,7 +11,9 @@ const { items } = Astro.props;
     {items.map((it) => (
       <li>
         <a href={`#${it.id}`} data-index-link={it.id} class="index-link group flex items-center gap-3 font-mono text-[11px] tracking-widest">
-          <span class="index-label pointer-events-none translate-x-2 bg-carbon px-2 py-1 uppercase text-bone opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">{it.label}</span>
+          <span class="index-label pointer-events-none translate-x-2 bg-carbon px-2 py-1 uppercase text-bone opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
+            {it.label}
+          </span>
           <span class="index-num">{it.index}</span>
         </a>
       </li>
@@ -20,14 +22,18 @@ const { items } = Astro.props;
 </nav>
 
 <style>
-  .index-num { color: var(--color-concrete-500); mix-blend-mode: difference; }
-  .index-link[aria-current='true'] .index-num { color: var(--color-accent); mix-blend-mode: normal; }
+  .index-num {
+    color: var(--color-concrete-500);
+    mix-blend-mode: difference;
+  }
+  .index-link[aria-current='true'] .index-num {
+    color: var(--color-accent);
+    mix-blend-mode: normal;
+  }
 </style>
 
 <script>
-  const links = new Map(
-    [...document.querySelectorAll<HTMLAnchorElement>('[data-index-link]')].map((a) => [a.dataset.indexLink!, a]),
-  );
+  const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-index-link]')].map((a) => [a.dataset.indexLink!, a]));
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {

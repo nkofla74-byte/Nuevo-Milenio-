@@ -7,15 +7,51 @@ import SectionHeading from '../ui/SectionHeading.astro';
 import Icon from '../ui/Icon.astro';
 
 const layers = [
-  { name: 'Estructura', text: 'Demolición controlada, mampostería y adecuaciones: la base firme sobre la que se construye todo.', href: '/servicios/mamposteria-y-resanes/', fill: '#8c867e', pattern: 'bricks' },
-  { name: 'Drywall', text: 'Muros, divisiones y cielos en sistemas livianos, con las redes ya instaladas por dentro.', href: '/servicios/drywall-y-superboard/', fill: '#c4beb5', pattern: 'studs' },
-  { name: 'Estuco', text: 'Superficies niveladas y sin fisuras, preparadas para un acabado perfecto.', href: '/servicios/estuco-y-pintura/', fill: '#e8e3dc', pattern: 'plain' },
-  { name: 'Pintura', text: 'Interior, exterior, epóxica y de alto tráfico, según el uso de cada espacio.', href: '/servicios/pintura-epoxica/', fill: '#f2611d', pattern: 'plain' },
-  { name: 'Acabado final', text: 'Pisos, enchapes, carpintería e iluminación: el espacio listo para usar.', href: '/servicios/enchapes-y-pisos/', fill: '#16151a', pattern: 'tiles' },
+  {
+    name: 'Estructura',
+    text: 'Demolición controlada, mampostería y adecuaciones: la base firme sobre la que se construye todo.',
+    href: '/servicios/mamposteria-y-resanes/',
+    fill: '#8c867e',
+    pattern: 'bricks',
+  },
+  {
+    name: 'Drywall',
+    text: 'Muros, divisiones y cielos en sistemas livianos, con las redes ya instaladas por dentro.',
+    href: '/servicios/drywall-y-superboard/',
+    fill: '#c4beb5',
+    pattern: 'studs',
+  },
+  {
+    name: 'Estuco',
+    text: 'Superficies niveladas y sin fisuras, preparadas para un acabado perfecto.',
+    href: '/servicios/estuco-y-pintura/',
+    fill: '#e8e3dc',
+    pattern: 'plain',
+  },
+  {
+    name: 'Pintura',
+    text: 'Interior, exterior, epóxica y de alto tráfico, según el uso de cada espacio.',
+    href: '/servicios/pintura-epoxica/',
+    fill: '#f2611d',
+    pattern: 'plain',
+  },
+  {
+    name: 'Acabado final',
+    text: 'Pisos, enchapes, carpintería e iluminación: el espacio listo para usar.',
+    href: '/servicios/enchapes-y-pisos/',
+    fill: '#16151a',
+    pattern: 'tiles',
+  },
 ];
 ---
 
-<section id="capa-por-capa" data-section-index="02" data-section-label="Capa por capa" data-motion="layers" class="relative overflow-hidden bg-concrete-100 lg:h-[100svh]">
+<section
+  id="capa-por-capa"
+  data-section-index="02"
+  data-section-label="Capa por capa"
+  data-motion="layers"
+  class="relative overflow-hidden bg-concrete-100 lg:h-[100svh]"
+>
   <div class="container-x grid h-full items-center gap-10 py-20 lg:grid-cols-2 lg:py-0">
     <div>
       <SectionHeading index="02" label="Capa por capa" title="Un solo proveedor, todas las capas." />
@@ -42,14 +78,33 @@ const layers = [
       <div class="absolute inset-0 overflow-hidden border-2 border-carbon bg-bone">
         {layers.map((l, i) => (
           <div data-layer class="absolute inset-y-0 left-0" style={`width:${100 - i * 14}%; background:${l.fill}; z-index:${i}`}>
-            {l.pattern === 'bricks' && <div class="h-full w-full opacity-40" style="background-image:repeating-linear-gradient(0deg,#3a3733 0 2px,transparent 2px 36px),repeating-linear-gradient(90deg,#3a3733 0 2px,transparent 2px 72px)"></div>}
-            {l.pattern === 'studs' && <div class="h-full w-full opacity-50" style="background-image:repeating-linear-gradient(90deg,#8c867e 0 6px,transparent 6px 60px)"></div>}
-            {l.pattern === 'tiles' && <div class="h-full w-full opacity-30" style="background-image:linear-gradient(90deg,#f5f1ea 1px,transparent 1px),linear-gradient(#f5f1ea 1px,transparent 1px);background-size:40px 40px"></div>}
-            <span class="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-widest" style={`color:${l.fill === '#16151a' ? '#f5f1ea' : '#16151a'}`}>{String(i + 1).padStart(2, '0')} {l.name}</span>
+            {l.pattern === 'bricks' && (
+              <div
+                class="h-full w-full opacity-40"
+                style="background-image:repeating-linear-gradient(0deg,#3a3733 0 2px,transparent 2px 36px),repeating-linear-gradient(90deg,#3a3733 0 2px,transparent 2px 72px)"
+              ></div>
+            )}
+            {l.pattern === 'studs' && (
+              <div class="h-full w-full opacity-50" style="background-image:repeating-linear-gradient(90deg,#8c867e 0 6px,transparent 6px 60px)"></div>
+            )}
+            {l.pattern === 'tiles' && (
+              <div
+                class="h-full w-full opacity-30"
+                style="background-image:linear-gradient(90deg,#f5f1ea 1px,transparent 1px),linear-gradient(#f5f1ea 1px,transparent 1px);background-size:40px 40px"
+              ></div>
+            )}
+            <span
+              class="absolute bottom-3 right-3 font-mono text-[10px] uppercase tracking-widest"
+              style={`color:${l.fill === '#16151a' ? '#f5f1ea' : '#16151a'}`}
+            >
+              {String(i + 1).padStart(2, '0')} {l.name}
+            </span>
           </div>
         ))}
       </div>
-      <svg class="absolute -left-6 top-0 h-full w-4 text-concrete-700" viewBox="0 0 16 100" preserveAspectRatio="none" fill="none" stroke="currentColor"><path d="M8 0v100M2 0h12M2 100h12" vector-effect="non-scaling-stroke" /></svg>
+      <svg class="absolute -left-6 top-0 h-full w-4 text-concrete-700" viewBox="0 0 16 100" preserveAspectRatio="none" fill="none" stroke="currentColor">
+        <path d="M8 0v100M2 0h12M2 100h12" vector-effect="non-scaling-stroke" />
+      </svg>
     </div>
   </div>
 </section>
@@ -58,7 +113,9 @@ const layers = [
   .layer-text {
     max-height: 4.5rem;
     overflow: hidden;
-    transition: max-height var(--duration-base) var(--ease-out-expo), opacity var(--duration-base);
+    transition:
+      max-height var(--duration-base) var(--ease-out-expo),
+      opacity var(--duration-base);
   }
   @media (min-width: 1024px) {
     :global(html[data-motion='on']) .layer-item:not([data-active]) .layer-text {

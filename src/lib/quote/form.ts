@@ -57,7 +57,7 @@ export function initQuoteForm(): void {
     for (const name of names) {
       if (name === 'website' || name === 'policyVersion') continue;
       const fields = [...step.querySelectorAll<HTMLInputElement>(`[name="${CSS.escape(name)}"]`)];
-      let ok = true;
+      let ok: boolean;
       if (name === 'services') ok = fields.some((f) => f.checked);
       else if (fields[0]?.type === 'radio') ok = !fields[0].required || fields.some((f) => f.checked);
       else ok = fields.every((f) => f.checkValidity());

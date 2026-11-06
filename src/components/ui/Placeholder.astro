@@ -16,13 +16,19 @@ const { seed = 'x', state = 'after', palette = ['#5e5953', '#f2611d'], label, cl
 
 let h = 0;
 for (const c of seed) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-const rnd = () => ((h = (h * 1664525 + 1013904223) >>> 0) / 2 ** 32);
+const rnd = () => (h = (h * 1664525 + 1013904223) >>> 0) / 2 ** 32;
 const panels = Array.from({ length: 5 }, () => ({ x: 40 + rnd() * 500, w: 60 + rnd() * 140, h: 120 + rnd() * 200 }));
 const [base, accent] = palette;
 const isBefore = state === 'before';
 ---
 
-<div class:list={['relative overflow-hidden', className]} style={`aspect-ratio:${ratio}`} role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+<div
+  class:list={['relative overflow-hidden', className]}
+  style={`aspect-ratio:${ratio}`}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
   <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full" aria-hidden="true">
     <defs>
       <pattern id={`g-${seed}-${state}`} width="32" height="32" patternUnits="userSpaceOnUse">
@@ -38,7 +44,7 @@ const isBefore = state === 'before';
     <rect width="640" height="480" fill={`url(#g-${seed}-${state})`} />
     {/* floor */}
     <path d="M0 380L640 340V480H0z" fill={isBefore ? '#6f6a62' : '#16151a'} opacity={isBefore ? 1 : 0.55} />
-    {panels.map((p, i) => (
+    {panels.map((p, i) =>
       isBefore ? (
         <g stroke="#3a3733" stroke-width="2" fill="none" opacity="0.7">
           <rect x={p.x} y={340 - p.h} width={p.w} height={p.h} stroke-dasharray="6 6" />
@@ -46,8 +52,8 @@ const isBefore = state === 'before';
         </g>
       ) : (
         <rect x={p.x} y={340 - p.h} width={p.w} height={p.h} fill={i % 2 ? accent : '#f5f1ea'} opacity={i % 2 ? 0.9 : 0.14} />
-      )
-    ))}
+      ),
+    )}
     {isBefore ? (
       <g stroke="#232228" stroke-width="2.5" fill="none">
         <path d="M80 0v120c0 20 30 20 30 40" />
@@ -66,7 +72,9 @@ const isBefore = state === 'before';
     </g>
   </svg>
   {label && (
-    <span class:list={['absolute left-3 top-3 font-mono text-[10px] uppercase tracking-widest px-2 py-1', isBefore ? 'bg-carbon text-bone' : 'bg-bone text-carbon']}>
+    <span
+      class:list={['absolute left-3 top-3 font-mono text-[10px] uppercase tracking-widest px-2 py-1', isBefore ? 'bg-carbon text-bone' : 'bg-bone text-carbon']}
+    >
       {isBefore ? 'Antes' : 'Después'} · imagen de referencia
     </span>
   )}

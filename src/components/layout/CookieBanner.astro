@@ -5,34 +5,63 @@
  */
 ---
 
-<div id="cookie-banner" class="fixed inset-x-3 bottom-3 z-[60] hidden md:inset-x-auto md:left-5 md:max-w-md" role="dialog" aria-modal="false" aria-labelledby="cookie-title">
+<div
+  id="cookie-banner"
+  class="fixed inset-x-3 bottom-3 z-[60] hidden md:inset-x-auto md:left-5 md:max-w-md"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-title"
+>
   <div class="border border-carbon/10 bg-bone p-5 text-carbon shadow-2xl">
-    <h2 id="cookie-title" class="text-2xl">Cookies y privacidad</h2>
+    <h2 id="cookie-title" class="text-2xl">
+      Cookies y privacidad
+    </h2>
     <p class="mt-2 text-sm text-concrete-700">
       Usamos solo lo necesario para que el sitio funcione. Con su permiso, también medimos visitas de forma anónima para mejorar el sitio.
-      <a href="/legal/politica-de-cookies/" class="underline decoration-accent underline-offset-2">Política de cookies</a>.
+      <a href="/legal/politica-de-cookies/" class="underline decoration-accent underline-offset-2">
+        Política de cookies
+      </a>
+      .
     </p>
 
     <form id="cookie-form" class="mt-4 hidden space-y-3 text-sm">
       <label class="flex items-start gap-3">
         <input type="checkbox" checked disabled class="mt-1 h-4 w-4 accent-carbon" />
-        <span><strong>Necesarias.</strong> Guardan su elección de cookies. Siempre activas.</span>
+        <span>
+          <strong>Necesarias.</strong> Guardan su elección de cookies. Siempre activas.
+        </span>
       </label>
       <label class="flex items-start gap-3">
         <input type="checkbox" name="analytics" class="mt-1 h-4 w-4 accent-[var(--color-accent-strong)]" />
-        <span><strong>Analítica.</strong> Estadísticas de visitas agregadas y anónimas.</span>
+        <span>
+          <strong>Analítica.</strong> Estadísticas de visitas agregadas y anónimas.
+        </span>
       </label>
       <label class="flex items-start gap-3">
         <input type="checkbox" name="marketing" class="mt-1 h-4 w-4 accent-[var(--color-accent-strong)]" />
-        <span><strong>Marketing.</strong> No se usan actualmente.</span>
+        <span>
+          <strong>Marketing.</strong> No se usan actualmente.
+        </span>
       </label>
     </form>
 
     <div class="mt-4 grid grid-cols-2 gap-2">
-      <button type="button" data-consent="reject" class="min-h-11 border border-carbon px-3 py-2 font-semibold hover:bg-carbon hover:text-bone">Rechazar</button>
-      <button type="button" data-consent="accept" class="min-h-11 border border-carbon bg-carbon px-3 py-2 font-semibold text-bone hover:bg-accent hover:text-carbon hover:border-accent">Aceptar</button>
-      <button type="button" data-consent="customize" class="col-span-2 min-h-11 px-3 py-2 text-sm underline underline-offset-4">Configurar</button>
-      <button type="button" data-consent="save" class="col-span-2 hidden min-h-11 border border-carbon px-3 py-2 font-semibold hover:bg-carbon hover:text-bone">Guardar preferencias</button>
+      <button type="button" data-consent="reject" class="min-h-11 border border-carbon px-3 py-2 font-semibold hover:bg-carbon hover:text-bone">
+        Rechazar
+      </button>
+      <button
+        type="button"
+        data-consent="accept"
+        class="min-h-11 border border-carbon bg-carbon px-3 py-2 font-semibold text-bone hover:bg-accent hover:text-carbon hover:border-accent"
+      >
+        Aceptar
+      </button>
+      <button type="button" data-consent="customize" class="col-span-2 min-h-11 px-3 py-2 text-sm underline underline-offset-4">
+        Configurar
+      </button>
+      <button type="button" data-consent="save" class="col-span-2 hidden min-h-11 border border-carbon px-3 py-2 font-semibold hover:bg-carbon hover:text-bone">
+        Guardar preferencias
+      </button>
     </div>
   </div>
 </div>

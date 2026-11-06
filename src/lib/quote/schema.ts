@@ -27,21 +27,36 @@ export const LIMITS = {
 const clean = (max: number) =>
   z
     .string()
-    .transform((s) => s.replace(/[\u0000-\u001F\u007F]+/g, ' ').replace(/\s+/g, ' ').trim())
+    .transform((s) =>
+      s
+        .replace(/[\u0000-\u001F\u007F]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    )
     .pipe(z.string().max(max));
 
 /** Keeps line breaks for the free-text description but removes other control characters. */
 const multiline = (max: number) =>
   z
     .string()
-    .transform((s) => s.replace(/\r\n?/g, '\n').replace(/[\u0000-\u0009\u000B-\u001F\u007F]+/g, ' ').trim())
+    .transform((s) =>
+      s
+        .replace(/\r\n?/g, '\n')
+        .replace(/[\u0000-\u0009\u000B-\u001F\u007F]+/g, ' ')
+        .trim(),
+    )
     .pipe(z.string().min(10, 'Cuéntenos un poco más (mínimo 10 caracteres).').max(max));
 
 const optionalClean = (max: number) =>
   z
     .string()
     .optional()
-    .transform((s) => (s ?? '').replace(/[\u0000-\u001F\u007F]+/g, ' ').replace(/\s+/g, ' ').trim())
+    .transform((s) =>
+      (s ?? '')
+        .replace(/[\u0000-\u001F\u007F]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    )
     .pipe(z.string().max(max))
     .transform((s) => (s === '' ? undefined : s));
 

@@ -6,7 +6,17 @@ const acceptCookies = async (page: Page) =>
     localStorage.setItem('cookie-consent', JSON.stringify({ version: '1', date: '', necessary: true, analytics: false, marketing: false })),
   );
 
-const KEY_PAGES = ['/', '/servicios/', '/servicios/drywall-y-superboard/', '/sectores/retail/', '/proyectos/', '/blog/drywall-vs-mamposteria/', '/cotizar/', '/contacto/', '/legal/politica-de-tratamiento-de-datos/'];
+const KEY_PAGES = [
+  '/',
+  '/servicios/',
+  '/servicios/drywall-y-superboard/',
+  '/sectores/retail/',
+  '/proyectos/',
+  '/blog/drywall-vs-mamposteria/',
+  '/cotizar/',
+  '/contacto/',
+  '/legal/politica-de-tratamiento-de-datos/',
+];
 
 test.describe('accessibility (axe, WCAG 2.2 AA)', () => {
   for (const path of KEY_PAGES) {

@@ -9,35 +9,103 @@ import Placeholder from '../components/ui/Placeholder.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FaqList from '../components/ui/FaqList.astro';
 
-const tokens = ['carbon', 'carbon-2', 'concrete-900', 'concrete-700', 'concrete-500', 'concrete-300', 'concrete-100', 'bone', 'accent', 'accent-strong', 'success', 'danger'];
+const tokens = [
+  'carbon',
+  'carbon-2',
+  'concrete-900',
+  'concrete-700',
+  'concrete-500',
+  'concrete-300',
+  'concrete-100',
+  'bone',
+  'accent',
+  'accent-strong',
+  'success',
+  'danger',
+];
 const palettes = [
   { name: 'A · Concreto + naranja seguridad (activa)', colors: ['#16151a', '#5e5953', '#c4beb5', '#f5f1ea', '#f2611d'] },
   { name: 'B · Grafito + amarillo obra', colors: ['#121417', '#4a4f55', '#bfc3c7', '#f4f4f1', '#f5b700'] },
   { name: 'C · Arena cálida + terracota', colors: ['#1d1a17', '#6b5d50', '#d6c8b8', '#faf6f0', '#c4532d'] },
 ];
-const icons = ['hammer', 'truck', 'bricks', 'layers', 'storefront', 'utensils', 'building', 'buildings', 'roller', 'drop', 'tiles', 'saw', 'panel', 'ceiling', 'grid', 'bolt', 'pipe', 'weld', 'roof', 'facade', 'wrench', 'mall', 'cart', 'home', 'factory', 'helmet', 'shield', 'ruler', 'file', 'download', 'phone', 'mail', 'pin', 'clock', 'chat', 'check', 'arrow-right', 'arrow-down', 'menu', 'close'];
+const icons = [
+  'hammer',
+  'truck',
+  'bricks',
+  'layers',
+  'storefront',
+  'utensils',
+  'building',
+  'buildings',
+  'roller',
+  'drop',
+  'tiles',
+  'saw',
+  'panel',
+  'ceiling',
+  'grid',
+  'bolt',
+  'pipe',
+  'weld',
+  'roof',
+  'facade',
+  'wrench',
+  'mall',
+  'cart',
+  'home',
+  'factory',
+  'helmet',
+  'shield',
+  'ruler',
+  'file',
+  'download',
+  'phone',
+  'mail',
+  'pin',
+  'clock',
+  'chat',
+  'check',
+  'arrow-right',
+  'arrow-down',
+  'menu',
+  'close',
+];
 ---
 
 <BaseLayout title="Sistema de diseño" description="Referencia interna de componentes y tokens." noindex headerTone="light">
-  <PageHeader crumbs={[{ href: '/sistema-de-diseno/', label: 'Sistema de diseño' }]} eyebrow="Interno · noindex" title="Sistema de diseño" lead="Tokens y componentes del sitio. Documentación completa en /docs/design-system.md." />
+  <PageHeader
+    crumbs={[{ href: '/sistema-de-diseno/', label: 'Sistema de diseño' }]}
+    eyebrow="Interno · noindex"
+    title="Sistema de diseño"
+    lead="Tokens y componentes del sitio. Documentación completa en /docs/design-system.md."
+  />
 
   <div class="container-x space-y-24 py-20">
     <section>
       <h2 class="text-4xl">Colores (tokens activos)</h2>
       <ul class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
         {tokens.map((t) => (
-          <li><div class="h-20 border border-carbon/10" style={`background:var(--color-${t})`}></div><p class="mt-2 font-mono text-xs">--color-{t}</p></li>
+          <li>
+            <div class="h-20 border border-carbon/10" style={`background:var(--color-${t})`}></div>
+            <p class="mt-2 font-mono text-xs">--color-{t}</p>
+          </li>
         ))}
       </ul>
     </section>
 
     <section>
       <h2 class="text-4xl">Variantes de paleta para escoger</h2>
-      <p class="mt-2 text-concrete-700">Contraste del acento sobre fondo oscuro verificado con WCAG AA para textos grandes. <span class="pending">[[PENDIENTE: elección del cliente]]</span></p>
+      <p class="mt-2 text-concrete-700">
+        Contraste del acento sobre fondo oscuro verificado con WCAG AA para textos grandes. <span class="pending">[[PENDIENTE: elección del cliente]]</span>
+      </p>
       <ul class="mt-6 grid gap-6 md:grid-cols-3">
         {palettes.map((p) => (
           <li class="border border-carbon/15 p-4">
-            <div class="flex h-24">{p.colors.map((c) => <span class="flex-1" style={`background:${c}`}></span>)}</div>
+            <div class="flex h-24">
+              {p.colors.map((c) => (
+                <span class="flex-1" style={`background:${c}`}></span>
+              ))}
+            </div>
             <p class="mt-3 font-semibold">{p.name}</p>
             <p class="font-mono text-xs text-concrete-700">{p.colors.join(' · ')}</p>
           </li>
@@ -57,17 +125,32 @@ const icons = ['hammer', 'truck', 'bricks', 'layers', 'storefront', 'utensils', 
       <h2 class="text-4xl">Botones</h2>
       <div class="mt-6 flex flex-wrap gap-4">
         <Button href="#">Primario</Button>
-        <Button href="#" variant="secondary">Secundario</Button>
-        <Button href="#" variant="ghost">Ghost</Button>
-        <Button href="#" size="lg" magnetic>Grande magnético</Button>
+        <Button href="#" variant="secondary">
+          Secundario
+        </Button>
+        <Button href="#" variant="ghost">
+          Ghost
+        </Button>
+        <Button href="#" size="lg" magnetic>
+          Grande magnético
+        </Button>
       </div>
-      <div class="mt-6 flex flex-wrap gap-4 bg-carbon p-6"><Button href="#" variant="light">Sobre oscuro</Button></div>
+      <div class="mt-6 flex flex-wrap gap-4 bg-carbon p-6">
+        <Button href="#" variant="light">
+          Sobre oscuro
+        </Button>
+      </div>
     </section>
 
     <section>
       <h2 class="text-4xl">Íconos ({icons.length})</h2>
       <ul class="mt-6 grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-10">
-        {icons.map((i) => <li class="flex flex-col items-center gap-2 border border-carbon/10 p-3"><Icon name={i} size={28} /><span class="font-mono text-[10px]">{i}</span></li>)}
+        {icons.map((i) => (
+          <li class="flex flex-col items-center gap-2 border border-carbon/10 p-3">
+            <Icon name={i} size={28} />
+            <span class="font-mono text-[10px]">{i}</span>
+          </li>
+        ))}
       </ul>
     </section>
 
@@ -90,7 +173,9 @@ const icons = ['hammer', 'truck', 'bricks', 'layers', 'storefront', 'utensils', 
 
     <section>
       <h2 class="text-4xl">Marcador de contenido pendiente</h2>
-      <p class="mt-4"><span class="pending">[[PENDIENTE: dato real]]</span> — se usa en lugar de inventar información.</p>
+      <p class="mt-4">
+        <span class="pending">[[PENDIENTE: dato real]]</span> — se usa en lugar de inventar información.
+      </p>
     </section>
   </div>
 </BaseLayout>

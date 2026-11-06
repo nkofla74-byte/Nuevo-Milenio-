@@ -29,7 +29,15 @@ const facts = [
 ---
 
 <BaseLayout title={d.title} description={d.description} headerTone="light" noindex={d.placeholder}>
-  <PageHeader crumbs={[{ href: '/proyectos/', label: 'Proyectos' }, { href: Astro.url.pathname, label: d.title }]} eyebrow={`${sector?.data.title ?? ''} · ${d.city}`} title={d.title} lead={d.description} />
+  <PageHeader
+    crumbs={[
+      { href: '/proyectos/', label: 'Proyectos' },
+      { href: Astro.url.pathname, label: d.title },
+    ]}
+    eyebrow={`${sector?.data.title ?? ''} · ${d.city}`}
+    title={d.title}
+    lead={d.description}
+  />
 
   <section class="container-x py-16">
     <dl class="grid grid-cols-2 gap-px bg-carbon/10 md:grid-cols-4">
@@ -57,7 +65,9 @@ const facts = [
   </section>
 
   <section class="container-x pb-16" aria-labelledby="antes-despues">
-    <h2 id="antes-despues" class="text-5xl">Antes y después</h2>
+    <h2 id="antes-despues" class="text-5xl">
+      Antes y después
+    </h2>
     <BeforeAfter label={d.title} class="mt-8">
       <Placeholder slot="before" seed={project.id} state="before" palette={d.palette} label={`${d.title} antes`} ratio="16 / 9" />
       <Placeholder slot="after" seed={project.id} state="after" palette={d.palette} label={`${d.title} después`} ratio="16 / 9" class="h-full" />
@@ -66,16 +76,32 @@ const facts = [
   </section>
 
   <section class="container-x grid gap-12 pb-20 lg:grid-cols-12">
-    <div class="prose-site lg:col-span-7"><Content /></div>
+    <div class="prose-site lg:col-span-7">
+      <Content />
+    </div>
     <div class="lg:col-span-5">
       <h2 class="text-3xl">Servicios ejecutados</h2>
       <ul class="mt-4 space-y-2">
-        {services.map((s) => <li><a href={`/servicios/${s.id}/`} class="underline decoration-accent underline-offset-4">{s.data.title}</a></li>)}
+        {services.map((s) => (
+          <li>
+            <a href={`/servicios/${s.id}/`} class="underline decoration-accent underline-offset-4">
+              {s.data.title}
+            </a>
+          </li>
+        ))}
       </ul>
       {related.length > 0 && (
         <>
           <h2 class="mt-10 text-3xl">Otros proyectos</h2>
-          <ul class="mt-4 space-y-2">{related.map((p) => <li><a href={`/proyectos/${p.id}/`} class="underline decoration-accent underline-offset-4">{p.data.title}</a></li>)}</ul>
+          <ul class="mt-4 space-y-2">
+            {related.map((p) => (
+              <li>
+                <a href={`/proyectos/${p.id}/`} class="underline decoration-accent underline-offset-4">
+                  {p.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
         </>
       )}
     </div>

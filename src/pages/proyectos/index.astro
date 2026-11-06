@@ -21,8 +21,14 @@ const usedSectors = sectors.filter((s) => projects.some((p) => p.data.sector ===
 
   <section class="projects-list container-x py-16">
     <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por sector">
-      <button type="button" data-filter="all" aria-pressed="true" class="filter-btn">Todos</button>
-      {usedSectors.map((s) => <button type="button" data-filter={s.id} aria-pressed="false" class="filter-btn">{s.data.title}</button>)}
+      <button type="button" data-filter="all" aria-pressed="true" class="filter-btn">
+        Todos
+      </button>
+      {usedSectors.map((s) => (
+        <button type="button" data-filter={s.id} aria-pressed="false" class="filter-btn">
+          {s.data.title}
+        </button>
+      ))}
     </div>
     <ul class="mt-10 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((p) => (
@@ -31,7 +37,9 @@ const usedSectors = sectors.filter((s) => projects.some((p) => p.data.sector ===
             <div class="overflow-hidden" data-mask>
               <Placeholder seed={p.id} state="after" palette={p.data.palette} class="transition-transform duration-700 group-hover:scale-105" />
             </div>
-            <p class="mt-4 font-mono text-xs uppercase tracking-widest text-concrete-700">{sectors.find((s) => s.id === p.data.sector)?.data.title} · {p.data.city}</p>
+            <p class="mt-4 font-mono text-xs uppercase tracking-widest text-concrete-700">
+              {sectors.find((s) => s.id === p.data.sector)?.data.title} · {p.data.city}
+            </p>
             <h2 class="mt-2 text-3xl group-hover:text-accent-strong">{p.data.title}</h2>
           </a>
         </li>
@@ -42,8 +50,17 @@ const usedSectors = sectors.filter((s) => projects.some((p) => p.data.sector ===
 </BaseLayout>
 
 <style>
-  .filter-btn { min-height: 2.75rem; padding: 0.5rem 1rem; border: 1px solid rgb(22 21 26 / 0.25); font-size: 0.9rem; }
-  .filter-btn[aria-pressed='true'] { background: var(--color-carbon); color: var(--color-bone); border-color: var(--color-carbon); }
+  .filter-btn {
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(22 21 26 / 0.25);
+    font-size: 0.9rem;
+  }
+  .filter-btn[aria-pressed='true'] {
+    background: var(--color-carbon);
+    color: var(--color-bone);
+    border-color: var(--color-carbon);
+  }
 </style>
 
 <script>

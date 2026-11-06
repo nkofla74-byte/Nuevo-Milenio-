@@ -37,9 +37,13 @@ const tabs = [
               'px-5 py-3 font-display text-xl uppercase tracking-wide',
               t.id === active ? 'bg-bone text-carbon' : 'text-concrete-300 hover:text-bone',
             ]}
-          >{t.label}</a>
+          >
+            {t.label}
+          </a>
         ))}
-        <a href="/" class="ml-auto pb-3 text-sm text-concrete-300 hover:text-accent">Ver el sitio →</a>
+        <a href="/" class="ml-auto pb-3 text-sm text-concrete-300 hover:text-accent">
+          Ver el sitio →
+        </a>
       </nav>
     </div>
     <slot />

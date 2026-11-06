@@ -3,14 +3,29 @@ import LegalPage from '../../components/layout/LegalPage.astro';
 import { site, display } from '../../config/site';
 ---
 
-<LegalPage title="Aviso de privacidad" description="Aviso de privacidad sobre el tratamiento de los datos personales recolectados en este sitio." updated="5 de noviembre de 2026 · versión 0.1 (borrador)">
-  <p>{display(site.legalName, 'razón social')} (NIT {display(site.nit, 'NIT')}), con domicilio en {site.city}, es responsable del tratamiento de los datos personales que usted suministra en este sitio web.</p>
+<LegalPage
+  title="Aviso de privacidad"
+  description="Aviso de privacidad sobre el tratamiento de los datos personales recolectados en este sitio."
+  updated="5 de noviembre de 2026 · versión 0.1 (borrador)"
+>
+  <p>
+    {display(site.legalName, 'razón social')} (NIT {display(site.nit, 'NIT')}), con domicilio en {site.city}, es responsable del tratamiento de los datos
+    personales que usted suministra en este sitio web.
+  </p>
   <h2>¿Para qué usamos sus datos?</h2>
-  <p>Para responder su solicitud de cotización, agendar la visita técnica, enviarle la cotización y hacer seguimiento comercial únicamente por el canal que usted autorice.</p>
+  <p>
+    Para responder su solicitud de cotización, agendar la visita técnica, enviarle la cotización y hacer seguimiento comercial únicamente por el canal que usted
+    autorice.
+  </p>
   <h2>¿Cuáles son sus derechos?</h2>
-  <p>Conocer, actualizar, rectificar y suprimir sus datos, solicitar prueba de la autorización, ser informado del uso de sus datos, revocar la autorización y presentar quejas ante la Superintendencia de Industria y Comercio.</p>
+  <p>
+    Conocer, actualizar, rectificar y suprimir sus datos, solicitar prueba de la autorización, ser informado del uso de sus datos, revocar la autorización y
+    presentar quejas ante la Superintendencia de Industria y Comercio.
+  </p>
   <h2>¿Cómo ejercerlos?</h2>
   <p>Escribiendo a {display(site.privacyEmail, 'correo de datos personales')}.</p>
   <h2>Política completa</h2>
-  <p>Consulte la <a href="/legal/politica-de-tratamiento-de-datos/">Política de tratamiento de datos personales</a>.</p>
+  <p>
+    Consulte la <a href="/legal/politica-de-tratamiento-de-datos/">Política de tratamiento de datos personales</a>.
+  </p>
 </LegalPage>

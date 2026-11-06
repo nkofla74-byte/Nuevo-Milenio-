@@ -27,13 +27,9 @@ const classes = [base, variants[variant], variant !== 'ghost' && sizes[size], cl
 const Tag = href ? 'a' : 'button';
 ---
 
-<Tag
-  href={href}
-  type={href ? undefined : type}
-  class:list={classes}
-  data-magnetic={magnetic ? '' : undefined}
-  {...rest}
->
-  <span><slot /></span>
+<Tag href={href} type={href ? undefined : type} class:list={classes} data-magnetic={magnetic ? '' : undefined} {...rest}>
+  <span>
+    <slot />
+  </span>
   <Icon name={icon} size={20} class="transition-transform duration-300 group-hover:translate-x-1" />
 </Tag>

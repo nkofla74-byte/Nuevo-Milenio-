@@ -24,16 +24,35 @@ const message = `Hola, quiero cotizar un proyecto para ${d.title.toLowerCase()}.
 ---
 
 <BaseLayout title={d.seoTitle} description={d.description} headerTone="light" whatsappMessage={message} jsonLd={[faqJsonLd(d.faqs)]}>
-  <PageHeader crumbs={[{ href: '/sectores/', label: 'Sectores' }, { href: Astro.url.pathname, label: d.title }]} eyebrow={d.title} title={d.headline} lead={d.audience}>
-    <div class="mt-8"><Button href={`/cotizar/?sector=${sector.id}`} size="lg" magnetic>Solicitar visita técnica</Button></div>
+  <PageHeader
+    crumbs={[
+      { href: '/sectores/', label: 'Sectores' },
+      { href: Astro.url.pathname, label: d.title },
+    ]}
+    eyebrow={d.title}
+    title={d.headline}
+    lead={d.audience}
+  >
+    <div class="mt-8">
+      <Button href={`/cotizar/?sector=${sector.id}`} size="lg" magnetic>
+        Solicitar visita técnica
+      </Button>
+    </div>
   </PageHeader>
 
   <section class="container-x grid gap-12 py-20 lg:grid-cols-12">
-    <div class="prose-site text-lg lg:col-span-6"><Content /></div>
+    <div class="prose-site text-lg lg:col-span-6">
+      <Content />
+    </div>
     <div class="lg:col-span-6">
       <h2 class="text-4xl">Lo que suele preocuparle</h2>
       <ul class="mt-6 space-y-3">
-        {d.pains.map((p) => <li class="flex gap-3 border-b border-carbon/10 pb-3"><span class="text-accent-strong">—</span>{p}</li>)}
+        {d.pains.map((p) => (
+          <li class="flex gap-3 border-b border-carbon/10 pb-3">
+            <span class="text-accent-strong">—</span>
+            {p}
+          </li>
+        ))}
       </ul>
     </div>
   </section>
@@ -66,12 +85,24 @@ const message = `Hola, quiero cotizar un proyecto para ${d.title.toLowerCase()}.
       ))}
     </ul>
     {projects.length > 0 && (
-      <p class="mt-10">Vea un caso: {projects.map((p) => <a href={`/proyectos/${p.id}/`} class="underline decoration-accent underline-offset-4">{p.data.title}</a>)}</p>
+      <p class="mt-10">
+        Vea un caso:{' '}
+        {projects.map((p) => (
+          <a href={`/proyectos/${p.id}/`} class="underline decoration-accent underline-offset-4">
+            {p.data.title}
+          </a>
+        ))}
+      </p>
     )}
   </section>
 
   {d.faqs.length > 0 && (
-    <section class="bg-concrete-100 py-20"><div class="container-x max-w-4xl"><h2 class="text-5xl">Preguntas frecuentes</h2><FaqList faqs={d.faqs} class="mt-8" /></div></section>
+    <section class="bg-concrete-100 py-20">
+      <div class="container-x max-w-4xl">
+        <h2 class="text-5xl">Preguntas frecuentes</h2>
+        <FaqList faqs={d.faqs} class="mt-8" />
+      </div>
+    </section>
   )}
 
   <FinalCta whatsappMessage={message} />

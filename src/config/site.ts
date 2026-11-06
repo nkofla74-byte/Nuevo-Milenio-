@@ -10,18 +10,20 @@ export type Maybe<T> = T | typeof PENDING;
 export const isPending = <T>(v: Maybe<T>): v is typeof PENDING => v === PENDING;
 
 export const site = {
-  /** Placeholder brand until the real commercial name arrives; `brandPending` flags it in the UI. */
-  brandName: 'Nombre Empresa',
+  /** Short form of the legal name; `brandPending` flags it until the client confirms the commercial name. */
+  brandName: 'Nuevo Milenio',
   brandPending: true,
-  legalName: PENDING as Maybe<string>,
-  nit: PENDING as Maybe<string>,
-  companyType: PENDING as Maybe<string>,
-  address: PENDING as Maybe<string>,
-  city: 'Bogotá D.C.', // [[PENDIENTE: confirmar ciudad base]]
-  region: 'Cundinamarca',
+  legalName: 'Construcciones y Acabados Nuevo Milenio S.A.S.' as Maybe<string>,
+  nit: '901.081.765-0' as Maybe<string>,
+  companyType: 'S.A.S.' as Maybe<string>,
+  /** CIIU 4330 (terminación y acabado de edificios) y 4390 (otras actividades especializadas de construcción). */
+  economicActivities: ['4330', '4390'],
+  address: 'Calle 38 B Sur No. 88F-19' as Maybe<string>,
+  city: 'Bogotá D.C.',
+  region: 'Bogotá D.C.',
   country: 'CO',
   coverage: 'Bogotá D.C. y Sabana de Bogotá; proyectos en otras ciudades bajo evaluación', // [[PENDIENTE: confirmar]]
-  phone: PENDING as Maybe<string>,
+  phone: '+57 312 640 7862' as Maybe<string>,
   /** WhatsApp number in international format without "+" or spaces, e.g. 573001234567. */
   whatsapp: PENDING as Maybe<string>,
   email: PENDING as Maybe<string>,
@@ -56,8 +58,7 @@ export const site = {
   confirmNightShifts: false,
 } as const;
 
-export const display = (v: Maybe<string | number>, label: string): string =>
-  isPending(v) ? `[[PENDIENTE: ${label}]]` : String(v);
+export const display = (v: Maybe<string | number>, label: string): string => (isPending(v) ? `[[PENDIENTE: ${label}]]` : String(v));
 
 export const whatsappUrl = (message: string): string | null =>
   isPending(site.whatsapp) ? null : `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;

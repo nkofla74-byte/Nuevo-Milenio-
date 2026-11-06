@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T20:56:48-05:00",
-  "current": "Fase 5 — Cotizador, legal y consentimiento",
+  "updatedAt": "2026-11-05T21:20:40-05:00",
+  "current": "Fases 0–6 terminadas · Fase 7 espera dominio y cuentas",
   "phases": [
     {
       "id": 0,
@@ -63,14 +63,26 @@
     {
       "id": 5,
       "name": "Cotizador, legal y consentimiento",
-      "status": "doing",
-      "items": []
+      "status": "done",
+      "items": [
+        "Cotizador multipaso con mejora progresiva",
+        "Endpoint seguro /api/cotizar/: origen, tamaño, rate limit, honeypot, Zod, Turnstile, correo escapado",
+        "Prueba de autorización (fecha, versión de política, IP truncada)",
+        "Borradores legales: datos personales, aviso, cookies, términos",
+        "16 pruebas unitarias + 30 e2e (incluye axe WCAG 2.2 AA) en verde"
+      ]
     },
     {
       "id": 6,
       "name": "Auditoría y endurecimiento",
-      "status": "todo",
-      "items": []
+      "status": "done",
+      "items": [
+        "Build de producción: 50 páginas; Academia y Progreso excluidas (verificado)",
+        "CSP estricta: 0 scripts en línea, 0 violaciones",
+        "Lighthouse móvil: 97–99 rendimiento, 100 a11y/buenas prácticas/SEO",
+        "Imágenes OG (49), ESLint, Prettier, CI con gitleaks y presupuestos",
+        "Documentación: CONTENT_TODO, CREDITS, README, CHANGELOG, docs/, 5 ADRs"
+      ]
     },
     {
       "id": 7,
@@ -93,6 +105,15 @@
     "Contraste del hero corregido (texto sobre naranja)",
     "Commit: fases 0–3 en la rama feat/sitio",
     "Corregida una afirmación no respaldada en Nosotros (solo retail, según el brief)",
-    "Commit: fase 4"
+    "Commit: fase 4",
+    "axe encontró problemas de contraste en tokens → accent-strong oscurecido a #a33d0b (≥4.5:1)",
+    "Ataques con curl al endpoint: todos rechazados en el servidor",
+    "Commit: fase 5",
+    "Servidor dev caído durante la bisección → reiniciado",
+    "Bug de build en workerd aislado por bisección (content.config importado desde páginas)",
+    "Retiradas @lhci/cli y wait-on por vulnerabilidades",
+    "Datos reales aplicados: razón social, NIT, dirección, celular",
+    "Academia: módulos 11–15 verificados",
+    "Commit: fase 6"
   ]
 }

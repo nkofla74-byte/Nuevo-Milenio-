@@ -20,7 +20,10 @@ export function organizationJsonLd(origin: URL): JsonLd {
     address: isPending(site.address)
       ? { '@type': 'PostalAddress', addressLocality: site.city, addressRegion: site.region, addressCountry: site.country }
       : { '@type': 'PostalAddress', streetAddress: site.address, addressLocality: site.city, addressRegion: site.region, addressCountry: site.country },
-    areaServed: [{ '@type': 'City', name: 'Bogotá' }, { '@type': 'AdministrativeArea', name: 'Cundinamarca' }],
+    areaServed: [
+      { '@type': 'City', name: 'Bogotá' },
+      { '@type': 'AdministrativeArea', name: 'Cundinamarca' },
+    ],
     openingHours: site.openingHoursSchema,
     sameAs: site.social.map((s) => s.url),
   };

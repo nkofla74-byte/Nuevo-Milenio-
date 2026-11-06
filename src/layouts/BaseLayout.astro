@@ -71,10 +71,14 @@ const schemas = [organizationJsonLd(origin), ...jsonLd].filter(Boolean);
     <Font cssVariable="--font-inter" />
     <slot name="head" />
 
-    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    {schemas.map((s) => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
   </head>
   <body class={bodyClass}>
-    <a href="#contenido" class="sr-only z-[100] bg-accent px-4 py-3 font-semibold text-carbon focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Saltar al contenido</a>
+    <a href="#contenido" class="sr-only z-[100] bg-accent px-4 py-3 font-semibold text-carbon focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+      Saltar al contenido
+    </a>
     <Header tone={headerTone} />
     <main id="contenido" tabindex="-1" class="outline-none">
       <slot />

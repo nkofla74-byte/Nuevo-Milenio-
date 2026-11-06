@@ -54,5 +54,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    // Never inline scripts: the CSP forbids inline JS ('unsafe-inline'), and files cache better.
+    build: { assetsInlineLimit: 0 },
   },
 });

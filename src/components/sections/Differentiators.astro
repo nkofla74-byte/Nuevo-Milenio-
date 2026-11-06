@@ -6,7 +6,11 @@ import { markPending } from '../../lib/pending';
 
 // Only claims the company can back up. Unconfirmed ones carry a visible marker.
 const items = [
-  { icon: 'layers', title: 'Un solo proveedor en lugar de diez', text: 'Demolición, obra civil, redes, sistemas livianos, acabados y mantenimiento con un único interlocutor y un único responsable.' },
+  {
+    icon: 'layers',
+    title: 'Un solo proveedor en lugar de diez',
+    text: 'Demolición, obra civil, redes, sistemas livianos, acabados y mantenimiento con un único interlocutor y un único responsable.',
+  },
   { icon: 'clock', title: 'Cronograma con hitos', text: 'Cada proyecto arranca con un cronograma por etapas, y usted sabe en qué punto va la obra.' },
   {
     icon: 'storefront',
@@ -15,7 +19,11 @@ const items = [
       ? 'Trabajamos en horarios nocturnos o de baja afluencia para comercios y centros comerciales.'
       : 'Sectorizamos la obra para reducir el impacto en su operación. [[PENDIENTE: confirmar trabajo nocturno]]',
   },
-  { icon: 'helmet', title: 'Personal y obra seguros', text: 'Seguridad social, ARL y certificación en alturas del personal. [[PENDIENTE: confirmar soportes]]' },
+  {
+    icon: 'helmet',
+    title: 'Personal y obra seguros',
+    text: 'Seguridad social, ARL y certificación en alturas del personal. [[PENDIENTE: confirmar soportes]]',
+  },
   { icon: 'shield', title: 'Garantía por escrito', text: 'Respondemos por el trabajo entregado. [[PENDIENTE: condiciones de garantía]]' },
   { icon: 'file', title: 'Documentación de proveedor lista', text: 'RUT, Cámara de Comercio, SG-SST y pólizas para su proceso de compras.' },
 ] as const;
