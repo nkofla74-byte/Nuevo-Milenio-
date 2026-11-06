@@ -1,0 +1,76 @@
+{
+  "updatedAt": "2026-11-05T20:34:34-05:00",
+  "current": "Fase 1 — Cimientos (layout, SEO base, seguridad)",
+  "phases": [
+    {
+      "id": 0,
+      "name": "Descubrimiento y plan",
+      "status": "done",
+      "items": [
+        "PLAN.md con stack, storyboard, cronograma y riesgos",
+        "Lista de preguntas abiertas"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Cimientos",
+      "status": "doing",
+      "items": [
+        "Proyecto Astro 7 + TypeScript estricto",
+        "Tailwind v4 y design tokens",
+        "Fuentes autoalojadas",
+        "Página de progreso",
+        "Content Collections con esquemas Zod: 20 servicios, 7 sectores, 3 proyectos de ejemplo, 3 artículos",
+        "Configuración central del negocio con marcadores [[PENDIENTE]]",
+        "Panel interno solo de desarrollo: pestañas Progreso + Academia de Desarrollo"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Sistema de diseño y componentes",
+      "status": "todo",
+      "items": []
+    },
+    {
+      "id": 3,
+      "name": "Inicio con experiencias de scroll",
+      "status": "todo",
+      "items": []
+    },
+    {
+      "id": 4,
+      "name": "Páginas internas y contenido",
+      "status": "todo",
+      "items": []
+    },
+    {
+      "id": 5,
+      "name": "Cotizador, legal y consentimiento",
+      "status": "todo",
+      "items": []
+    },
+    {
+      "id": 6,
+      "name": "Auditoría y endurecimiento",
+      "status": "todo",
+      "items": []
+    },
+    {
+      "id": 7,
+      "name": "Lanzamiento",
+      "status": "blocked",
+      "items": [
+        "Requiere dominio, DNS y cuentas del cliente"
+      ]
+    }
+  ],
+  "log": [
+    "Node del sistema roto (libsimdjson) → se usa Node 26.13 vía nvm",
+    "PLAN.md creado",
+    "Proyecto Astro 7.4 creado; dependencias instaladas con versiones verificadas",
+    "Contenido generado: 20 servicios, 7 sectores, 3 artículos de blog",
+    "Academia de Desarrollo creada: 6 módulos escritos (5 verificados), 10 planeados",
+    "Fuentes autoalojadas verificadas (/_astro/fonts/*.woff2)",
+    "Esquemas de contenido validados: 33 archivos (astro sync)"
+  ]
+}

@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHeading from '../ui/SectionHeading.astro';
+import BeforeAfter from '../ui/BeforeAfter.astro';
+import Placeholder from '../ui/Placeholder.astro';
+import Button from '../ui/Button.astro';
+
+const projects = (await getCollection('proyectos', (p) => p.data.featured)).slice(0, 6);
+const sectors = new Map((await getCollection('sectores')).map((s) => [s.id, s.data.title]));
+---
+
+<section id="proyectos" data-section-index="05" data-section-label="Proyectos" data-motion="projects" class="overflow-hidden bg-bone py-24 lg:flex lg:h-[100svh] lg:items-center lg:py-0">
+  <div data-track class="flex flex-col gap-10 px-[var(--gutter)] lg:flex-row lg:items-center lg:gap-12">
+    <div class="lg:w-[28rem] lg:shrink-0">
+      <SectionHeading index="05" label="Proyectos" title="Antes y después." />
+      <p class="mt-6 text-lg text-concrete-700">Arrastre el divisor (o use las flechas del teclado) para ver la transformación.</p>
+      <p class="pending mt-4">[[PENDIENTE: fotos reales de obras — se muestran imágenes de referencia]]</p>
+      <div class="mt-8"><Button href="/proyectos/" variant="secondary">Todos los proyectos</Button></div>
+    </div>
+    {projects.map((p) => (
+      <article class="lg:w-[min(46rem,60vw)] lg:shrink-0">
+        <BeforeAfter label={p.data.title}>
+          <Placeholder slot="before" seed={p.id} state="before" palette={p.data.palette} label={`${p.data.title} antes`} ratio="16 / 10" />
+          <Placeholder slot="after" seed={p.id} state="after" palette={p.data.palette} label={`${p.data.title} después`} ratio="16 / 10" class="h-full" />
+        </BeforeAfter>
+        <div class="mt-4 flex items-baseline justify-between gap-4">
+          <h3 class="text-3xl"><a href={`/proyectos/${p.id}/`} class="hover:text-accent-strong">{p.data.title}</a></h3>
+          <p class="shrink-0 font-mono text-xs uppercase tracking-widest text-concrete-700">{sectors.get(p.data.sector)} · {p.data.city}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

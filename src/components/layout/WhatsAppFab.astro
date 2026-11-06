@@ -1,0 +1,32 @@
+---
+import { whatsappUrl } from '../../config/site';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  message: string;
+}
+const { message } = Astro.props;
+const href = whatsappUrl(message);
+---
+
+{href ? (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="fixed bottom-5 right-5 z-40 inline-flex h-14 items-center gap-2 rounded-full bg-[#1f7a4d] px-5 font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
+    aria-label="Escribir por WhatsApp (abre en una pestaña nueva)"
+  >
+    <Icon name="chat" />
+    <span class="hidden sm:inline">WhatsApp</span>
+  </a>
+) : (
+  <a
+    href="/cotizar/"
+    class="fixed bottom-5 right-5 z-40 inline-flex h-14 items-center gap-2 rounded-full bg-carbon px-5 font-semibold text-bone shadow-lg ring-2 ring-accent/70 transition-transform hover:-translate-y-0.5"
+    title="[[PENDIENTE: número de WhatsApp]] — mientras tanto lleva al cotizador"
+  >
+    <Icon name="chat" />
+    <span class="hidden sm:inline">Cotizar</span>
+  </a>
+)}

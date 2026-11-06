@@ -1,0 +1,98 @@
+---
+/**
+ * Service catalog with category filter. Filtering is plain JS (works with reduced motion);
+ * GSAP Flip is loaded only as an enhancement to animate the re-layout.
+ */
+import { getCollection } from 'astro:content';
+import { CATEGORIES, type CategoryKey } from '../../content.config';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  index?: string;
+  heading?: boolean;
+}
+const { index = '03', heading = true } = Astro.props;
+const services = (await getCollection('servicios')).sort((a, b) => a.data.order - b.data.order);
+const used = [...new Set(services.map((s) => s.data.category))] as CategoryKey[];
+---
+
+<section id="servicios" data-section-index={index} data-section-label="Servicios" class="services-grid bg-bone py-24">
+  <div class="container-x">
+    {heading && (
+      <SectionHeading index={index} label="Servicios" title="Todo lo que su espacio necesita.">
+        <p class="mt-6 max-w-2xl text-lg text-concrete-700">Ocho especialidades coordinadas bajo un mismo cronograma. Filtre por categoría o explore cada servicio.</p>
+      </SectionHeading>
+    )}
+
+    <div class="mt-10 flex flex-wrap gap-2" role="group" aria-label="Filtrar servicios por categoría">
+      <button type="button" data-filter="all" aria-pressed="true" class="filter-btn">Todos</button>
+      {used.map((c) => <button type="button" data-filter={c} aria-pressed="false" class="filter-btn">{CATEGORIES[c]}</button>)}
+    </div>
+
+    <ul class="mt-10 grid gap-px bg-carbon/10 sm:grid-cols-2 lg:grid-cols-4">
+      {services.map((s) => (
+        <li data-service-card data-category={s.data.category} class="group relative bg-bone">
+          <a href={`/servicios/${s.id}/`} class="flex h-full flex-col p-6 transition-colors duration-300 hover:bg-carbon hover:text-bone">
+            <span class="flex items-start justify-between">
+              <Icon name={s.data.icon} size={36} class="text-accent-strong group-hover:text-accent" />
+              <span class="font-mono text-[10px] uppercase tracking-widest text-concrete-500">{CATEGORIES[s.data.category]}</span>
+            </span>
+            <span class="mt-10 font-display text-3xl uppercase leading-none">{s.data.title}</span>
+            <span class="mt-3 text-sm text-concrete-700 group-hover:text-concrete-300">{s.data.summary}</span>
+            {s.data.needsConfirmation && <span class="pending mt-3 self-start">[[PENDIENTE: confirmar servicio]]</span>}
+            <span class="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold">Ver servicio <Icon name="arrow-right" size={16} class="transition-transform group-hover:translate-x-1" /></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .filter-btn {
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(22 21 26 / 0.25);
+    font-size: 0.9rem;
+    transition: background-color var(--duration-fast), color var(--duration-fast);
+  }
+  .filter-btn:hover { border-color: var(--color-carbon); }
+  .filter-btn[aria-pressed='true'] {
+    background: var(--color-carbon);
+    border-color: var(--color-carbon);
+    color: var(--color-bone);
+  }
+</style>
+
+<script>
+  import { prefersReducedMotion } from '../../lib/motion';
+
+  document.querySelectorAll<HTMLElement>('.services-grid').forEach((root) => {
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-service-card]')];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const animate = !prefersReducedMotion();
+
+    buttons.forEach((btn) =>
+      btn.addEventListener('click', async () => {
+        const filter = btn.dataset.filter!;
+        const apply = () => {
+          buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+          cards.forEach((c) => (c.hidden = filter !== 'all' && c.dataset.category !== filter));
+        };
+        if (!animate) return apply();
+        const [{ gsap }, { Flip }] = await Promise.all([import('gsap'), import('gsap/Flip')]);
+        gsap.registerPlugin(Flip);
+        const state = Flip.getState(cards);
+        apply();
+        Flip.from(state, {
+          duration: 0.6,
+          ease: 'expo.out',
+          absolute: true,
+          onEnter: (els) => gsap.fromTo(els, { autoAlpha: 0, scale: 0.94 }, { autoAlpha: 1, scale: 1, duration: 0.5 }),
+          onLeave: (els) => gsap.to(els, { autoAlpha: 0, scale: 0.94, duration: 0.3 }),
+        });
+      }),
+    );
+  });
+</script>

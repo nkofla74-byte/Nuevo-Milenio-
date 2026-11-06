@@ -1,0 +1,73 @@
+---
+/**
+ * Generated placeholder art (no third-party images). Draws a blueprint-like
+ * composition seeded by `seed`, in either "before" (raw) or "after" (finished) state.
+ * Replace with real <Picture> once project photos arrive (see CONTENT_TODO.md).
+ */
+interface Props {
+  seed?: string;
+  state?: 'before' | 'after';
+  palette?: [string, string];
+  label?: string;
+  class?: string;
+  ratio?: string;
+}
+const { seed = 'x', state = 'after', palette = ['#5e5953', '#f2611d'], label, class: className, ratio = '4 / 3' } = Astro.props;
+
+let h = 0;
+for (const c of seed) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+const rnd = () => ((h = (h * 1664525 + 1013904223) >>> 0) / 2 ** 32);
+const panels = Array.from({ length: 5 }, () => ({ x: 40 + rnd() * 500, w: 60 + rnd() * 140, h: 120 + rnd() * 200 }));
+const [base, accent] = palette;
+const isBefore = state === 'before';
+---
+
+<div class:list={['relative overflow-hidden', className]} style={`aspect-ratio:${ratio}`} role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : 'true'}>
+  <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full" aria-hidden="true">
+    <defs>
+      <pattern id={`g-${seed}-${state}`} width="32" height="32" patternUnits="userSpaceOnUse">
+        <path d="M32 0H0V32" fill="none" stroke={isBefore ? '#8c867e' : '#ffffff'} stroke-opacity={isBefore ? 0.25 : 0.08} />
+      </pattern>
+      <filter id={`n-${seed}-${state}`}>
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed={h % 100} />
+        <feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.48  0 0 0 0 0.45  0 0 0 0.35 0" />
+      </filter>
+    </defs>
+    <rect width="640" height="480" fill={isBefore ? '#8a847b' : base} />
+    {isBefore && <rect width="640" height="480" filter={`url(#n-${seed}-${state})`} />}
+    <rect width="640" height="480" fill={`url(#g-${seed}-${state})`} />
+    {/* floor */}
+    <path d="M0 380L640 340V480H0z" fill={isBefore ? '#6f6a62' : '#16151a'} opacity={isBefore ? 1 : 0.55} />
+    {panels.map((p, i) => (
+      isBefore ? (
+        <g stroke="#3a3733" stroke-width="2" fill="none" opacity="0.7">
+          <rect x={p.x} y={340 - p.h} width={p.w} height={p.h} stroke-dasharray="6 6" />
+          <path d={`M${p.x} ${340 - p.h}L${p.x + p.w} 340`} />
+        </g>
+      ) : (
+        <rect x={p.x} y={340 - p.h} width={p.w} height={p.h} fill={i % 2 ? accent : '#f5f1ea'} opacity={i % 2 ? 0.9 : 0.14} />
+      )
+    ))}
+    {isBefore ? (
+      <g stroke="#232228" stroke-width="2.5" fill="none">
+        <path d="M80 0v120c0 20 30 20 30 40" />
+        <path d="M520 0v80c0 30-40 30-40 70" />
+      </g>
+    ) : (
+      <g fill="#f5f1ea" opacity="0.85">
+        <rect x="140" y="40" width="80" height="4" />
+        <rect x="300" y="40" width="80" height="4" />
+        <rect x="460" y="40" width="80" height="4" />
+      </g>
+    )}
+    {/* dimension line */}
+    <g stroke={isBefore ? '#232228' : '#f5f1ea'} stroke-width="1.2" opacity="0.6">
+      <path d="M40 440H600M40 432v16M600 432v16" />
+    </g>
+  </svg>
+  {label && (
+    <span class:list={['absolute left-3 top-3 font-mono text-[10px] uppercase tracking-widest px-2 py-1', isBefore ? 'bg-carbon text-bone' : 'bg-bone text-carbon']}>
+      {isBefore ? 'Antes' : 'Después'} · imagen de referencia
+    </span>
+  )}
+</div>

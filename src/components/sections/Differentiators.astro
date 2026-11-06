@@ -1,0 +1,37 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from '../ui/Icon.astro';
+import { site } from '../../config/site';
+import { markPending } from '../../lib/pending';
+
+// Only claims the company can back up. Unconfirmed ones carry a visible marker.
+const items = [
+  { icon: 'layers', title: 'Un solo proveedor en lugar de diez', text: 'Demolición, obra civil, redes, sistemas livianos, acabados y mantenimiento con un único interlocutor y un único responsable.' },
+  { icon: 'clock', title: 'Cronograma con hitos', text: 'Cada proyecto arranca con un cronograma por etapas, y usted sabe en qué punto va la obra.' },
+  {
+    icon: 'storefront',
+    title: 'Obra sin frenar su operación',
+    text: site.confirmNightShifts
+      ? 'Trabajamos en horarios nocturnos o de baja afluencia para comercios y centros comerciales.'
+      : 'Sectorizamos la obra para reducir el impacto en su operación. [[PENDIENTE: confirmar trabajo nocturno]]',
+  },
+  { icon: 'helmet', title: 'Personal y obra seguros', text: 'Seguridad social, ARL y certificación en alturas del personal. [[PENDIENTE: confirmar soportes]]' },
+  { icon: 'shield', title: 'Garantía por escrito', text: 'Respondemos por el trabajo entregado. [[PENDIENTE: condiciones de garantía]]' },
+  { icon: 'file', title: 'Documentación de proveedor lista', text: 'RUT, Cámara de Comercio, SG-SST y pólizas para su proceso de compras.' },
+] as const;
+---
+
+<section id="diferenciales" data-section-index="07" data-section-label="Por qué elegirnos" class="bg-bone py-24">
+  <div class="container-x">
+    <SectionHeading index="07" label="Por qué elegirnos" title="Menos proveedores. Más control." />
+    <ul class="mt-14 grid gap-px bg-carbon/10 md:grid-cols-2 lg:grid-cols-3">
+      {items.map((it, i) => (
+        <li data-reveal data-reveal-delay={(i % 3) * 0.08} class="bg-bone p-8">
+          <Icon name={it.icon} size={40} class="text-accent-strong" />
+          <h3 class="mt-6 text-3xl">{it.title}</h3>
+          <p class="mt-3 text-concrete-700" set:html={markPending(it.text)} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

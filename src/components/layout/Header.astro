@@ -1,0 +1,133 @@
+---
+import { nav, site } from '../../config/site';
+import Icon from '../ui/Icon.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  tone?: 'dark' | 'light';
+}
+const { tone = 'dark' } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<header
+  id="site-header"
+  data-tone={tone}
+  class="site-header fixed inset-x-0 top-0 z-50 transition-[transform,background-color,color] duration-300"
+>
+  <div class="container-x flex h-[var(--header-h)] items-center justify-between gap-6">
+    <a href="/" class="flex items-center gap-3" aria-label={`${site.brandName} — inicio`}>
+      <Logo />
+    </a>
+
+    <nav aria-label="Principal" class="hidden lg:block">
+      <ul class="flex items-center gap-7 text-[0.95rem] font-medium">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="nav-link relative py-2"
+              aria-current={path.startsWith(item.href) ? 'page' : undefined}
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="/cotizar/" class="hidden bg-accent px-5 py-2.5 font-display text-lg uppercase tracking-wide text-carbon transition-colors hover:bg-bone sm:inline-flex" data-magnetic>
+        Cotizar
+      </a>
+      <details class="mobile-menu lg:hidden">
+        <summary class="grid h-12 w-12 cursor-pointer list-none place-items-center" aria-label="Abrir menú">
+          <Icon name="menu" class="icon-open" />
+          <Icon name="close" class="icon-close hidden" />
+        </summary>
+        <nav aria-label="Principal móvil" class="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto bg-carbon text-bone blueprint-grid-dark">
+          <ul class="container-x flex flex-col gap-1 py-8">
+            {nav.map((item, i) => (
+              <li>
+                <a href={item.href} class="flex items-baseline gap-4 border-b border-bone/10 py-4 font-display text-4xl uppercase">
+                  <span class="font-mono text-xs text-accent">{String(i + 1).padStart(2, '0')}</span>{item.label}
+                </a>
+              </li>
+            ))}
+            <li class="pt-6">
+              <a href="/cotizar/" class="inline-flex bg-accent px-6 py-4 font-display text-2xl uppercase text-carbon">Solicitar cotización</a>
+            </li>
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    color: var(--color-carbon);
+  }
+  .site-header[data-tone='light'] {
+    color: var(--color-bone);
+  }
+  .site-header.is-scrolled {
+    background-color: rgb(245 241 234 / 0.92);
+    color: var(--color-carbon);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgb(22 21 26 / 0.08);
+  }
+  .site-header.is-hidden {
+    transform: translateY(-100%);
+  }
+  .site-header:has(.mobile-menu[open]) {
+    background-color: var(--color-carbon);
+    color: var(--color-bone);
+    transform: none;
+  }
+  .mobile-menu[open] .icon-open { display: none; }
+  .mobile-menu[open] .icon-close { display: block; }
+  .mobile-menu summary::-webkit-details-marker { display: none; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--duration-base) var(--ease-out-expo);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+</style>
+
+<script>
+  // Hide on scroll down, reveal on scroll up.
+  const header = document.getElementById('site-header');
+  if (header) {
+    let last = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      const y = window.scrollY;
+      header.classList.toggle('is-scrolled', y > 24);
+      const menuOpen = header.querySelector('.mobile-menu[open]');
+      header.classList.toggle('is-hidden', !menuOpen && y > last && y > 240);
+      last = y;
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(onScroll);
+      }
+    }, { passive: true });
+    onScroll();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') header.querySelector<HTMLDetailsElement>('.mobile-menu[open]')?.removeAttribute('open');
+    });
+  }
+</script>

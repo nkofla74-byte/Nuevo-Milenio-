@@ -1,0 +1,90 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import WhatsAppFab from '../components/layout/WhatsAppFab.astro';
+import CookieBanner from '../components/layout/CookieBanner.astro';
+import { organizationJsonLd } from '../lib/seo';
+import { site } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path used to build the og:image (generated at /og/<path>.png). */
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: (Record<string, unknown> | null)[];
+  /** Prefilled WhatsApp message for the floating button on this page. */
+  whatsappMessage?: string;
+  headerTone?: 'dark' | 'light';
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  noindex = false,
+  jsonLd = [],
+  whatsappMessage = 'Hola, quiero solicitar una cotización.',
+  headerTone = 'dark',
+  bodyClass,
+} = Astro.props;
+
+const origin = Astro.site ?? new URL('https://www.ejemplo.com.co');
+const canonical = new URL(Astro.url.pathname, origin);
+const ogSlug = ogImage ?? (Astro.url.pathname.replace(/^\/|\/$/g, '').replaceAll('/', '--') || 'inicio');
+const ogUrl = new URL(`/og/${ogSlug}.png`, origin);
+const fullTitle = Astro.url.pathname === '/' ? title : `${title} | ${site.brandName}`;
+const schemas = [organizationJsonLd(origin), ...jsonLd].filter(Boolean);
+---
+
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#16151a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content={site.brandName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <Font cssVariable="--font-barlow" preload={[{ weight: '700' }]} />
+    <Font cssVariable="--font-inter" />
+    <slot name="head" />
+
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+  </head>
+  <body class={bodyClass}>
+    <a href="#contenido" class="sr-only z-[100] bg-accent px-4 py-3 font-semibold text-carbon focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Saltar al contenido</a>
+    <Header tone={headerTone} />
+    <main id="contenido" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFab message={whatsappMessage} />
+    <CookieBanner />
+    <script>
+      import { initMotion } from '../lib/motion';
+      initMotion();
+    </script>
+  </body>
+</html>

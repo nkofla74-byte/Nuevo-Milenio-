@@ -1,0 +1,29 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import { site, display } from '../../config/site';
+---
+
+<section id="seguridad" data-section-index="08" data-section-label="Respaldo" class="blueprint-grid-dark bg-carbon py-24 text-bone">
+  <div class="container-x grid gap-12 lg:grid-cols-2">
+    <div>
+      <SectionHeading index="08" label="Seguridad y respaldo" title="Cumplimos antes de empezar." tone="light" />
+      <p class="mt-6 max-w-lg text-lg text-concrete-300">
+        Los clientes corporativos exigen documentación y seguridad en obra. La tenemos lista para su área de compras y su interventoría.
+      </p>
+      <div class="mt-8"><Button href="/proveedores/" variant="light" icon="download">Kit de proveedor</Button></div>
+    </div>
+    <ul class="grid gap-px self-start bg-bone/10">
+      {site.certifications.map((c) => (
+        <li class="flex items-start gap-4 bg-carbon p-5">
+          <Icon name="shield" class="mt-0.5 shrink-0 text-accent" />
+          <div>
+            <p class="font-semibold">{c.name}</p>
+            <p class="mt-1 text-sm text-concrete-300">{display(c.status, 'estado y soporte vigente')}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

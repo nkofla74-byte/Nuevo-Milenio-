@@ -1,0 +1,88 @@
+---
+/**
+ * Accessible tabs (WAI-ARIA tabs pattern). Without JS every panel is visible, stacked.
+ * JS enables the tablist, hides inactive panels and adds arrow-key navigation.
+ */
+import { getCollection } from 'astro:content';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import { markPending } from '../../lib/pending';
+
+const sectors = (await getCollection('sectores')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="sectores" data-section-index="04" data-section-label="Sectores" class="sector-tabs blueprint-grid-dark bg-carbon py-24 text-bone">
+  <div class="container-x">
+    <SectionHeading index="04" label="Sectores" title="Hablamos el idioma de su sector." tone="light" />
+
+    <div role="tablist" aria-label="Sectores" class="tablist mt-10 hidden flex-wrap gap-2 border-b border-bone/15 pb-4" data-tablist>
+      {sectors.map((s, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${s.id}`}
+          aria-controls={`panel-${s.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="tab flex min-h-11 items-center gap-2 px-4 py-2 text-sm"
+        >
+          <Icon name={s.data.icon} size={18} />{s.data.title}
+        </button>
+      ))}
+    </div>
+
+    {sectors.map((s) => (
+      <div role="tabpanel" id={`panel-${s.id}`} aria-labelledby={`tab-${s.id}`} tabindex="0" class="panel mt-10 grid gap-10 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <p class="font-mono text-xs uppercase tracking-widest text-accent">{s.data.title}</p>
+          <h3 class="mt-3 text-4xl md:text-5xl">{s.data.headline}</h3>
+          <p class="mt-4 text-concrete-300">{s.data.audience}</p>
+          <div class="mt-8"><Button href={`/sectores/${s.id}/`} variant="light">Ver soluciones para {s.data.title.toLowerCase()}</Button></div>
+        </div>
+        <ul class="grid gap-px bg-bone/10 sm:grid-cols-2 lg:col-span-7">
+          {s.data.benefits.map((b) => (
+            <li class="bg-carbon p-6">
+              <p class="font-display text-2xl uppercase">{b.title}</p>
+              <p class="mt-2 text-sm text-concrete-300" set:html={markPending(b.text)} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .sector-tabs[data-ready] .tablist { display: flex; }
+  .tab { border: 1px solid rgb(245 241 234 / 0.2); color: var(--color-concrete-300); }
+  .tab:hover { color: var(--color-bone); border-color: var(--color-bone); }
+  .tab[aria-selected='true'] { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-carbon); }
+  .sector-tabs:not([data-ready]) .panel + .panel { border-top: 1px solid rgb(245 241 234 / 0.15); padding-top: 2.5rem; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.sector-tabs').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, j) => {
+        t.setAttribute('aria-selected', String(i === j));
+        t.tabIndex = i === j ? 0 : -1;
+      });
+      panels.forEach((p, j) => (p.hidden = i !== j));
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        const map: Record<string, number> = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 };
+        if (!(e.key in map)) return;
+        e.preventDefault();
+        select((map[e.key] + tabs.length) % tabs.length, true);
+      });
+    });
+    root.dataset.ready = '';
+    select(0);
+  });
+</script>
