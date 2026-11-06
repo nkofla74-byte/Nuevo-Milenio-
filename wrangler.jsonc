@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers config. The Astro adapter merges this into dist/server/wrangler.json at build time.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nuevo-milenio",
+  "compatibility_date": "2026-11-01",
+  "kv_namespaces": [
+    // Shared rate-limit counter for /api/cotizar/ (provisioned automatically on first deploy).
+    { "binding": "RATE_LIMIT_KV" }
+  ],
+  "observability": { "enabled": true }
+}

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-05T21:42:17-05:00",
-  "current": "Versión móvil terminada · Fase 7 espera dominio y cuentas",
+  "updatedAt": "2026-11-05T22:01:18-05:00",
+  "current": "Publicado en URL temporal · falta dominio y llaves",
   "phases": [
     {
       "id": 0,
@@ -91,9 +91,12 @@
     {
       "id": 7,
       "name": "Lanzamiento",
-      "status": "blocked",
+      "status": "doing",
       "items": [
-        "Requiere dominio, DNS y cuentas del cliente"
+        "Requiere dominio, DNS y cuentas del cliente",
+        "Publicado en https://nuevo-milenio.sitio-construccion.workers.dev (noindex temporal)",
+        "KV de rate limit creado automáticamente",
+        "Pendiente: llaves Turnstile/Resend, dominio, Search Console, Google Business Profile"
       ]
     }
   ],
@@ -123,6 +126,7 @@
     "Bug de capas (xPercent) también presente en escritorio → corregido",
     "Bug scale vs transform (Tailwind v4) en barras de progreso → corregido",
     "Tabla de cookies: min-w-0 en artículos de grid",
-    "Academia: módulo 16 · Diseño y animación para móviles"
+    "Academia: módulo 16 · Diseño y animación para móviles",
+    "Despliegue en Cloudflare Workers: 200 en páginas, 404 en internas, cabeceras activas, cotizador falla cerrado (503) sin llaves"
   ]
 }
